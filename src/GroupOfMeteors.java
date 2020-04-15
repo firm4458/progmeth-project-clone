@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -20,20 +22,28 @@ public class GroupOfMeteors {
 	}
 	
 	public static void update(Pane root, Player player) {
-		for(int j = 0; j<meteors.size(); j++) {
-			meteors.get(j).move();
-			for(int i = 0; i<player.getBullets().size(); i++) {
-				if(player.getBullets().get(i).getBoundsInParent().intersects(meteors.get(j).getBoundsInParent())) {
-					player.getBullets().get(i).setDead(true);
-					meteors.get(j).setDead(true);
-					meteors.remove(j);
-					player.getBullets().remove(i);
+		Iterator<Meteor> meteorIt = meteors.iterator();
+		while (meteorIt.hasNext()) {
+			Meteor meteor = meteorIt.next();
+			meteor.move();
+			
+			Iterator<Bullet> bulletIt = player.getBullets().iterator();
+			while (bulletIt.hasNext()) {
+				Bullet bullet = bulletIt.next();
+				if (bullet.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
+					bullet.setDead(true);
+					meteor.setDead(true);
+					bulletIt.remove();
+					break;
 				}
 			}
-			
-			if(meteors.get(j).checkOutOfPane()) {
-				meteors.get(j).setDead(true);
-				meteors.remove(j);
+
+			if (meteor.checkOutOfPane()) {
+				meteor.setDead(true);
+			}
+
+			if (meteor.getDead()) {
+				meteorIt.remove();
 			}
 		}
 		
