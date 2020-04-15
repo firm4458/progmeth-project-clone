@@ -13,7 +13,6 @@ public class GroupOfMeteors {
 			Meteor temp = new Meteor(20, 20, Color.DARKRED);
 			temp.setTranslateX(600*Math.random() - 20);
 			meteors.add(temp);
-			root.getChildren().add(temp);
 		}
 	}
 	

@@ -1,8 +1,9 @@
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
-public class Player extends Sprite implements Moveable{
+public class Player extends Sprite implements Moveable, Renderable{
 	private boolean moveLeft = false;
 	private boolean moveRight = false;
 	private boolean moveUp = false;
@@ -29,11 +30,11 @@ public class Player extends Sprite implements Moveable{
 		}
 	}
 	
+	
 	public void shoot(Pane root) {
 		if(bullets.size() < MAX_BULLETS) {
 			Bullet temp = new Bullet((int)(this.getTranslateX() + this.getWidth()/2 - 5), (int)(this.getTranslateY()-15), 10, 20, Color.DARKBLUE);
 			bullets.add(temp);
-			root.getChildren().add(temp);
 		}
 	}
 	
@@ -68,5 +69,11 @@ public class Player extends Sprite implements Moveable{
 			}
 		}
 		
+	}
+
+	@Override
+	public void draw(GraphicsContext gc) {
+		gc.setFill(getFill());
+		gc.fillRect(getTranslateX(), getTranslateY(), getWidth(), getHeight());
 	}
 }

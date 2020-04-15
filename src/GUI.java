@@ -1,9 +1,12 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,29 +15,43 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 	Pane root = new Pane();
 	Player player = new Player(50, 50, Color.DARKGREEN);
-
 	
 	@Override
 	public void start(Stage primaryStage) {
-		player.setTranslateX(250);
-		player.setTranslateY(400);		
-		root.getChildren().add(player);
+
+		Canvas canvas = new Canvas(600,600);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
+		root.getChildren().add(canvas);
+		
+		Player player = new Player(50, 50, Color.DARKGREEN);
 		
 		//Update
 		AnimationTimer time = new AnimationTimer() {
 			
 			@Override
 			public void handle(long now) {
+				gc.setFill(Color.WHITE);
+				gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+				
 				player.update(root);
-//				System.out.println(player.getBullets().size());
 				System.out.println(GroupOfMeteors.getMeteors().size());
 				GroupOfMeteors.update(root, player);
 				GroupOfMeteors.generate(root);
 				
-				root.getChildren().removeIf(n -> {
-					Sprite s =(Sprite) n;
-					return s.getDead();
-				});
+				player.getBullets().removeIf(bullet -> bullet.getDead());
+				GroupOfMeteors.getMeteors().removeIf(meteor -> meteor.getDead());
+				
+				player.draw(gc);
+				
+				for(Bullet bullet: player.getBullets()) {
+					bullet.draw(gc);
+				}
+				
+				for(Meteor meteor: GroupOfMeteors.getMeteors()) {
+					meteor.draw(gc);
+				}
+				
 			}
 		};
 		time.start();
@@ -46,6 +63,9 @@ public class GUI extends Application {
 		Scene scene = new Scene(root, 600, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		player.setTranslateX(250);
+		player.setTranslateY(400);		
 		
 		//Set Player move
 		scene.setOnKeyPressed(e -> {
