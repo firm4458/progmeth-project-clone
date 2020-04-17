@@ -30,6 +30,7 @@ public class GroupOfMeteors {
 			while (bulletIt.hasNext()) {
 				Bullet bullet = bulletIt.next();
 				if (bullet.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
+					GUI.addScore(1);
 					bullet.setDead(true);
 					meteor.setDead(true);
 					bulletIt.remove();

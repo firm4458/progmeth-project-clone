@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 	Pane root = new Pane();
 	Player player = new Player(50, 50, Color.DARKGREEN);
+	BackGround background = new BackGround(600, 600);
+	static int score = 0;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -23,6 +25,7 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		root.getChildren().add(canvas);
+		root.getChildren().add(background);
 		
 		Player player = new Player(50, 50, Color.DARKGREEN);
 		
@@ -31,8 +34,8 @@ public class GUI extends Application {
 			
 			@Override
 			public void handle(long now) {
-				gc.setFill(Color.WHITE);
-				gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+				background.update();
+				gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 				
 				player.update(root);
 				System.out.println(GroupOfMeteors.getMeteors().size());
@@ -51,18 +54,22 @@ public class GUI extends Application {
 				for(Meteor meteor: GroupOfMeteors.getMeteors()) {
 					meteor.draw(gc);
 				}
-				
+				System.out.println(score);
+
 			}
 		};
 		time.start();
+		background.init();
 		//
 		
 
 		
 		//Stage Show
 		Scene scene = new Scene(root, 600, 600);
+		canvas.toFront();
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setResizable(false);
 		
 		player.setTranslateX(250);
 		player.setTranslateY(400);		
@@ -112,5 +119,9 @@ public class GUI extends Application {
 	
 	public List<Sprite> sprite(){
 		return root.getChildren().stream().map(n -> (Sprite)n).collect(Collectors.toList());
+	}
+	
+	public static void addScore(int i) {
+		score += i;
 	}
 }
