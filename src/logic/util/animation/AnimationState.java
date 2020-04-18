@@ -52,4 +52,8 @@ public class AnimationState implements Iterator<Image> {
 	public Image getImage() {
 		return next();
 	}
+	
+	public int getIndex() {
+		return this.index;
+	}
 }

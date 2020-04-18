@@ -38,8 +38,8 @@ public class Renderer {
 	}
 	public void render(GraphicsContext gc) {
 		
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, camera.getWidth(), camera.getHeight());
+//		gc.setFill(Color.BLACK);
+//		gc.fillRect(0, 0, camera.getWidth(), camera.getHeight());
 //		gc.drawImage(background, -10-camera.getX(), -10-camera.getY());
 		for(Renderable renderable : renderables) {
 			if(renderable.isVisible()) {
@@ -50,7 +50,7 @@ public class Renderer {
 			clearDestroyedRenderable();
 		}
 	}
-	public void clearDestroyedRenderable() {
+	public static void clearDestroyedRenderable() {
 		renderables.removeIf(renderable -> renderable.isDestroyed());
 	}
 	

@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import logic.PlanetSpawner;
 import logic.base.GameObject;
 import logic.base.Script;
+import logic.enemy.ExplosionAnimation;
 import logic.enemy.GroupOfMeteors;
 import logic.enemy.Meteor;
 import logic.player.Player;
@@ -44,6 +45,8 @@ public class GUI extends Application {
 		root.getChildren().add(canvas);
 		
 		
+
+		
 		Camera camera = new Camera(canvas.getWidth(),canvas.getHeight());
 		
 		Renderer.getInstance().setCamera(camera);
@@ -52,7 +55,7 @@ public class GUI extends Application {
 		
 		groupOfMeteors = new GroupOfMeteors();
 		
-		GameObject planetSpawn = new GameObject(0,0);
+		GameObject planetSpawn = new GameObject(0, 0);
 		planetSpawn.addScript(new PlanetSpawner());
 		sampleScene.addGameObject(planetSpawn);
 		
@@ -98,7 +101,8 @@ public class GUI extends Application {
 		sampleScene.addGameObject(player);
 		sampleScene.addGameObject(groupOfMeteors);
 		sampleScene.addGameObject(camera);
-
+		
+		
 		// Stage Show
 		Scene scene = new Scene(root, 600, 600);
 		primaryStage.setScene(scene);
