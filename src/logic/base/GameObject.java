@@ -91,4 +91,12 @@ public class GameObject implements Destroyable {
 		this.sprite = sprite;
 	}
 
+	public void setX(double x) {
+		X = x;
+	}
+
+	public void setY(double y) {
+		Y = y;
+	}
+
 }

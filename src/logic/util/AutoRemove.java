@@ -7,21 +7,23 @@ import logic.base.Script;
 public class AutoRemove implements Script {
 
 	private GameObject parent;
-	private boolean isInAtFirst;
+	private int delay;
 	
-	public AutoRemove(Boolean b) {
-		isInAtFirst = b;
+	public AutoRemove(int delay) {
+		this.delay = delay;
 	}
 	public AutoRemove() {
-		isInAtFirst = true;
+		delay=0;
 	}
 	
 	@Override
 	public void update() {
-		if(isInAtFirst && !Renderer.getInstance().getCamera().isInCamera(parent)) {
+		if(delay!=0) {
+			--delay;
+			return;
+		}
+		if(!Renderer.getInstance().getCamera().isInCamera(parent)) {
 			parent.destroy();
-		}else if(!isInAtFirst && Renderer.getInstance().getCamera().isInCamera(parent)) {
-			isInAtFirst = true;
 		}
 	}
 

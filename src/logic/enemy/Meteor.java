@@ -15,6 +15,6 @@ public class Meteor extends GameObject{
 		GameObject gameObj = this;
 		addScript(new ConstantSpeedMove(0,3)).
 		addScript(new ColliderBox(50,50)).
-		addScript(new AutoRemove());
+		addScript(new AutoRemove(20));
 	}
 }

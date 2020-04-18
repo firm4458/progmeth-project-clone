@@ -13,9 +13,8 @@ public class PlanetSpawner implements Script {
 	private int COOLDOWN=10;
 	
 	public PlanetSpawner() {
-		System.out.println("GG");
-		planet = new Planet(Math.random()*600,-500);
-		System.out.println("FF");
+		planet = new Planet(Math.random()*600,0);
+		planet.translate(0, -planet.getSprite().getHeight());
 		GUI.sampleScene.addGameObject(planet);
 		cooldown = COOLDOWN;
 	}
@@ -25,9 +24,7 @@ public class PlanetSpawner implements Script {
 		//System.out.println((new StringBuilder()).append(planet.getX()).append(' ').append(planet.getY()));
 		if(planet.isDestroyed()) {
 			if((cooldown--)<=0) {
-				System.out.println("G1");
 				planet = new Planet(Math.random()*600,-500);
-				System.out.println("G2");
 				GUI.sampleScene.addGameObject(planet);
 				cooldown = COOLDOWN;
 			}

@@ -9,11 +9,15 @@ import drawing.Renderer;
 import drawing.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -28,23 +32,39 @@ import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public class GUI extends Application {
-	Pane root = new Pane();
+	Pane root = new AnchorPane();
 	public static GroupOfMeteors groupOfMeteors;
 	public static GameSceneManager sampleScene;
 
 	@Override
 	public void start(Stage primaryStage) {
 
-		Canvas canvas = new Canvas(600, 600);
+		ResizableCanvas canvas = new ResizableCanvas(600, 600);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+
 		//Canvas bgCanvas = new Canvas(600,600);
 		//GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
 
 		//root.getChildren().add(bgCanvas);
+		Button button = new Button("Hello");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				System.out.println("hello");
+			}
+			
+		});
+		button.setFocusTraversable(false);
 		root.getChildren().add(canvas);
-		
-		
-		Camera camera = new Camera(canvas.getWidth(),canvas.getHeight());
+		root.getChildren().add(button);
+		AnchorPane.setBottomAnchor(button, 50.0);
+		AnchorPane.setLeftAnchor(button, 50.0);
+		AnchorPane.setTopAnchor(canvas, 0.0);
+		AnchorPane.setBottomAnchor(canvas, 0.0);
+		AnchorPane.setLeftAnchor(canvas, 0.0);
+		AnchorPane.setRightAnchor(canvas, 0.0);
+		Camera camera = new Camera(canvas);
 		
 		Renderer.getInstance().setCamera(camera);
 		
@@ -57,11 +77,18 @@ public class GUI extends Application {
 		sampleScene.addGameObject(planetSpawn);
 		
 		GameObject background = new GameObject(0,-420);
-		Image img = new Image("img/parallax-space-backgound.png",600,0,true,true);
-		Sprite bgSprite = new ImageSprite(background,img);
+		Image img = new Image("img/parallax-space-backgound.png",600,1020,true,true);
+		Sprite bgSprite = new ImageSprite(background,img) {
+			/*@Override
+			public void draw(GraphicsContext gc, Camera camera) {
+				double absoluteX = parent.getX()+relativeX-camera.getX();
+				double absoluteY = parent.getY()+relativeY-camera.getY();
+				gc.setEffect(colorAdjust);
+				gc.drawImage(getImage(), absoluteX, absoluteY,gc.getCanvas().getWidth(),gc.getCanvas().getHeight());
+				gc.restore();
+			}*/
+		};
 		bgSprite.setZ(-99);
-		System.out.println(img.getWidth());
-		System.out.println(img.getHeight());
 		background.setSprite(bgSprite);
 		background.addScript(new ConstantSpeedMove(0,0.07));
 		
@@ -105,7 +132,7 @@ public class GUI extends Application {
 		primaryStage.show();
 
 		// Set Player move
-		scene.setOnKeyPressed(e -> {
+		scene.setOnKeyPressed(e -> { 
 			InputUtil.setKeyPressed(e.getCode(), true);
 		});
 
@@ -129,6 +156,41 @@ public class GUI extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	class ResizableCanvas extends Canvas {
+
+        public ResizableCanvas(double width,double height) {
+            // Redraw canvas when size changes.
+        	super(width,height);
+        	widthProperty().bind(root.widthProperty());
+        	heightProperty().bind(root.heightProperty());
+            widthProperty().addListener(evt -> draw());
+            heightProperty().addListener(evt -> draw());
+        }
+
+        private void draw() {
+            double width = getWidth();
+            double height = getHeight();
+
+            GraphicsContext gc = getGraphicsContext2D();
+            gc.clearRect(0, 0, width, height);
+        }
+
+        @Override
+        public boolean isResizable() {
+            return true;
+        }
+
+        @Override
+        public double prefWidth(double height) {
+            return getWidth();
+        }
+
+        @Override
+        public double prefHeight(double width) {
+            return getHeight();
+        }
+    }
 
 	/*
 	 * public List<Sprite> sprite(){ return root.getChildren().stream().map(n ->

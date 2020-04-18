@@ -18,11 +18,6 @@ public class GroupOfMeteors extends GameObject {
 		addScript(meteorGenerator);
 	}
 	
-	@Override
-	public void update() {
-		super.update();
-	}
-	
 	public GameObjectGroup getMeteors(){
 		return meteors;
 	}

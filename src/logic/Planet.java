@@ -20,12 +20,11 @@ public class Planet extends GameObject {
 
 	public Planet(double X, double Y) {
 		super(X, Y);
-		System.out.println(x);
 		Image img = planetImg[(x++)%2];
 		sprite = new ImageSprite(this,img);
 		sprite.setZ(-1);
 		sprite.getColorAdjust().setBrightness(0.15);
-		addScript(new ConstantSpeedMove(0,1)).addScript(new ColliderBox(img.getWidth(), img.getHeight())).addScript(new AutoRemove(false));
+		addScript(new ConstantSpeedMove(0,1)).addScript(new ColliderBox(img.getWidth(), img.getHeight())).addScript(new AutoRemove(30));
 	}
 
 }

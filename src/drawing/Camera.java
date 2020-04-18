@@ -1,19 +1,20 @@
 package drawing;
 
 import javafx.geometry.BoundingBox;
+import javafx.scene.canvas.Canvas;
 import logic.base.GameObject;
 import logic.base.ScriptNotFoundException;
 import logic.util.ColliderBox;
 
 public class Camera extends GameObject {
-	private double width;
-	private double height;
-	public Camera(double width, double height) {
+	private Canvas canvas;
+	public Camera(Canvas canvas) {
 		super(0,0);
-		this.width = width;
-		this.height = height;
+		this.canvas = canvas;
 	}
 	public boolean isInCamera(GameObject gameObject) {
+		double width = 600;
+		double height = 600;
 		BoundingBox bound = new BoundingBox(X,Y,width,height);
 		try {
 			BoundingBox targetBound = gameObject.getScript(ColliderBox.class).getBound();
@@ -21,17 +22,5 @@ public class Camera extends GameObject {
 		}catch(ScriptNotFoundException e) {
 			return bound.contains(gameObject.getX(),gameObject.getY());
 		}
-	}
-	public double getWidth() {
-		return width;
-	}
-	public void setWidth(double width) {
-		this.width = width;
-	}
-	public double getHeight() {
-		return height;
-	}
-	public void setHeight(double height) {
-		this.height = height;
 	}
 }

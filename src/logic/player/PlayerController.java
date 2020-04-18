@@ -3,11 +3,12 @@ package logic.player;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;
 import logic.base.Script;
+import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public class PlayerController implements Script {
 	
-	private GameObject parent;
+	private Player parent;
 	private final double speed=3;
 	
 	@Override
@@ -19,6 +20,11 @@ public class PlayerController implements Script {
 		y += InputUtil.isKeyPressed(KeyCode.DOWN)?1:0;
 		y *= speed;
 		parent.translate(x, y);
+		parent.setX(Math.max(0, parent.getX()));
+		parent.setY(Math.max(0, parent.getY()));
+		parent.setX(Math.min(600-parent.getSprite().getWidth(), parent.getX()));
+		parent.setY(Math.min(600-parent.getSprite().getHeight(), parent.getY()));
+		System.out.println(parent.getX());
 		if(x==0) {
 			((Player)parent).animator.sendTrigger("idle");
 		}
@@ -36,8 +42,12 @@ public class PlayerController implements Script {
 	}
 
 	@Override
-	public void setParent(GameObject parent) {
-		this.parent = parent;
+	public void setParent(GameObject parent) throws IncompatibleScriptException{
+		try {
+			this.parent = (Player)parent;
+		}catch(ClassCastException e) {
+			throw new IncompatibleScriptException(this.getClass().toString(), "Must be attached to Player");
+		}
 	}
 
 	@Override

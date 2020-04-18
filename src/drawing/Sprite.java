@@ -31,7 +31,9 @@ public class Sprite implements Renderable{
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		gc.setFill(Color.WHITE);
 		gc.setEffect(colorAdjust);
-		gc.fillRect(absoluteX , absoluteY, 50, 50);
+		double XScale = gc.getCanvas().getWidth()/600;
+		double YScale = gc.getCanvas().getHeight()/600;
+		gc.fillRect(absoluteX*XScale, absoluteY*YScale, 50*XScale, 50*YScale);
 		gc.restore();
 	}
 

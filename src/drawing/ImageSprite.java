@@ -12,7 +12,7 @@ public class ImageSprite extends Sprite {
 	
 	public ImageSprite(GameObject parent, Image image) {
 		super(parent);
-		this.image = image;
+		this.setImage(image);
 	}
 	
 	public void setImage(Image image) {
@@ -25,9 +25,25 @@ public class ImageSprite extends Sprite {
 		double absoluteX = parent.getX()+relativeX-camera.getX();
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		gc.setEffect(colorAdjust);
-		gc.drawImage(image, absoluteX, absoluteY);
+		double XScale = gc.getCanvas().getWidth()/600;
+		double YScale = gc.getCanvas().getHeight()/600;
+		gc.drawImage(getImage(), absoluteX*XScale, absoluteY*YScale,
+				image.getWidth()*XScale,image.getHeight()*YScale);
 		gc.restore();
 	}
 
+	public Image getImage() {
+		return image;
+	}
+
+	@Override
+	public double getHeight() {
+		return image.getHeight();
+	}
+	
+	@Override
+	public double getWidth() {
+		return image.getWidth();
+	}
 	
 }

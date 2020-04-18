@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import drawing.ImageSprite;
 import drawing.Sprite;
 import logic.base.GameObject;
+import logic.util.ColliderBox;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
@@ -49,7 +50,7 @@ public class Player extends GameObject {
 		WritableImage img = new WritableImage(new Image("img/ship.png",400,240,true,true).getPixelReader(),0,0,80,120);
 		sprite = new ImageSprite(this,img);
 		animator = new Animator((ImageSprite)sprite,idleState);
-		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter());
+		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,40));
 	}
 	
 	public Animator animator;
