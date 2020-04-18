@@ -19,7 +19,7 @@ public class BulletShooter implements Script {
 	public void update() {
 		
 		if(cooldown==0 && MAX_BULLET > bullets.size()) {
-			Bullet bullet = new Bullet(parent.getX()+15,parent.getY()-50);
+			Bullet bullet = new Bullet(parent.getX()+30,parent.getY()-50);
 			GUI.sampleScene.addGameObject(bullet);
 			GUI.sampleScene.addGameObject(bullet,bullets);
 		}

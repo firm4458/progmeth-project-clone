@@ -57,6 +57,7 @@ public class GameObject implements Destroyable {
 		return Y;
 	}
 	
+	
 	public void translate(double translateX, double translateY) {
 		X+=translateX;
 		Y+=translateY;

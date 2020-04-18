@@ -7,7 +7,7 @@ import logic.base.GameObject;
 import logic.util.GameObjectGroup;
 
 public class GroupOfMeteors extends GameObject {
-	static int MAX_METEORS = 10;
+	static int MAX_METEORS = 20;
 	private GameObjectGroup meteors;
 	private MeteorGenerator meteorGenerator;
 	
