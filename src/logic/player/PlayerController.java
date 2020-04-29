@@ -1,7 +1,9 @@
 package logic.player;
 
+import application.GUI;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;
+import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
@@ -12,7 +14,7 @@ public class PlayerController implements Script {
 	private final double speed=3;
 	
 	@Override
-	public void update() {
+	public void update() throws SceneChangeInterruptException {
 		double x = InputUtil.isKeyPressed(KeyCode.LEFT)?-1:0;
 		x += InputUtil.isKeyPressed(KeyCode.RIGHT)?1:0;
 		x *= speed;
@@ -24,12 +26,12 @@ public class PlayerController implements Script {
 		parent.setY(Math.max(0, parent.getY()));
 		parent.setX(Math.min(600-parent.getSprite().getWidth(), parent.getX()));
 		parent.setY(Math.min(600-parent.getSprite().getHeight(), parent.getY()));
-		System.out.println(parent.getX());
 		if(x==0) {
 			((Player)parent).animator.sendTrigger("idle");
 		}
 		else if(x>0) {
 			((Player)parent).animator.sendTrigger("goRight");
+			throw new SceneChangeInterruptException(GUI.newScene);
 		}
 		else {
 			((Player)parent).animator.sendTrigger("goLeft");

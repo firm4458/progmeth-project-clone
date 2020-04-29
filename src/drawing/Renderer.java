@@ -13,7 +13,15 @@ public class Renderer {
 	private static int renderCount;
 	private static Image background;
 	private Camera camera;
+	private GraphicsContext gc;
 	
+	public GraphicsContext getGc() {
+		return gc;
+	}
+	public void setGc(GraphicsContext gc) {
+		this.gc = gc;
+	}
+
 	static {
 		background = new Image("img/desert-backgorund.png",1000,1000,true,true);
 	}
@@ -36,10 +44,15 @@ public class Renderer {
 			
 		});
 	}
+	
+	public void render() {
+		render(gc);
+	}
+	
 	public void render(GraphicsContext gc) {
 		
-//		gc.setFill(Color.BLACK);
-//		gc.fillRect(0, 0, camera.getWidth(), camera.getHeight());
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, camera.getCanvas().getWidth(), camera.getCanvas().getHeight());
 //		gc.drawImage(background, -10-camera.getX(), -10-camera.getY());
 		for(Renderable renderable : renderables) {
 			if(renderable.isVisible()) {

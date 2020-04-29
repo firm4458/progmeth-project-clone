@@ -36,12 +36,14 @@ public class GUI extends Application {
 	Pane root = new AnchorPane();
 	public static GroupOfMeteors groupOfMeteors;
 	public static GameSceneManager sampleScene;
+	public static GameSceneManager newScene;
 
 	@Override
 	public void start(Stage primaryStage) {
 
 		ResizableCanvas canvas = new ResizableCanvas(600, 600);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		Renderer.getInstance().setGc(gc);
 
 		//Canvas bgCanvas = new Canvas(600,600);
 		//GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
@@ -70,6 +72,10 @@ public class GUI extends Application {
 		Renderer.getInstance().setCamera(camera);
 		
 		sampleScene = new GameSceneManager();
+		
+		newScene = new GameSceneManager();
+		newScene.addGameObject(new Player(250,400));
+		newScene.addGameObject(camera);
 		
 		groupOfMeteors = new GroupOfMeteors();
 		
@@ -142,16 +148,7 @@ public class GUI extends Application {
 			InputUtil.setKeyPressed(e.getCode(), false);
 		});
 
-		// Update
-		AnimationTimer time = new AnimationTimer() {
-
-			@Override
-			public void handle(long now) {
-				sampleScene.update();
-				Renderer.getInstance().render(gc);
-			}
-		};
-		time.start();
+		GameManager.init(sampleScene);
 
 	}
 

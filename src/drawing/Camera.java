@@ -23,4 +23,7 @@ public class Camera extends GameObject {
 			return bound.contains(gameObject.getX(),gameObject.getY());
 		}
 	}
+	public Canvas getCanvas() {
+		return canvas;
+	}
 }

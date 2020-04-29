@@ -63,13 +63,13 @@ public class GameObject implements Destroyable {
 		Y+=translateY;
 	}
 	
-	public void update() {
-		for(Script script : scripts) {
-			if(isDestroyed) {
-				break;
+	public void update() throws GameInterruptException {
+			for(Script script : scripts) {
+				if(isDestroyed) {
+					break;
+				}
+				script.update();
 			}
-			script.update();
-		}
 	}
 	
 	public boolean isDestroyed() {
