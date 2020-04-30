@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Renderer {
-	private static final ArrayList<Renderable> renderables = new ArrayList<Renderable>();
+	public static final ArrayList<Renderable> renderables = new ArrayList<Renderable>();
 	private static final Renderer instance = new Renderer();
 	private static int renderCount;
 	private static Image background;
@@ -50,7 +50,6 @@ public class Renderer {
 	}
 	
 	public void render(GraphicsContext gc) {
-		
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, camera.getCanvas().getWidth(), camera.getCanvas().getHeight());
 //		gc.drawImage(background, -10-camera.getX(), -10-camera.getY());
@@ -80,4 +79,7 @@ public class Renderer {
 	public static double getBgOffset() {
 		return bgOffset;
 	}*/
+	public void reset() {
+		renderables.clear();
+	}
 }

@@ -1,15 +1,15 @@
 package logic.base;
 
-import application.GameSceneManager;
+import application.GameScene;
 
 public class SceneChangeInterruptException extends GameInterruptException {
-	private GameSceneManager scene;
+	private GameScene scene;
 
-	public SceneChangeInterruptException(GameSceneManager scene) {
+	public SceneChangeInterruptException(GameScene scene) {
 		this.scene = scene;
 	}
 
-	public GameSceneManager getScene() {
+	public GameScene getScene() {
 		return scene;
 	}
 

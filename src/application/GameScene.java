@@ -9,31 +9,33 @@ import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
 import logic.util.GameObjectGroup;
 
-public class GameSceneManager implements Destroyable{
+public abstract class GameScene implements Destroyable {
 
-	private GameObjectGroup allObj;
-	private ArrayList<Pair<GameObject, GameObjectGroup>> addBuffer;
+	protected GameObjectGroup allObj;
+	protected ArrayList<Pair<GameObject, GameObjectGroup>> addBuffer;
 
-	private ArrayList<GameObjectGroup> groups;
-	
-	private boolean isDestroyed;
+	protected ArrayList<GameObjectGroup> groups;
 
-	public GameSceneManager() {
+	protected boolean isDestroyed=false;
+
+	private String name;
+
+	public abstract void init();
+
+	public GameScene() {
 		allObj = new GameObjectGroup();
 		groups = new ArrayList<GameObjectGroup>();
 		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
 	}
 
-	public void update() {
-		try {
-			for (GameObject gameObj : allObj.getChildren()) {
-				gameObj.update();
-			}
-		}catch(SceneChangeInterruptException e) {
-			GameManager.getInstance().setScene(e.getScene());
-			return;
-		} catch (GameInterruptException e) {
-			e.printStackTrace();
+	public void update() throws GameInterruptException {
+
+		for (GameObject gameObj : allObj.getChildren()) {
+			gameObj.update();
+		}
+		
+		if(isDestroyed()) {
+			System.out.println("GG");
 		}
 
 		allObj.update();
@@ -42,9 +44,12 @@ public class GameSceneManager implements Destroyable{
 		}
 
 		for (var p : addBuffer) {
+			if(isDestroyed) {
+				System.out.println("AAAA");
+			}
 			p.getValue().getChildren().add(p.getKey());
 		}
-		
+
 		addBuffer.clear();
 
 	}
@@ -66,7 +71,7 @@ public class GameSceneManager implements Destroyable{
 	@Override
 	public void destroy() {
 		isDestroyed = true;
-		for(GameObject gameObj : allObj.getChildren()) {
+		for (GameObject gameObj : allObj.getChildren()) {
 			gameObj.destroy();
 		}
 	}

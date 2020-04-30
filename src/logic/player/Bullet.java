@@ -3,6 +3,8 @@ package logic.player;
 import java.util.ArrayList;
 
 import application.GUI;
+import application.GameManager;
+import application.NormalLevelScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.base.GameObject;
@@ -22,7 +24,7 @@ public class Bullet extends GameObject {
 		addScript(new ConstantSpeedMove(0,-5)).
 		addScript(new ColliderBox(img.getWidth(), img.getHeight())).
 		addScript(new AutoRemove()).
-		addScript(new CollisionDetection(GUI.groupOfMeteors.getMeteors()) {
+		addScript(new CollisionDetection(((NormalLevelScene)GameManager.getInstance().getCurrentScene()).groupOfMeteors.getMeteors()) {
 			
 			@Override
 			public void onCollision(ArrayList<GameObject> targets) {

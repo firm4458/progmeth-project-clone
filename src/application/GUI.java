@@ -7,6 +7,7 @@ import drawing.Camera;
 import drawing.ImageSprite;
 import drawing.Renderer;
 import drawing.Sprite;
+import gui.GameButton;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -22,7 +23,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.PlanetSpawner;
+import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.enemy.ExplosionAnimation;
 import logic.enemy.GroupOfMeteors;
@@ -33,105 +36,71 @@ import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public class GUI extends Application {
-	Pane root = new AnchorPane();
-	public static GroupOfMeteors groupOfMeteors;
-	public static GameSceneManager sampleScene;
-	public static GameSceneManager newScene;
+	public static Pane root = new AnchorPane();
+	public static GameScene sampleScene;
+	public static GameScene menuScene;
+	public static Canvas canvas;
 
 	@Override
 	public void start(Stage primaryStage) {
-
-		ResizableCanvas canvas = new ResizableCanvas(600, 600);
+		canvas = new ResizableCanvas(600, 600);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
+		
+		System.out.println(GameManager.getInstance());
 
 		//Canvas bgCanvas = new Canvas(600,600);
 		//GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
 
 		//root.getChildren().add(bgCanvas);
-		Button button = new Button("Hello");
-		button.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				System.out.println("hello");
-			}
-			
-		});
-		button.setFocusTraversable(false);
 		root.getChildren().add(canvas);
-		root.getChildren().add(button);
-		AnchorPane.setBottomAnchor(button, 50.0);
-		AnchorPane.setLeftAnchor(button, 50.0);
-		AnchorPane.setTopAnchor(canvas, 0.0);
-		AnchorPane.setBottomAnchor(canvas, 0.0);
-		AnchorPane.setLeftAnchor(canvas, 0.0);
-		AnchorPane.setRightAnchor(canvas, 0.0);
 		Camera camera = new Camera(canvas);
 		
 		Renderer.getInstance().setCamera(camera);
 		
-		sampleScene = new GameSceneManager();
-		
-		newScene = new GameSceneManager();
-		newScene.addGameObject(new Player(250,400));
-		newScene.addGameObject(camera);
-		
-		groupOfMeteors = new GroupOfMeteors();
-		
-		GameObject planetSpawn = new GameObject(0, 0);
-		planetSpawn.addScript(new PlanetSpawner());
-		sampleScene.addGameObject(planetSpawn);
-		
-		GameObject background = new GameObject(0,-420);
-		Image img = new Image("img/parallax-space-backgound.png",600,1020,true,true);
-		Sprite bgSprite = new ImageSprite(background,img) {
-			/*@Override
-			public void draw(GraphicsContext gc, Camera camera) {
-				double absoluteX = parent.getX()+relativeX-camera.getX();
-				double absoluteY = parent.getY()+relativeY-camera.getY();
-				gc.setEffect(colorAdjust);
-				gc.drawImage(getImage(), absoluteX, absoluteY,gc.getCanvas().getWidth(),gc.getCanvas().getHeight());
-				gc.restore();
-			}*/
-		};
-		bgSprite.setZ(-99);
-		background.setSprite(bgSprite);
-		background.addScript(new ConstantSpeedMove(0,0.07));
-		
-		background.addScript(new Script() {
-			
-			private GameObject parent;
-			private double a; 
-			@Override
-			public void update() {
-				parent.getSprite().getColorAdjust().setBrightness(0.1*Math.sin(a));
-				a+=0.02;
-			}
-
-			@Override
-			public GameObject getParent() {
-				return parent;
-			}
-
-			@Override
-			public void setParent(GameObject parent) throws IncompatibleScriptException {
-				this.parent = parent;
-			}
-
-			@Override
-			public void onDestroy() {
-				
-			}
-			
-		});
-		sampleScene.addGameObject(background);
-		
-		Player player = new Player(250, 400);
-		
-		sampleScene.addGameObject(player);
-		sampleScene.addGameObject(groupOfMeteors);
+		sampleScene = new NormalLevelScene();
 		sampleScene.addGameObject(camera);
+		
+		menuScene = new GameScene() {
+			
+			@Override
+			public void init() {
+				this.isDestroyed = false;
+				GameButton button = new GameButton(0, 0, "start");
+				button.addScript(new Script() {
+					
+					GameButton parent;
+
+					@Override
+					public void update() throws GameInterruptException {
+						if(InputUtil.buttonMap.get(parent.getName())) {
+							throw new SceneChangeInterruptException(GUI.sampleScene);
+						}
+					}
+
+					@Override
+					public GameObject getParent() {
+						return parent;
+					}
+
+					@Override
+					public void setParent(GameObject parent) throws IncompatibleScriptException {
+						try {
+							this.parent = (GameButton)parent;
+						}catch(ClassCastException e) {
+							throw new IncompatibleScriptException("button", "GG");
+						}
+					}
+
+					@Override
+					public void onDestroy() {
+						
+					}
+					
+				});
+				addGameObject(button);
+			}
+		};
 		
 		
 		// Stage Show
@@ -148,7 +117,8 @@ public class GUI extends Application {
 			InputUtil.setKeyPressed(e.getCode(), false);
 		});
 
-		GameManager.init(sampleScene);
+		GameManager.getInstance().setScene(menuScene);
+		GameManager.getInstance().init();
 
 	}
 

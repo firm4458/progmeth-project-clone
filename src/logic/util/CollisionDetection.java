@@ -1,5 +1,6 @@
 package logic.util;
 
+import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.base.ScriptNotFoundException;
@@ -19,10 +20,10 @@ public abstract class CollisionDetection implements Script {
 		this.targetGroup = targetGroup;
 	}
 
-	public abstract void onCollision(ArrayList<GameObject> targets);
+	public abstract void onCollision(ArrayList<GameObject> targets) throws GameInterruptException;
 
 	@Override
-	public void update() {
+	public void update() throws GameInterruptException{
 		ArrayList<GameObject> targets = new ArrayList<GameObject>();
 		for (GameObject target : targetGroup.getChildren()) {
 			try {
@@ -34,7 +35,9 @@ public abstract class CollisionDetection implements Script {
 				System.out.println("Warning: GameObject with no ColliderBox Found in targetGroup");
 			}
 		}
-		onCollision(targets);
+		if(targets.size()!=0) {
+			onCollision(targets);
+		}
 	}
 
 	@Override

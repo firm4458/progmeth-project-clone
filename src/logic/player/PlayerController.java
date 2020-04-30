@@ -31,7 +31,6 @@ public class PlayerController implements Script {
 		}
 		else if(x>0) {
 			((Player)parent).animator.sendTrigger("goRight");
-			throw new SceneChangeInterruptException(GUI.newScene);
 		}
 		else {
 			((Player)parent).animator.sendTrigger("goLeft");

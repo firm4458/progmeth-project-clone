@@ -8,10 +8,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+import application.GUI;
+import application.GameManager;
+import application.GameScene;
+import application.NormalLevelScene;
 import drawing.ImageSprite;
 import drawing.Sprite;
+import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.SceneChangeInterruptException;
 import logic.util.ColliderBox;
+import logic.util.CollisionDetection;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
@@ -51,6 +58,14 @@ public class Player extends GameObject {
 		sprite = new ImageSprite(this,img);
 		animator = new Animator((ImageSprite)sprite,idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,40));
+		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
+		addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {
+			
+			@Override
+			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {
+				throw new SceneChangeInterruptException(GUI.menuScene);
+			}
+		});
 	}
 	
 	public Animator animator;

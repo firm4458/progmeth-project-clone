@@ -2,33 +2,60 @@ package application;
 
 import drawing.Renderer;
 import javafx.animation.AnimationTimer;
+import logic.base.GameInterruptException;
+import logic.base.SceneChangeInterruptException;
 
 public class GameManager {
-	private GameSceneManager currentScene;
+	private GameScene currentScene;
 	private static GameManager gameManager;
 	private AnimationTimer timer;
-	public static void init(GameSceneManager initialScene) {
+	static {
 		gameManager = new GameManager();
-		gameManager.currentScene = initialScene;
-		gameManager.timer = new AnimationTimer() {
+	}
+
+	public void init() {
+		timer = new AnimationTimer() {
 
 			@Override
 			public void handle(long now) {
-				gameManager.getCurrentScene().update();
-				Renderer.getInstance().render();
+				try {
+					getCurrentScene().update();
+					Renderer.getInstance().render();
+				} catch (SceneChangeInterruptException e) {
+					GameManager.getInstance().setScene(e.getScene());
+					return;
+				} catch (GameInterruptException e) {
+					e.printStackTrace();
+				}
+
 			}
 		};
-		gameManager.timer.start();
+		timer.start();
 	}
-	public void setScene(GameSceneManager scene) {
-		currentScene.destroy();
+
+	public void start() {
+		timer.start();
+	}
+
+	public void stop() {
+		timer.stop();
+	}
+
+	public void setScene(GameScene scene) {
+		if (currentScene != null) {
+			currentScene.destroy();
+		}
+		Renderer.getInstance().reset();
 		currentScene = scene;
+		currentScene.init();
 	}
+
 	public static GameManager getInstance() {
 		return gameManager;
 	}
-	public GameSceneManager getCurrentScene() {
+
+	public GameScene getCurrentScene() {
 		return currentScene;
 	}
-	
+
 }
