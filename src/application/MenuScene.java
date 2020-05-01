@@ -40,7 +40,7 @@ public class MenuScene extends GameScene {
 		
 		GameButton button = new GameButton((GameManager.NATIVE_WIDTH-100)/2, GameManager.NATIVE_HEIGHT*0.5, "Play", 100, 50,
 				ResourceManager.getImage("img/Button.png", 100, 50),
-				ResourceManager.getImage("img/clickedButton.png", 100, 50));
+				ResourceManager.getImage("img/clickedButton.png", 100, 48.88));
 		button.addScript(new ButtonScript() {
 
 			@Override

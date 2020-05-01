@@ -6,8 +6,8 @@ import logic.base.GameInterruptException;
 import logic.base.SceneChangeInterruptException;
 
 public class GameManager {
-	public static final double NATIVE_WIDTH=700;
-	public static final double NATIVE_HEIGHT=1000;
+	public static final double NATIVE_WIDTH=600;
+	public static final double NATIVE_HEIGHT=600;
 	
 	private GameScene currentScene;
 	private static GameManager gameManager;
