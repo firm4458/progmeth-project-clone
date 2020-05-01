@@ -1,4 +1,5 @@
 package application;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ import logic.player.Player;
 import logic.util.ConstantSpeedMove;
 import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
+import logic.util.ResourceManager;
 
 public class GUI extends Application {
 	public static Pane root = new AnchorPane();
@@ -46,35 +48,37 @@ public class GUI extends Application {
 		canvas = new ResizableCanvas(600, 600);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
-		
+
 		System.out.println(GameManager.getInstance());
 
-		//Canvas bgCanvas = new Canvas(600,600);
-		//GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
+		// Canvas bgCanvas = new Canvas(600,600);
+		// GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
 
-		//root.getChildren().add(bgCanvas);
+		// root.getChildren().add(bgCanvas);
 		root.getChildren().add(canvas);
 		Camera camera = new Camera(canvas);
-		
+
 		Renderer.getInstance().setCamera(camera);
-		
+
 		sampleScene = new NormalLevelScene();
 		sampleScene.addGameObject(camera);
-		
+
 		menuScene = new GameScene() {
-			
+
 			@Override
 			public void init() {
 				this.isDestroyed = false;
-				GameButton button = new GameButton(0, 0, "start");
+				GameButton button = new GameButton(250, 50, "start", 100, 50,
+						ResourceManager.getImage("img/Button.png", 100, 50),
+						ResourceManager.getImage("img/clickedButton.png", 100, 50));
 				button.addScript(new Script() {
-					
+
 					GameButton parent;
 
 					@Override
 					public void update() throws GameInterruptException {
-						if(InputUtil.buttonMap.get(parent.getName())) {
-							throw new SceneChangeInterruptException(GUI.sampleScene);
+						if (InputUtil.buttonMap.get(parent.getName())) {
+							// throw new SceneChangeInterruptException(GUI.sampleScene);
 						}
 					}
 
@@ -86,30 +90,29 @@ public class GUI extends Application {
 					@Override
 					public void setParent(GameObject parent) throws IncompatibleScriptException {
 						try {
-							this.parent = (GameButton)parent;
-						}catch(ClassCastException e) {
+							this.parent = (GameButton) parent;
+						} catch (ClassCastException e) {
 							throw new IncompatibleScriptException("button", "GG");
 						}
 					}
 
 					@Override
 					public void onDestroy() {
-						
+
 					}
-					
+
 				});
 				addGameObject(button);
 			}
 		};
-		
-		
+
 		// Stage Show
 		Scene scene = new Scene(root, 600, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
 		// Set Player move
-		scene.setOnKeyPressed(e -> { 
+		scene.setOnKeyPressed(e -> {
 			InputUtil.setKeyPressed(e.getCode(), true);
 		});
 
@@ -125,41 +128,41 @@ public class GUI extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	class ResizableCanvas extends Canvas {
 
-        public ResizableCanvas(double width,double height) {
-            // Redraw canvas when size changes.
-        	super(width,height);
-        	widthProperty().bind(root.widthProperty());
-        	heightProperty().bind(root.heightProperty());
-            widthProperty().addListener(evt -> draw());
-            heightProperty().addListener(evt -> draw());
-        }
+		public ResizableCanvas(double width, double height) {
+			// Redraw canvas when size changes.
+			super(width, height);
+			widthProperty().bind(root.widthProperty());
+			heightProperty().bind(root.heightProperty());
+			widthProperty().addListener(evt -> draw());
+			heightProperty().addListener(evt -> draw());
+		}
 
-        private void draw() {
-            double width = getWidth();
-            double height = getHeight();
+		private void draw() {
+			double width = getWidth();
+			double height = getHeight();
 
-            GraphicsContext gc = getGraphicsContext2D();
-            gc.clearRect(0, 0, width, height);
-        }
+			GraphicsContext gc = getGraphicsContext2D();
+			gc.clearRect(0, 0, width, height);
+		}
 
-        @Override
-        public boolean isResizable() {
-            return true;
-        }
+		@Override
+		public boolean isResizable() {
+			return true;
+		}
 
-        @Override
-        public double prefWidth(double height) {
-            return getWidth();
-        }
+		@Override
+		public double prefWidth(double height) {
+			return getWidth();
+		}
 
-        @Override
-        public double prefHeight(double width) {
-            return getHeight();
-        }
-    }
+		@Override
+		public double prefHeight(double width) {
+			return getHeight();
+		}
+	}
 
 	/*
 	 * public List<Sprite> sprite(){ return root.getChildren().stream().map(n ->
