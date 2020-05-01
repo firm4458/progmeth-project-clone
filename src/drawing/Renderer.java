@@ -50,6 +50,7 @@ public class Renderer {
 	}
 	
 	public void render(GraphicsContext gc) {
+		camera.destroy();
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, camera.getCanvas().getWidth(), camera.getCanvas().getHeight());
 //		gc.drawImage(background, -10-camera.getX(), -10-camera.getY());

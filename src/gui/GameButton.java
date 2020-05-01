@@ -101,8 +101,9 @@ public class GameButton extends GameObject {
 			}
 		});
 		
-		GameObject gameObj = new GameObject(X+width/4, Y+20+height/4);
-		TextSprite ts = new TextSprite(gameObj, name, 20);
+		//GameObject gameObj = new GameObject(X+width/4, Y+20+height/4-3);
+		GameObject gameObj = new GameObject(X+width/2, Y+height/2-3);
+		TextSprite ts = new TextSprite(gameObj, name, 20,width);
 		ts.setZ(99);
 		gameObj.setSprite(ts);
 		GameManager.getInstance().getCurrentScene().addGameObject(gameObj);

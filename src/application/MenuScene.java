@@ -8,6 +8,7 @@ import drawing.Renderer;
 import drawing.Sprite;
 import drawing.base.Renderable;
 import gui.GameButton;
+import gui.util.ButtonScript;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -34,37 +35,27 @@ public class MenuScene extends GameScene {
 	@Override
 	public void init() {
 		this.isDestroyed = false;
-		GameButton button = new GameButton(250, 300, "Click to start", 100, 50,
+		
+		addGameObject(Renderer.getInstance().getCamera());
+		
+		GameButton button = new GameButton(250, 300, "Play", 100, 50,
 				ResourceManager.getImage("img/Button.png", 100, 50),
 				ResourceManager.getImage("img/clickedButton.png", 100, 50));
-		button.addScript(new Script() {
-			
-			GameButton parent;
+		button.addScript(new ButtonScript() {
 
 			@Override
-			public void update() throws GameInterruptException {
-				if(InputUtil.buttonMap.get(parent.getName())) {
-					throw new SceneChangeInterruptException(GUI.sampleScene);
-				}
+			public void onPressed() throws GameInterruptException {
+				// executed on the first frame button is pressed
 			}
 
 			@Override
-			public GameObject getParent() {
-				return parent;
+			public void whilePressed() throws GameInterruptException {
+				// executed while button is still pressed
 			}
 
 			@Override
-			public void setParent(GameObject parent) throws IncompatibleScriptException {
-				try {
-					this.parent = (GameButton)parent;
-				}catch(ClassCastException e) {
-					throw new IncompatibleScriptException("button", "GG");
-				}
-			}
-
-			@Override
-			public void onDestroy() {
-				
+			public void onRelease() throws GameInterruptException {
+				throw new SceneChangeInterruptException(GUI.sampleScene);
 			}
 			
 		});

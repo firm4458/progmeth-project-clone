@@ -49,8 +49,6 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
 
-		System.out.println(GameManager.getInstance());
-
 		// Canvas bgCanvas = new Canvas(600,600);
 		// GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
 
@@ -61,7 +59,6 @@ public class GUI extends Application {
 		Renderer.getInstance().setCamera(camera);
 
 		sampleScene = new NormalLevelScene();
-		sampleScene.addGameObject(camera);
 		
 		menuScene = new MenuScene();
 		

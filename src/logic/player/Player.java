@@ -13,6 +13,7 @@ import application.GameManager;
 import application.GameScene;
 import application.NormalLevelScene;
 import drawing.ImageSprite;
+import drawing.Renderer;
 import drawing.Sprite;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
@@ -73,6 +74,7 @@ public class Player extends GameObject {
 			
 			@Override
 			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {
+				Renderer.getInstance().getCamera().setShake(true);
 				for(GameObject meteor: targets) {
 					meteor.destroy();
 					HealthPoint--;

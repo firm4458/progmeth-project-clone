@@ -31,6 +31,7 @@ public class NormalLevelScene extends GameScene {
 
 	@Override
 	public void init() {
+		
 		allObj = new GameObjectGroup();
 		groups = new ArrayList<GameObjectGroup>();
 		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
@@ -38,7 +39,9 @@ public class NormalLevelScene extends GameScene {
 		isDestroyed = false;
 		groupOfMeteors = new GroupOfMeteors();
 		groupOfItems = new GroupOfItems();
-
+		
+		addGameObject(Renderer.getInstance().getCamera());
+		
 		GameObject planetSpawn = new GameObject(0, 0);
 		planetSpawn.addScript(new PlanetSpawner());
 		addGameObject(planetSpawn);
@@ -49,7 +52,6 @@ public class NormalLevelScene extends GameScene {
 		bgSprite.setZ(-99);
 		background.setSprite(bgSprite);
 		background.addScript(new ConstantSpeedMove(0, 0.07));
-
 		background.addScript(new Script() {
 
 			private GameObject parent;
