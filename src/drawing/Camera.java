@@ -67,10 +67,6 @@ public class Camera extends GameObject {
 		}
 		
 	};
-	@Override
-	public void destroy() {
-		isDestroyed = false;
-	}
 	public Camera(Canvas canvas) {
 		super(0,0);
 		this.canvas = canvas;
@@ -78,9 +74,7 @@ public class Camera extends GameObject {
 		addScript(shaker);
 	}
 	public boolean isInCamera(GameObject gameObject) {
-		double width = 600;
-		double height = 600;
-		BoundingBox bound = new BoundingBox(X,Y,width,height);
+		BoundingBox bound = new BoundingBox(X,Y,GameManager.NATIVE_WIDTH,GameManager.NATIVE_HEIGHT);
 		try {
 			BoundingBox targetBound = gameObject.getScript(ColliderBox.class).getBound();
 			return bound.intersects(targetBound);

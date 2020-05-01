@@ -1,5 +1,6 @@
 package drawing;
 
+import application.GameManager;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
@@ -31,8 +32,8 @@ public class Sprite implements Renderable{
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		gc.setFill(Color.WHITE);
 		gc.setEffect(colorAdjust);
-		double XScale = gc.getCanvas().getWidth()/600;
-		double YScale = gc.getCanvas().getHeight()/600;
+		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
+		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.fillRect(absoluteX*XScale, absoluteY*YScale, 50*XScale, 50*YScale);
 		gc.restore();
 	}

@@ -2,6 +2,7 @@ package logic.item;
 
 import java.util.Random;
 
+import application.GameManager;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.base.GameObject;
@@ -16,7 +17,7 @@ public class Item extends GameObject{
 	private String url;
 	
 	public Item() {
-		this(rand.nextDouble()*600, -30.0, PowerUp[new Random().nextInt(PowerUp.length)]);
+		this(rand.nextDouble()*GameManager.NATIVE_WIDTH, -30.0, PowerUp[new Random().nextInt(PowerUp.length)]);
 	}
 	
 	public Item(double x, double y, String itemName) {

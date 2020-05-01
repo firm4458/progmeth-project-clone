@@ -49,7 +49,7 @@ public class NormalLevelScene extends GameScene {
 		addGameObject(planetSpawn);
 
 		GameObject background = new GameObject(0, -420);
-		Image img = new Image("img/parallax-space-backgound.png", 600, 1020, true, true);
+		Image img = new Image("img/parallax-space-backgound.png", GameManager.NATIVE_WIDTH+10, 0, true, true);
 		Sprite bgSprite = new ImageSprite(background, img);
 		bgSprite.setZ(-99);
 		background.setSprite(bgSprite);

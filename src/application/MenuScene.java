@@ -38,7 +38,7 @@ public class MenuScene extends GameScene {
 		
 		addGameObject(new Camera(Renderer.getInstance().getGc().getCanvas()));
 		
-		GameButton button = new GameButton(250, 300, "Play", 100, 50,
+		GameButton button = new GameButton((GameManager.NATIVE_WIDTH-100)/2, GameManager.NATIVE_HEIGHT*0.5, "Play", 100, 50,
 				ResourceManager.getImage("img/Button.png", 100, 50),
 				ResourceManager.getImage("img/clickedButton.png", 100, 50));
 		button.addScript(new ButtonScript() {
@@ -63,7 +63,7 @@ public class MenuScene extends GameScene {
 		
 		//Background
 		GameObject background = new GameObject(0, -420);
-		Image img = new Image("img/parallax-space-backgound.png", 600, 1020, true, true);
+		Image img = new Image("img/parallax-space-backgound.png", GameManager.NATIVE_WIDTH, 0, true, true);
 		Sprite bgSprite = new ImageSprite(background, img);
 		bgSprite.setZ(-99);
 		background.setSprite(bgSprite);
@@ -102,7 +102,7 @@ public class MenuScene extends GameScene {
 		Image[] playerimg = {new WritableImage(fullimg.getPixelReader(),2*80,0,80,120), new WritableImage(fullimg.getPixelReader(),2*80,0,80,120),
 				new WritableImage(fullimg.getPixelReader(),2*80,120,80,120), new WritableImage(fullimg.getPixelReader(),2*80,120,80,120)};
 		PlayerIcon = new AnimationState("idle", playerimg, new TreeMap<String,AnimationState>());
-		GameObject playerIcon = new GameObject(250, 100);
+		GameObject playerIcon = new GameObject((GameManager.NATIVE_WIDTH-80)/2, GameManager.NATIVE_HEIGHT/6);
 		Sprite pyiconSprite = new ImageSprite(playerIcon, playerimg[0]);
 		playerIcon.setSprite(pyiconSprite);
 		playerIcon.addScript(new Animator((ImageSprite)pyiconSprite,PlayerIcon));

@@ -11,7 +11,7 @@ public class BulletShooter implements Script {
 	
 	GameObjectGroup bullets = GUI.sampleScene.createGroup();
 	private static final int COOLDOWN=10;
-	private static final int MAX_BULLET=10;
+	private static final int MAX_BULLET=100;
 	private int cooldown=COOLDOWN;
 	GameObject parent;
 

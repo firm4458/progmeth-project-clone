@@ -6,6 +6,9 @@ import logic.base.GameInterruptException;
 import logic.base.SceneChangeInterruptException;
 
 public class GameManager {
+	public static final double NATIVE_WIDTH=700;
+	public static final double NATIVE_HEIGHT=1000;
+	
 	private GameScene currentScene;
 	private static GameManager gameManager;
 	private AnimationTimer timer;

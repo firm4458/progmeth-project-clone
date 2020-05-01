@@ -57,9 +57,10 @@ public class GameButton extends GameObject {
 				normalWidth = getNormalWidth();
 			}
 			
-			button.setPrefWidth(GUI.canvas.getWidth() / 600.0 * normalWidth);
-			button.setMaxWidth(GUI.canvas.getWidth() / 600.0 * normalWidth);
-			button.setMinWidth(GUI.canvas.getWidth() / 600.0 * normalWidth);
+			double scale = GUI.canvas.getWidth() / GameManager.NATIVE_WIDTH;
+			button.setPrefWidth(scale * normalWidth);
+			button.setMaxWidth(scale * normalWidth);
+			button.setMinWidth(scale * normalWidth);
 		});
 		GUI.canvas.heightProperty().addListener(evt -> {
 			double normalHeight = getNormalHeight();
@@ -68,10 +69,10 @@ public class GameButton extends GameObject {
 				normalHeight = getNormalHeight();
 			}
 			
-
-			button.setPrefHeight(GUI.canvas.getHeight() / 600.0 * normalHeight);
-			button.setMaxHeight(GUI.canvas.getHeight() / 600.0 * normalHeight);
-			button.setMinHeight(GUI.canvas.getHeight() / 600.0 * normalHeight);
+			double scale = GUI.canvas.getHeight() / GameManager.NATIVE_HEIGHT;
+			button.setPrefHeight(scale * normalHeight);
+			button.setMaxHeight(scale * normalHeight);
+			button.setMinHeight(scale * normalHeight);
 		});
 
 		addScript(new Script() {
@@ -80,8 +81,8 @@ public class GameButton extends GameObject {
 
 			@Override
 			public void update() throws GameInterruptException {
-				button.setTranslateX(GUI.canvas.getWidth() / 600.0 * getX());
-				button.setTranslateY(GUI.canvas.getHeight() / 600.0 * getY());
+				button.setTranslateX(GUI.canvas.getWidth() / GameManager.NATIVE_WIDTH * getX());
+				button.setTranslateY(GUI.canvas.getHeight() / GameManager.NATIVE_HEIGHT * getY());
 				animator.sendTrigger(InputUtil.buttonMap.get(getName()) ? "click" : "release");
 			}
 

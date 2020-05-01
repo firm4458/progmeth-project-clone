@@ -1,6 +1,7 @@
 package logic;
 
 import application.GUI;
+import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.IncompatibleScriptException;
@@ -13,7 +14,7 @@ public class PlanetSpawner implements Script {
 	private int COOLDOWN=10;
 	
 	public PlanetSpawner() {
-		planet = new Planet(Math.random()*600,0);
+		planet = new Planet(Math.random()*GameManager.NATIVE_WIDTH,0);
 		planet.translate(0, -planet.getSprite().getHeight());
 		GUI.sampleScene.addGameObject(planet);
 		cooldown = COOLDOWN;
@@ -24,7 +25,7 @@ public class PlanetSpawner implements Script {
 		//System.out.println((new StringBuilder()).append(planet.getX()).append(' ').append(planet.getY()));
 		if(planet.isDestroyed()) {
 			if((cooldown--)<=0) {
-				planet = new Planet(Math.random()*600,-500);
+				planet = new Planet(Math.random()*GameManager.NATIVE_WIDTH,-500);
 				GUI.sampleScene.addGameObject(planet);
 				cooldown = COOLDOWN;
 			}

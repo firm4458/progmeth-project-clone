@@ -3,6 +3,7 @@ package logic.enemy;
 import java.util.ArrayList;
 
 import application.GUI;
+import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.GameObjectGroup;
@@ -21,7 +22,7 @@ public class MeteorGenerator implements Script {
 		
 		int added = 0;
 		while(meteors.size()+added < GroupOfMeteors.MAX_METEORS) {
-			Meteor meteor = new Meteor(600*Math.random() - 20,-200*Math.random()-50);
+			Meteor meteor = new Meteor(GameManager.NATIVE_WIDTH*Math.random() - 20,-200*Math.random()-50);
 			GUI.sampleScene.addGameObject(meteor);
 			GUI.sampleScene.addGameObject(meteor,meteors);
 			++added;

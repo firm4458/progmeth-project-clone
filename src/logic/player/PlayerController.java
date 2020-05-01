@@ -1,6 +1,7 @@
 package logic.player;
 
 import application.GUI;
+import application.GameManager;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
@@ -24,8 +25,8 @@ public class PlayerController implements Script {
 		parent.translate(x, y);
 		parent.setX(Math.max(0, parent.getX()));
 		parent.setY(Math.max(0, parent.getY()));
-		parent.setX(Math.min(600-parent.getSprite().getWidth(), parent.getX()));
-		parent.setY(Math.min(600-parent.getSprite().getHeight(), parent.getY()));
+		parent.setX(Math.min(GameManager.NATIVE_WIDTH-parent.getSprite().getWidth(), parent.getX()));
+		parent.setY(Math.min(GameManager.NATIVE_HEIGHT-parent.getSprite().getHeight(), parent.getY()));
 		if(x==0) {
 			((Player)parent).animator.sendTrigger("idle");
 		}

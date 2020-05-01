@@ -45,14 +45,9 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		canvas = new ResizableCanvas(600, 600);
+		canvas = new ResizableCanvas(GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
-
-		// Canvas bgCanvas = new Canvas(600,600);
-		// GraphicsContext bgGc = bgCanvas.getGraphicsContext2D();
-
-		// root.getChildren().add(bgCanvas);
 		root.getChildren().add(canvas);
 		
 		sampleScene = new NormalLevelScene();
@@ -60,7 +55,7 @@ public class GUI extends Application {
 		menuScene = new MenuScene();
 		
 		// Stage Show
-		Scene scene = new Scene(root, 600, 600);
+		Scene scene = new Scene(root, GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
