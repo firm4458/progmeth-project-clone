@@ -8,13 +8,13 @@ import javafx.scene.text.TextAlignment;
 import logic.base.GameObject;
 
 public class TextSprite extends Sprite {
-	String text;
-	double size;
+	private String text;
+	private Font font;
 	private double maxWidth;
-	public TextSprite(GameObject parent, String text,double size,double maxWidth) {
+	public TextSprite(GameObject parent, String text,Font font, double maxWidth) {
 		super(parent);
 		this.text = text;
-		this.size = size;
+		this.font = font;
 		this.maxWidth = maxWidth;
 	}
 	public String getText() {
@@ -24,11 +24,12 @@ public class TextSprite extends Sprite {
 		this.text = text;
 	}
 	
-	public double getSize() {
-		return size;
+	
+	public Font getFont() {
+		return font;
 	}
-	public void setSize(double size) {
-		this.size = size;
+	public void setFont(Font font) {
+		this.font = font;
 	}
 	@Override
 	public void draw(GraphicsContext gc, Camera camera) {
@@ -36,7 +37,7 @@ public class TextSprite extends Sprite {
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
-		gc.setFont(new Font(size*Math.min(XScale, YScale)));
+		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setFill(javafx.scene.paint.Color.WHITE);

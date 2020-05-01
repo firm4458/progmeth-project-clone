@@ -5,6 +5,7 @@ import drawing.Camera;
 import drawing.ImageSprite;
 import drawing.Renderer;
 import drawing.Sprite;
+import drawing.TextSprite;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -12,6 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
 import logic.PlanetSpawner;
+import logic.TextObject;
+import drawing.TextSprite;
+import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.enemy.GroupOfMeteors;
@@ -20,6 +24,7 @@ import logic.player.Player;
 import logic.util.ConstantSpeedMove;
 import logic.util.GameObjectGroup;
 import logic.util.IncompatibleScriptException;
+import logic.util.ResourceManager;
 
 public class NormalLevelScene extends GameScene {
 	public GroupOfMeteors groupOfMeteors;
@@ -88,32 +93,64 @@ public class NormalLevelScene extends GameScene {
 		addGameObject(player);
 		addGameObject(groupOfMeteors);
 		addGameObject(groupOfItems);
-		Renderer.getInstance().add(new Renderable() {
-
+		
+		GameObject scoreText = new TextObject(300, 40, "Score: 0", new Font("Comic Sans MS", 35), 500);
+		GameObject healthText = new TextObject(50,40,"X" + player.getHealthPoint(), new Font("Comic Sans MS", 35), 100);
+		scoreText.getSprite().setZ(99);
+		healthText.getSprite().setZ(99);
+		scoreText.addScript(new Script() {
+			GameObject parent;
+			
 			@Override
-			public void draw(GraphicsContext gc, Camera camera) {
-				gc.drawImage(new Image("img/HealthPoint.png", 50, 50, true, true), 0, 0);
-				gc.setFill(Color.WHITE);
-				gc.setFont(new Font("Comic Sans MS", 35));
-				gc.fillText("X" + player.getHealthPoint(), 50, 40);
-				gc.fillText("Score: " + GameManager.getInstance().getScore(), 300, 40);
-			}
-
-			@Override
-			public boolean isVisible() {
-				return true;
-			}
-
-			@Override
-			public boolean isDestroyed() {
-				return false;
-			}
-
-			@Override
-			public int getZ() {
-				return 99;
+			public void update() throws GameInterruptException {
+				TextSprite ts = (TextSprite)(parent.getSprite());
+				ts.setText("Score: " + GameManager.getInstance().getScore());
 			}
 			
+			@Override
+			public void setParent(GameObject parent) throws IncompatibleScriptException {
+				this.parent = parent;
+			}
+			
+			@Override
+			public void onDestroy() {
+				
+			}
+			
+			@Override
+			public GameObject getParent() {
+				return parent;
+			}
 		});
+		healthText.addScript(new Script() {
+			GameObject parent;
+			
+			@Override
+			public void update() throws GameInterruptException {
+				TextSprite ts = (TextSprite)(parent.getSprite());
+				ts.setText("X" + player.getHealthPoint());
+			}
+			
+			@Override
+			public void setParent(GameObject parent) throws IncompatibleScriptException {
+				this.parent = parent;
+			}
+			
+			@Override
+			public void onDestroy() {
+				
+			}
+			
+			@Override
+			public GameObject getParent() {
+				return parent;
+			}
+		});
+		addGameObject(scoreText);
+		addGameObject(healthText);
+		
+		GameObject heart = new GameObject(0, 0);
+		heart.setSprite(new ImageSprite(heart,ResourceManager.getImage("img/HealthPoint.png", 50, 50)));
+		heart.getSprite().setZ(98);
 	}
 }

@@ -7,6 +7,7 @@ import drawing.TextSprite;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.Script;
@@ -104,7 +105,7 @@ public class GameButton extends GameObject {
 		
 		//GameObject gameObj = new GameObject(X+width/4, Y+20+height/4-3);
 		GameObject gameObj = new GameObject(X+width/2, Y+height/2-3);
-		TextSprite ts = new TextSprite(gameObj, name, 20,width);
+		TextSprite ts = new TextSprite(gameObj, name,new Font("Comic Sans MS", 20),width);
 		ts.setZ(99);
 		gameObj.setSprite(ts);
 		GameManager.getInstance().getCurrentScene().addGameObject(gameObj);
