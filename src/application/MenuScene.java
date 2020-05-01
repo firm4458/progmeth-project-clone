@@ -36,7 +36,7 @@ public class MenuScene extends GameScene {
 	public void init() {
 		this.isDestroyed = false;
 		
-		addGameObject(Renderer.getInstance().getCamera());
+		addGameObject(new Camera(Renderer.getInstance().getGc().getCanvas()));
 		
 		GameButton button = new GameButton(250, 300, "Play", 100, 50,
 				ResourceManager.getImage("img/Button.png", 100, 50),

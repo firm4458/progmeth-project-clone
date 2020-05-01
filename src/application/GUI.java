@@ -54,10 +54,7 @@ public class GUI extends Application {
 
 		// root.getChildren().add(bgCanvas);
 		root.getChildren().add(canvas);
-		Camera camera = new Camera(canvas);
-
-		Renderer.getInstance().setCamera(camera);
-
+		
 		sampleScene = new NormalLevelScene();
 		
 		menuScene = new MenuScene();

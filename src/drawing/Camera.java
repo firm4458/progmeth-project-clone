@@ -74,6 +74,7 @@ public class Camera extends GameObject {
 	public Camera(Canvas canvas) {
 		super(0,0);
 		this.canvas = canvas;
+		Renderer.getInstance().setCamera(this);
 		addScript(shaker);
 	}
 	public boolean isInCamera(GameObject gameObject) {
