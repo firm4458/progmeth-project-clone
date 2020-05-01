@@ -1,15 +1,21 @@
 package application;
 
 import java.util.ArrayList;
-
+import drawing.Camera;
 import drawing.ImageSprite;
+import drawing.Renderer;
 import drawing.Sprite;
+import drawing.base.Renderable;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 import logic.PlanetSpawner;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.enemy.GroupOfMeteors;
+import logic.item.GroupOfItems;
 import logic.player.Player;
 import logic.util.ConstantSpeedMove;
 import logic.util.GameObjectGroup;
@@ -17,6 +23,7 @@ import logic.util.IncompatibleScriptException;
 
 public class NormalLevelScene extends GameScene {
 	public GroupOfMeteors groupOfMeteors;
+	public GroupOfItems groupOfItems;
 
 	public NormalLevelScene() {
 		super();
@@ -30,6 +37,7 @@ public class NormalLevelScene extends GameScene {
 		
 		isDestroyed = false;
 		groupOfMeteors = new GroupOfMeteors();
+		groupOfItems = new GroupOfItems();
 
 		GameObject planetSpawn = new GameObject(0, 0);
 		planetSpawn.addScript(new PlanetSpawner());
@@ -75,5 +83,33 @@ public class NormalLevelScene extends GameScene {
 
 		addGameObject(player);
 		addGameObject(groupOfMeteors);
+		addGameObject(groupOfItems);
+		Renderer.getInstance().add(new Renderable() {
+
+			@Override
+			public void draw(GraphicsContext gc, Camera camera) {
+				gc.drawImage(new Image("img/HealthPoint.png", 50, 50, true, true), 0, 0);
+				gc.setFill(Color.WHITE);
+				gc.setFont(new Font("Comic Sans MS", 35));
+				gc.fillText("X" + player.getHealthPoint(), 50, 40);
+				gc.fillText("Score: " + GameManager.getInstance().getScore(), 300, 40);
+			}
+
+			@Override
+			public boolean isVisible() {
+				return true;
+			}
+
+			@Override
+			public boolean isDestroyed() {
+				return false;
+			}
+
+			@Override
+			public int getZ() {
+				return 99;
+			}
+			
+		});
 	}
 }
