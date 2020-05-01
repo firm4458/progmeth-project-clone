@@ -9,6 +9,7 @@ public class GameManager {
 	private GameScene currentScene;
 	private static GameManager gameManager;
 	private AnimationTimer timer;
+	private static int score = 0;
 	static {
 		gameManager = new GameManager();
 	}
@@ -58,4 +59,11 @@ public class GameManager {
 		return currentScene;
 	}
 
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
 }

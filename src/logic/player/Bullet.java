@@ -16,6 +16,7 @@ import logic.util.ConstantSpeedMove;
 
 
 public class Bullet extends GameObject {
+	private int damage = 10;
 	
 	public Bullet(double X, double Y) {
 		super(X,Y);
@@ -33,11 +34,20 @@ public class Bullet extends GameObject {
 						target.destroy();
 						parent.destroy();
 						GUI.sampleScene.addGameObject(new ExplosionAnimation(target.getX(), target.getY()));
+						GameManager.getInstance().setScore(GameManager.getInstance().getScore()+10);
 						return;
 					}
 				}
 			}
 		});
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 }

@@ -62,50 +62,9 @@ public class GUI extends Application {
 
 		sampleScene = new NormalLevelScene();
 		sampleScene.addGameObject(camera);
-
-		menuScene = new GameScene() {
-
-			@Override
-			public void init() {
-				this.isDestroyed = false;
-				GameButton button = new GameButton(250, 50, "start", 100, 50,
-						ResourceManager.getImage("img/Button.png", 100, 50),
-						ResourceManager.getImage("img/clickedButton.png", 100, 50));
-				button.addScript(new Script() {
-
-					GameButton parent;
-
-					@Override
-					public void update() throws GameInterruptException {
-						if (InputUtil.buttonMap.get(parent.getName())) {
-							// throw new SceneChangeInterruptException(GUI.sampleScene);
-						}
-					}
-
-					@Override
-					public GameObject getParent() {
-						return parent;
-					}
-
-					@Override
-					public void setParent(GameObject parent) throws IncompatibleScriptException {
-						try {
-							this.parent = (GameButton) parent;
-						} catch (ClassCastException e) {
-							throw new IncompatibleScriptException("button", "GG");
-						}
-					}
-
-					@Override
-					public void onDestroy() {
-
-					}
-
-				});
-				addGameObject(button);
-			}
-		};
-
+		
+		menuScene = new MenuScene();
+		
 		// Stage Show
 		Scene scene = new Scene(root, 600, 600);
 		primaryStage.setScene(scene);

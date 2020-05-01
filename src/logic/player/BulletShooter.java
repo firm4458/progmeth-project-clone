@@ -19,9 +19,13 @@ public class BulletShooter implements Script {
 	public void update() {
 		
 		if(cooldown==0 && MAX_BULLET > bullets.size()) {
-			Bullet bullet = new Bullet(parent.getX()+30,parent.getY()-50);
-			GUI.sampleScene.addGameObject(bullet);
-			GUI.sampleScene.addGameObject(bullet,bullets);
+			if(parent.getClass() == Player.class) {
+				addBullet(parent.getX()+30, parent.getY()-50);
+				if(((Player)parent).getUpgradeAmmo()) {
+					addBullet(parent.getX()+10, parent.getY()-50);
+					addBullet(parent.getX()+50, parent.getY()-50);
+				}
+			}
 		}
 			
 		--cooldown;
@@ -46,5 +50,12 @@ public class BulletShooter implements Script {
 		for(GameObject bullet : bullets.getChildren()) {
 			bullet.destroy();
 		}
+	}
+	
+	public void addBullet(double X, double Y) {
+		Bullet bullet = new Bullet(X, Y);
+		GUI.sampleScene.addGameObject(bullet);
+		GUI.sampleScene.addGameObject(bullet, bullets);
+		
 	}
 }

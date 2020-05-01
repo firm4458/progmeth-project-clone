@@ -17,8 +17,11 @@ import drawing.Sprite;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
+import logic.base.Script;
+import logic.item.Item;
 import logic.util.ColliderBox;
 import logic.util.CollisionDetection;
+import logic.util.IncompatibleScriptException;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
@@ -27,6 +30,10 @@ public class Player extends GameObject {
 	private static AnimationState idleState;
 	private static AnimationState goLeftState;
 	private static AnimationState goRightState;
+	private static int HealthPoint;
+	private static int MaxHealthPoint = 3;
+	private static boolean upgradeAmmo = false;
+	private static int upgradeTimeAmmo = 0;
 	
 	static {
 		Image fullimg = new Image("img/ship.png",400,240,true,true);
@@ -54,18 +61,113 @@ public class Player extends GameObject {
 
 	public Player(double X, double Y) {
 		super(X, Y);
+		HealthPoint = MaxHealthPoint;
 		WritableImage img = new WritableImage(new Image("img/ship.png",400,240,true,true).getPixelReader(),0,0,80,120);
 		sprite = new ImageSprite(this,img);
 		animator = new Animator((ImageSprite)sprite,idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,40));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
+		
+		//Collide with Meteors
 		addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {
 			
 			@Override
 			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {
-				throw new SceneChangeInterruptException(GUI.menuScene);
+				for(GameObject meteor: targets) {
+					meteor.destroy();
+					HealthPoint--;
+				}
+				if(HealthPoint <= 0)
+					throw new SceneChangeInterruptException(GUI.menuScene);
 			}
 		});
+		////////
+		
+		//Collide with Items
+		addScript(new CollisionDetection(scene.groupOfItems.getItems()) {
+
+			@Override
+			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {
+				for(GameObject item: targets) {
+					if(!item.isDestroyed() && item.getClass() == Item.class) {
+						String itemName = ((Item)item).getItemName();
+						switch(itemName) {
+							case "Powerup_Health":
+								healing(1);
+								break;
+							case "Powerup_Ammo":
+								upgradeAmmo = true;
+								upgradeTimeAmmo = 1800;
+								break;
+						}
+						item.destroy();
+					}
+				}
+			}
+			
+		});
+		///////
+		
+		//Count UpgradeTimeAmmo
+		addScript(new Script() {
+			GameObject parent;
+			
+			@Override
+			public void update() throws GameInterruptException {
+				if(upgradeAmmo) {
+					upgradeTimeAmmo--;
+					if(upgradeTimeAmmo==0)
+						upgradeAmmo = false;
+				}
+			}
+
+			@Override
+			public GameObject getParent() {
+				return parent;
+			}
+
+			@Override
+			public void setParent(GameObject parent) throws IncompatibleScriptException {
+				this.parent = parent;
+			}
+
+			@Override
+			public void onDestroy() {
+				
+			}
+			
+		});
+		//////
+	}
+	
+	public void healing(int heal) {
+		if(HealthPoint < MaxHealthPoint) {
+			HealthPoint+=heal;
+		}
+	}
+	
+	public int getHealthPoint() {
+		return HealthPoint;
+	}
+	
+	public int getMaxHealthPoint() {
+		return MaxHealthPoint;
+	}
+	
+	public void setUpgradeAmmo(boolean upgrade) {
+		upgradeAmmo = upgrade;
+	}
+	
+	public boolean getUpgradeAmmo() {
+		return upgradeAmmo;
+	}
+	
+	public int getUpgradeTimeAmmo() {
+		return upgradeTimeAmmo;
+	}
+	
+	public void setUpgradeTimeAmmo(int time) {
+		upgradeTimeAmmo = time;
 	}
 	
 	public Animator animator;
