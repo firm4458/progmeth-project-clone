@@ -2,30 +2,46 @@ package logic.base;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Comparator;
 
+import application.GameManager;
 import drawing.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import logic.util.IncompatibleScriptException;
 
 public class GameObject implements Destroyable {
+	public static final Comparator<GameObject> nameComparator = new Comparator<GameObject>() {
+		@Override
+		public int compare(GameObject o1, GameObject o2) {
+			return o1.getName().compareTo(o2.getName());
+		}
+	};
 	protected final ArrayList<Script> scripts  = new ArrayList<Script>();
 	protected double X;
 	protected double Y;
 	protected boolean isActive;
 	protected boolean isDestroyed;
 	protected Sprite sprite;
+	protected String name;
+	
+	public String getName() {
+		return name;
+	}
 	
 	public GameObject(double X, double Y) {
 		this.X = X;
 		this.Y = Y;
+		name = GameManager.getGeneratedName();
 		isDestroyed = false;
+		
 	}
-	
-	public GameObject(double X, double Y, Sprite sprite) {
+
+	public GameObject(double X, double Y, String name) {
 		this.X = X;
 		this.Y = Y;
+		this.name = name;
 		isDestroyed = false;
-		this.sprite = sprite;
+		
 	}
 	
 	public GameObject addScript(Script script) {

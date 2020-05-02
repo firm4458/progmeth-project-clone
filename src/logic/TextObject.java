@@ -10,4 +10,9 @@ public class TextObject extends GameObject {
 		TextSprite sprite = new TextSprite(this, text, font,maxWidth);
 		this.sprite = sprite;
 	}
+	public TextObject(double X, double Y,String name, String text, Font font,double maxWidth) {
+		super(X,Y,name);
+		TextSprite sprite = new TextSprite(this, text, font,maxWidth);
+		this.sprite = sprite;
+	}
 }

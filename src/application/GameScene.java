@@ -27,6 +27,10 @@ public abstract class GameScene implements Destroyable {
 		groups = new ArrayList<GameObjectGroup>();
 		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
 	}
+	
+	public GameObject getGameObject(String name) {
+		return allObj.getGameObject(name);
+	}
 
 	public void update() throws GameInterruptException {
 
@@ -74,6 +78,9 @@ public abstract class GameScene implements Destroyable {
 		for (GameObject gameObj : allObj.getChildren()) {
 			gameObj.destroy();
 		}
+		allObj = new GameObjectGroup();
+		groups = new ArrayList<GameObjectGroup>();
+		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
 	}
 
 	@Override

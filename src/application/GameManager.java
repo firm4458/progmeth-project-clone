@@ -13,8 +13,21 @@ public class GameManager {
 	private static GameManager gameManager;
 	private AnimationTimer timer;
 	private static int score = 0;
+	private static long genCounter1 = 0;
+	private static long genCounter2 = 0;
 	static {
 		gameManager = new GameManager();
+	}
+	
+	public static String getGeneratedName() {
+		String name ="UNNAMED_OBJECT_"+Long.toString(genCounter2)+" "+Long.toString(genCounter1);
+		if(genCounter1 == Long.MAX_VALUE) {
+			genCounter2++;
+			genCounter1=0;
+		}else {
+			genCounter1++;
+		}
+		return name;
 	}
 
 	public void init() {
