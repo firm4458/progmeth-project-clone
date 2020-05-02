@@ -7,10 +7,11 @@ import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.GameObjectGroup;
+import logic.util.IncompatibleScriptException;
 
 public class MeteorGenerator implements Script {
 
-	private GameObject parent;
+	private GroupOfMeteors parent;
 	private GameObjectGroup meteors;
 
 	public MeteorGenerator(GameObjectGroup meteors) {
@@ -21,7 +22,7 @@ public class MeteorGenerator implements Script {
 	public void update() {
 		
 		int added = 0;
-		while(meteors.size()+added < GroupOfMeteors.MAX_METEORS) {
+		while(meteors.size()+added < parent.max_meteors) {
 			Meteor meteor = new Meteor(GameManager.NATIVE_WIDTH*Math.random() - 20,-200*Math.random()-50);
 			GameManager.getInstance().getCurrentScene().addGameObject(meteor);
 			GameManager.getInstance().getCurrentScene().addGameObject(meteor,meteors);
@@ -35,8 +36,12 @@ public class MeteorGenerator implements Script {
 	}
 
 	@Override
-	public void setParent(GameObject parent) {
-		this.parent = parent;
+	public void setParent(GameObject parent) throws IncompatibleScriptException {
+		try {
+			this.parent = (GroupOfMeteors)parent;
+		} catch (ClassCastException e) {
+			throw new IncompatibleScriptException("meteor generator", "must be attached to GroupOfMeteor");
+		}
 	}
 
 	@Override

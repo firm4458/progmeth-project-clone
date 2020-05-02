@@ -31,7 +31,9 @@ import logic.util.ResourceManager;
 public class NormalLevelScene extends GameScene {
 	public GroupOfMeteors groupOfMeteors;
 	public GroupOfItems groupOfItems;
-	private MediaPlayer mediaPlayer;
+	
+	protected MediaPlayer bgmPlayer;
+	protected String bgmUrl="sound/normal.mp3";
 
 	public NormalLevelScene() {
 		super();
@@ -56,7 +58,7 @@ public class NormalLevelScene extends GameScene {
 		planetSpawn.addScript(new PlanetSpawner());
 		addGameObject(planetSpawn);
 
-		GameObject background = new GameObject(0, -420);
+		GameObject background = new GameObject(0, -420,"background");
 		Image img = new Image("img/parallax-space-backgound.png", GameManager.NATIVE_WIDTH+10, 0, true, true);
 		Sprite bgSprite = new ImageSprite(background, img);
 		bgSprite.setZ(-99);
@@ -156,12 +158,13 @@ public class NormalLevelScene extends GameScene {
 		heart.setSprite(new ImageSprite(heart,ResourceManager.getImage("img/HealthPoint.png", 50, 50)));
 		heart.getSprite().setZ(98);
 		
-		ResourceManager.playSound("sound/theme.mp3");
+		bgmPlayer = new MediaPlayer(ResourceManager.getSound(bgmUrl));
+		bgmPlayer.play();
 	}
 	
 	@Override
 	public void destroy() {
-		mediaPlayer.stop();
+		bgmPlayer.stop();
 		super.destroy();
 	}
 }

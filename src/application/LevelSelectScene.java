@@ -35,6 +35,31 @@ public class LevelSelectScene extends GameScene {
 			}
 		});
 		addGameObject(normalLevelButton);
+		GameButton bossLevelButton = new GameButton(50, 200, "Space: BOSS", 500,100,
+				ResourceManager.getImage("img/Button.png", 500, 100),
+				ResourceManager.getImage("img/clickedButton.png", 500, 100));
+		bossLevelButton.getSprite().setZ(99);
+		bossLevelButton.addScript(new ButtonScript() {
+			
+			@Override
+			public void whilePressed() throws GameInterruptException {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onRelease() throws GameInterruptException {
+				throw new SceneChangeInterruptException(new BossScene());
+				
+			}
+			
+			@Override
+			public void onPressed() throws GameInterruptException {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		addGameObject(bossLevelButton);
 
 	}
 
