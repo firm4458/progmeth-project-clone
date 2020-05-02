@@ -19,7 +19,7 @@ public class Camera extends GameObject {
 	public void setShake(boolean shake) {
 		this.shake = shake;
 	}
-	private static final Script shaker = new Script() {
+	private final Script shaker = new Script() {
 		
 		Camera parent;
 		private boolean shaking = false;

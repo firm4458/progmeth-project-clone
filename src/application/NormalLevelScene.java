@@ -102,7 +102,7 @@ public class NormalLevelScene extends GameScene {
 		addGameObject(groupOfItems);
 		
 		GameObject scoreText = new TextObject(300, 40, "Score: 0", new Font("Comic Sans MS", 35), 500);
-		GameObject healthText = new TextObject(50,40,"X" + player.getHealthPoint(), new Font("Comic Sans MS", 35), 100);
+		GameObject healthText = new TextObject(50,40,"X" + player.getStatus().getHealth(), new Font("Comic Sans MS", 35), 100);
 		scoreText.getSprite().setZ(99);
 		healthText.getSprite().setZ(99);
 		scoreText.addScript(new Script() {
@@ -135,7 +135,7 @@ public class NormalLevelScene extends GameScene {
 			@Override
 			public void update() throws GameInterruptException {
 				TextSprite ts = (TextSprite)(parent.getSprite());
-				ts.setText("X" + player.getHealthPoint());
+				ts.setText("X" + player.getStatus().getHealth());
 			}
 			
 			@Override

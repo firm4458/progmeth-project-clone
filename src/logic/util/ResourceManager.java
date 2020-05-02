@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.TreeMap;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -17,6 +18,29 @@ public class ResourceManager {
 	
 	static {
 		addImage("bullet", "img/bullet1.png", 50, 50, true);
+		addImage("meteor", "img/Meteor.png", 29.2, 50, false);
+		
+		Image fullimg = new Image("img/ship.png",400,240,true,true);
+		Image[] images = new Image[20];
+		int index = 0;
+		for(int i=0;i<5;++i) {
+			images[index++] = new WritableImage(fullimg.getPixelReader(),i*80,0,80,120);
+		}
+		for(int i=0;i<5;++i) {
+			images[index++] = new WritableImage(fullimg.getPixelReader(),i*80,120,80,120);
+		}
+		
+		addImage("fullPlayerImg",fullimg);
+		addImage("idle1",images[2]);
+		addImage("idle2",images[7]);
+		addImage("left1",images[0]);
+		addImage("left2",images[5]);
+		addImage("right1",images[4]);
+		addImage("right2",images[9]);
+	}
+	
+	public static void addImage(String imageName, Image img) {
+		imageMap.put(imageName, img);
 	}
 	
 	public static void addImage(String imageName, String path, double width, double height, boolean perserveRatio) {

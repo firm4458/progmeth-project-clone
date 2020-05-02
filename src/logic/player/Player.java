@@ -28,6 +28,7 @@ import logic.util.ColliderBox;
 import logic.util.CollisionDetection;
 import logic.util.GameObjectGroup;
 import logic.util.IncompatibleScriptException;
+import logic.util.ResourceManager;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
@@ -44,21 +45,21 @@ public class Player extends Entity {
 	public static GameObjectGroup playerGroup;
 	
 	static {
-		Image fullimg = new Image("img/ship.png",400,240,true,true);
-		Image[] images = new Image[20];
-		int index = 0;
-		for(int i=0;i<5;++i) {
-			images[index++] = new WritableImage(fullimg.getPixelReader(),i*80,0,80,120);
-		}
-		for(int i=0;i<5;++i) {
-			images[index++] = new WritableImage(fullimg.getPixelReader(),i*80,120,80,120);
-		}
-		idleState = new AnimationState("idle",new Image[] {images[2],images[2],images[7],images[7]}, 
+		Image frame1 = ResourceManager.getImage("idle1");
+		Image frame2 = ResourceManager.getImage("idle2");
+		idleState = new AnimationState("idle",new Image[] {frame1,frame1,frame2,frame2}, 
 				new TreeMap<String,AnimationState>());
-		goLeftState = new AnimationState("goLeft",new Image[] {images[0],images[0],images[5],images[5]}, 
+		
+		frame1 = ResourceManager.getImage("left1");
+		frame2 = ResourceManager.getImage("left2");
+		goLeftState = new AnimationState("goLeft",new Image[] {frame1,frame1,frame2,frame2},
 				new TreeMap<String,AnimationState>());
-		goRightState = new AnimationState("goRight",new Image[] {images[4],images[4],images[9],images[9]}, 
+		
+		frame1 = ResourceManager.getImage("right1");
+		frame2 = ResourceManager.getImage("right2");
+		goRightState = new AnimationState("goRight",new Image[] {frame1,frame1,frame2,frame2}, 
 				new TreeMap<String,AnimationState>());
+		
 		idleState.putTrigger("goLeft", goLeftState);
 		idleState.putTrigger("goRight", goRightState);
 		goRightState.putTrigger("idle", idleState);
@@ -74,12 +75,16 @@ public class Player extends Entity {
 
 
 	public Player(double X, double Y) {
-		super(X, Y, new EntityStatus(3));
+		super(X, Y, new EntityStatus(MaxHealthPoint) {
+			@Override
+			public void takeDamage(int damage){
+				super.takeDamage(damage);
+				Renderer.getInstance().getCamera().setShake(true);
+			}
+		});
 		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();
 		GameManager.getInstance().getCurrentScene().addGameObject(this, playerGroup);
-		HealthPoint = MaxHealthPoint;
-		WritableImage img = new WritableImage(new Image("img/ship.png",400,240,true,true).getPixelReader(),0,0,80,120);
-		sprite = new ImageSprite(this,img);
+		sprite = new ImageSprite(this,ResourceManager.getImage("idle1"));
 		animator = new Animator((ImageSprite)sprite,idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,100));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
@@ -110,7 +115,7 @@ public class Player extends Entity {
 						String itemName = ((Item)item).getItemName();
 						switch(itemName) {
 							case "Powerup_Health":
-								healing(1);
+								getStatus().heal(1);
 								break;
 							case "Powerup_Ammo":
 								upgradeAmmo = true;

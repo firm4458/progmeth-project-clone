@@ -4,20 +4,39 @@ import logic.util.IncompatibleScriptException;
 
 public class EntityStatus implements Script {
 
-	private int health;
-	private Entity parent;
+	protected int health;
+	protected int maxHealth;
+	protected Entity parent;
+	protected int damage;
 	
 	public EntityStatus(int health) {
 		super();
 		this.health = health;
+		maxHealth = health;
 	}
 	
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
 	public int getHealth() {
 		return health;
 	}
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
 	@Override
@@ -29,6 +48,11 @@ public class EntityStatus implements Script {
 	
 	public void takeDamage(int damage) {
 		health -= damage;
+	}
+	
+	public void heal(int heal) {
+		health += heal;
+		health = Math.min(health, maxHealth);
 	}
 	
 	@Override

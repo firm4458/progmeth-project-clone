@@ -1,4 +1,6 @@
 package logic.enemy;
+import java.util.ArrayList;
+
 import application.GameManager;
 import application.NormalLevelScene;
 import drawing.Camera;
@@ -23,27 +25,19 @@ import logic.util.ConstantSpeedMove;
 import logic.util.IncompatibleScriptException;
 import logic.util.ResourceManager;
 
-public class Meteor extends Projectile{
+public class Meteor extends Enemy{
 	
-	private static final Image img = new Image("img/Meteor.png", 29.2, 50, false, true);
+	private static final Image img = ResourceManager.getImage("meteor");
 	
 	public Meteor(double X, double Y) {
-		super(X, Y, 1, new ConstantSpeedMove(0, 3), new ColliderBox(29.2, 50),
-				Player.playerGroup, 300);
-		sprite = new ImageSprite(this, img );
+		super(X, Y, 10, 1, new ConstantSpeedMove(0, 3), null, img);
+		addScript(new AutoRemove(60));
 	}
 	
 	@Override
-	public void onDeath() {
-		GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(getX(), getY()));
-		GameManager.getInstance().setScore(GameManager.getInstance().getScore()+10);
+	protected void onHitPlayer(ArrayList<GameObject> targets) {
+		super.onHitPlayer(targets);
 		destroy();
-	}
-
-	@Override
-	protected void actOn(Entity target) {
-		target.getStatus().takeDamage(1);
-		Renderer.getInstance().getCamera().setShake(true);
 	}
 	
 }
