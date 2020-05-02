@@ -156,10 +156,7 @@ public class NormalLevelScene extends GameScene {
 		heart.setSprite(new ImageSprite(heart,ResourceManager.getImage("img/HealthPoint.png", 50, 50)));
 		heart.getSprite().setZ(98);
 		
-
-		Media sound = new Media(ClassLoader.getSystemResource("sound/theme.mp3").toString());
-		mediaPlayer = new MediaPlayer(sound);
-		mediaPlayer.play();
+		ResourceManager.playSound("sound/theme.mp3");
 	}
 	
 	@Override
