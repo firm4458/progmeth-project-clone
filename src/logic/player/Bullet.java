@@ -33,7 +33,7 @@ public class Bullet extends GameObject {
 					if(!target.isDestroyed()) {
 						target.destroy();
 						parent.destroy();
-						GUI.sampleScene.addGameObject(new ExplosionAnimation(target.getX(), target.getY()));
+						GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(target.getX(), target.getY()));
 						GameManager.getInstance().setScore(GameManager.getInstance().getScore()+10);
 						return;
 					}

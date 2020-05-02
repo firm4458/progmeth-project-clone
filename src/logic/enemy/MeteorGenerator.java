@@ -23,8 +23,8 @@ public class MeteorGenerator implements Script {
 		int added = 0;
 		while(meteors.size()+added < GroupOfMeteors.MAX_METEORS) {
 			Meteor meteor = new Meteor(GameManager.NATIVE_WIDTH*Math.random() - 20,-200*Math.random()-50);
-			GUI.sampleScene.addGameObject(meteor);
-			GUI.sampleScene.addGameObject(meteor,meteors);
+			GameManager.getInstance().getCurrentScene().addGameObject(meteor);
+			GameManager.getInstance().getCurrentScene().addGameObject(meteor,meteors);
 			++added;
 		}
 	}

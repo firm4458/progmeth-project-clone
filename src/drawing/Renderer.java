@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import application.GameManager;
 import drawing.base.Renderable;
+import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -15,6 +16,8 @@ public class Renderer {
 	private static Image background;
 	private Camera camera;
 	private GraphicsContext gc;
+	
+	public BoundingBox bb;
 	
 	public GraphicsContext getGc() {
 		return gc;
@@ -59,6 +62,8 @@ public class Renderer {
 				renderable.draw(gc,camera);
 			}
 		}
+		if(bb!=null)
+		gc.fillRect(bb.getMinX(), bb.getMinY(), bb.getWidth(), bb.getHeight());
 		if(++renderCount >= 60) {
 			clearDestroyedRenderable();
 		}

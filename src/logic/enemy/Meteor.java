@@ -13,10 +13,9 @@ public class Meteor extends GameObject{
 	
 	public Meteor(double X, double Y) {
 		super(X,Y);
-		sprite = new ImageSprite(this, new Image("img/Meteor.png", 50, 50, true, true));
-		GameObject gameObj = this;
+		sprite = new ImageSprite(this, new Image("img/Meteor.png", 29.2, 50, false, true));
 		addScript(new ConstantSpeedMove(0,3)).
-		addScript(new ColliderBox(50,50)).
+		addScript(new ColliderBox(29.2,50)).
 		addScript(new AutoRemove(20));
 	}
 }

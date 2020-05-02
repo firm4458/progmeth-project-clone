@@ -3,13 +3,14 @@ package logic.player;
 import java.util.ArrayList;
 
 import application.GUI;
+import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.GameObjectGroup;
 
 public class BulletShooter implements Script {
 	
-	GameObjectGroup bullets = GUI.sampleScene.createGroup();
+	GameObjectGroup bullets = GameManager.getInstance().getCurrentScene().createGroup();
 	private static final int COOLDOWN=10;
 	private static final int MAX_BULLET=100;
 	private int cooldown=COOLDOWN;
@@ -54,8 +55,8 @@ public class BulletShooter implements Script {
 	
 	public void addBullet(double X, double Y) {
 		Bullet bullet = new Bullet(X, Y);
-		GUI.sampleScene.addGameObject(bullet);
-		GUI.sampleScene.addGameObject(bullet, bullets);
+		GameManager.getInstance().getCurrentScene().addGameObject(bullet);
+		GameManager.getInstance().getCurrentScene().addGameObject(bullet, bullets);
 		
 	}
 }

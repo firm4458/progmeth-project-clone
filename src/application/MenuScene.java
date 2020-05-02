@@ -55,7 +55,7 @@ public class MenuScene extends GameScene {
 
 			@Override
 			public void onRelease() throws GameInterruptException {
-				throw new SceneChangeInterruptException(GUI.sampleScene);
+				throw new SceneChangeInterruptException(new NormalLevelScene());
 			}
 			
 		});

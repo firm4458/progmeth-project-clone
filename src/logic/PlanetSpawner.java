@@ -16,7 +16,7 @@ public class PlanetSpawner implements Script {
 	public PlanetSpawner() {
 		planet = new Planet(Math.random()*GameManager.NATIVE_WIDTH,0);
 		planet.translate(0, -planet.getSprite().getHeight());
-		GUI.sampleScene.addGameObject(planet);
+		GameManager.getInstance().getCurrentScene().addGameObject(planet);
 		cooldown = COOLDOWN;
 	}
 
@@ -26,7 +26,7 @@ public class PlanetSpawner implements Script {
 		if(planet.isDestroyed()) {
 			if((cooldown--)<=0) {
 				planet = new Planet(Math.random()*GameManager.NATIVE_WIDTH,-500);
-				GUI.sampleScene.addGameObject(planet);
+				GameManager.getInstance().getCurrentScene().addGameObject(planet);
 				cooldown = COOLDOWN;
 			}
 		}

@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import application.GUI;
 import application.GameManager;
 import application.GameScene;
+import application.MenuScene;
 import application.NormalLevelScene;
 import drawing.ImageSprite;
 import drawing.Renderer;
@@ -19,6 +20,7 @@ import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
+import logic.base.ScriptNotFoundException;
 import logic.item.Item;
 import logic.util.ColliderBox;
 import logic.util.CollisionDetection;
@@ -66,7 +68,7 @@ public class Player extends GameObject {
 		WritableImage img = new WritableImage(new Image("img/ship.png",400,240,true,true).getPixelReader(),0,0,80,120);
 		sprite = new ImageSprite(this,img);
 		animator = new Animator((ImageSprite)sprite,idleState);
-		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,40));
+		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,100));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
 		
 		//Collide with Meteors
@@ -80,7 +82,7 @@ public class Player extends GameObject {
 					HealthPoint--;
 				}
 				if(HealthPoint <= 0)
-					throw new SceneChangeInterruptException(GUI.menuScene);
+					throw new SceneChangeInterruptException(new MenuScene());
 			}
 		});
 		////////

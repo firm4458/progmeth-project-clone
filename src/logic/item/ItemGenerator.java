@@ -1,6 +1,7 @@
 package logic.item;
 
 import application.GUI;
+import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.GameObjectGroup;
@@ -20,8 +21,8 @@ public class ItemGenerator implements Script {
 		if(cooldown == 0) {
 			cooldown = 100;
 			Item item = new Item();
-			GUI.sampleScene.addGameObject(item);
-			GUI.sampleScene.addGameObject(item, items);
+			GameManager.getInstance().getCurrentScene().addGameObject(item);
+			GameManager.getInstance().getCurrentScene().addGameObject(item, items);
 		}
 		
 		cooldown--;

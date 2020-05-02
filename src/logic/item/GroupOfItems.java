@@ -1,6 +1,7 @@
 package logic.item;
 
 import application.GUI;
+import application.GameManager;
 import logic.base.GameObject;
 import logic.util.GameObjectGroup;
 
@@ -10,7 +11,7 @@ public class GroupOfItems extends GameObject{
 	
 	public GroupOfItems() {
 		super(0,0);
-		items = GUI.sampleScene.createGroup();
+		items = GameManager.getInstance().getCurrentScene().createGroup();
 		itemGenerator = new ItemGenerator(items);
 		addScript(itemGenerator);
 	}

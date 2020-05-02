@@ -9,6 +9,8 @@ import drawing.TextSprite;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
@@ -29,6 +31,7 @@ import logic.util.ResourceManager;
 public class NormalLevelScene extends GameScene {
 	public GroupOfMeteors groupOfMeteors;
 	public GroupOfItems groupOfItems;
+	private MediaPlayer mediaPlayer;
 
 	public NormalLevelScene() {
 		super();
@@ -152,5 +155,16 @@ public class NormalLevelScene extends GameScene {
 		GameObject heart = new GameObject(0, 0);
 		heart.setSprite(new ImageSprite(heart,ResourceManager.getImage("img/HealthPoint.png", 50, 50)));
 		heart.getSprite().setZ(98);
+		
+
+		Media sound = new Media(ClassLoader.getSystemResource("sound/theme.mp3").toString());
+		mediaPlayer = new MediaPlayer(sound);
+		mediaPlayer.play();
+	}
+	
+	@Override
+	public void destroy() {
+		mediaPlayer.stop();
+		super.destroy();
 	}
 }

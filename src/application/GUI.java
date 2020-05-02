@@ -39,8 +39,6 @@ import logic.util.ResourceManager;
 
 public class GUI extends Application {
 	public static Pane root = new AnchorPane();
-	public static GameScene sampleScene;
-	public static GameScene menuScene;
 	public static Canvas canvas;
 
 	@Override
@@ -49,10 +47,6 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
 		root.getChildren().add(canvas);
-		
-		sampleScene = new NormalLevelScene();
-		
-		menuScene = new MenuScene();
 		
 		// Stage Show
 		Scene scene = new Scene(root, GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
@@ -68,7 +62,7 @@ public class GUI extends Application {
 			InputUtil.setKeyPressed(e.getCode(), false);
 		});
 
-		GameManager.getInstance().setScene(menuScene);
+		GameManager.getInstance().setScene(new MenuScene());
 		GameManager.getInstance().init();
 
 	}
