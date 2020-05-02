@@ -16,6 +16,8 @@ public class GameObject implements Destroyable {
 			return o1.getName().compareTo(o2.getName());
 		}
 	};
+	private ArrayList<Script> bufferAdd = new ArrayList<Script>();
+	private ArrayList<Script> bufferRemove = new ArrayList<Script>();
 	protected final ArrayList<Script> scripts  = new ArrayList<Script>();
 	protected double X;
 	protected double Y;
@@ -23,6 +25,7 @@ public class GameObject implements Destroyable {
 	protected boolean isDestroyed;
 	protected Sprite sprite;
 	protected String name;
+	protected boolean isUpdating;
 	
 	public String getName() {
 		return name;
@@ -45,15 +48,44 @@ public class GameObject implements Destroyable {
 	}
 	
 	public GameObject addScript(Script script) {
-		
-		try {
-			script.setParent(this);
-			scripts.add(script);
-		}catch(IncompatibleScriptException e) {
-			e.printStackTrace();
+		if(isUpdating) {
+			bufferAdd.add(script);
+		}else {
+			try {
+				script.setParent(this);
+				scripts.add(script);
+			}catch(IncompatibleScriptException e) {
+				e.printStackTrace();
+				System.err.println(e.getMessage());
+			}
 		}
-		
 		return this;
+	}
+	
+	public GameObject removeScript(Script script) {
+		if(isUpdating) {
+			bufferRemove.add(script);
+		}else {
+			scripts.remove(script);
+		}
+		return this;
+	}
+	
+	public void resolveBuffer() {
+		for(Script script : bufferAdd) {
+			try {
+				script.setParent(this);
+				scripts.add(script);
+			}catch(IncompatibleScriptException e) {
+				e.printStackTrace();
+				System.err.println(e.getMessage());
+			}
+		}
+		bufferAdd.clear();
+		for(Script script : bufferRemove) {
+			scripts.remove(script);
+		}
+		bufferRemove.clear();
 	}
 	
 	public <T extends Script> T getScript(Class<T> type) throws ScriptNotFoundException{
@@ -79,13 +111,40 @@ public class GameObject implements Destroyable {
 		Y+=translateY;
 	}
 	
-	public void update() throws GameInterruptException {
+	public final void earlyUpdate() throws GameInterruptException {
+		resolveBuffer();
+		isUpdating = true;
+		for(Script script : scripts) {
+			if(isDestroyed) {
+				break;
+			}
+			script.earlyUpdate();
+		}
+		isUpdating = false;
+	}
+	
+	public final void update() throws GameInterruptException {
+			resolveBuffer();
+			isUpdating = true;
 			for(Script script : scripts) {
 				if(isDestroyed) {
 					break;
 				}
 				script.update();
 			}
+			isUpdating = false;
+	}
+	
+	public final void lateUpdate() throws GameInterruptException {
+		resolveBuffer();
+		isUpdating = true;
+		for(Script script : scripts) {
+			if(isDestroyed) {
+				break;
+			}
+			script.lateUpdate();
+		}
+		isUpdating = false;
 	}
 	
 	public boolean isDestroyed() {

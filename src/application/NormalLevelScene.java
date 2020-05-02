@@ -46,7 +46,9 @@ public class NormalLevelScene extends GameScene {
 		groups = new ArrayList<GameObjectGroup>();
 		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
 		
-		addGameObject(new Camera(Renderer.getInstance().getGc().getCanvas()));
+		Camera camera = new Camera(Renderer.getInstance().getGc().getCanvas());
+		addGameObject(camera);
+		Renderer.getInstance().setCamera(camera);
 		
 		isDestroyed = false;
 		groupOfMeteors = new GroupOfMeteors();

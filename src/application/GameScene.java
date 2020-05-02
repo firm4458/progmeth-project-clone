@@ -33,9 +33,17 @@ public abstract class GameScene implements Destroyable {
 	}
 
 	public void update() throws GameInterruptException {
-
+		resolveBuffer();
+		for (GameObject gameObj : allObj.getChildren()) {
+			gameObj.earlyUpdate();
+		}
+		resolveBuffer();
 		for (GameObject gameObj : allObj.getChildren()) {
 			gameObj.update();
+		}
+		resolveBuffer();
+		for (GameObject gameObj : allObj.getChildren()) {
+			gameObj.lateUpdate();
 		}
 		
 		if(isDestroyed()) {
@@ -47,6 +55,11 @@ public abstract class GameScene implements Destroyable {
 			group.update();
 		}
 
+		
+
+	}
+	
+	private void resolveBuffer() {
 		for (var p : addBuffer) {
 			if(isDestroyed) {
 				System.out.println("AAAA");
@@ -55,7 +68,6 @@ public abstract class GameScene implements Destroyable {
 		}
 
 		addBuffer.clear();
-
 	}
 
 	public void addGameObject(GameObject gameObj) {

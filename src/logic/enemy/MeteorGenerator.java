@@ -13,6 +13,7 @@ public class MeteorGenerator implements Script {
 
 	private GroupOfMeteors parent;
 	private GameObjectGroup meteors;
+	private long frameCount=0;
 
 	public MeteorGenerator(GameObjectGroup meteors) {
 		this.meteors = meteors;
@@ -20,14 +21,17 @@ public class MeteorGenerator implements Script {
 
 	@Override
 	public void update() {
-		
+		if(frameCount++%40!=0) {
+			return;
+		}
 		int added = 0;
-		while(meteors.size()+added < parent.max_meteors) {
-			Meteor meteor = new Meteor(GameManager.NATIVE_WIDTH*Math.random() - 20,-200*Math.random()-50);
+		while(meteors.size()+added < parent.max_meteors && added<=3) {
+			Meteor meteor = new Meteor((GameManager.NATIVE_WIDTH-20)*Math.random() + 20,-50*Math.random()-10);
 			GameManager.getInstance().getCurrentScene().addGameObject(meteor);
 			GameManager.getInstance().getCurrentScene().addGameObject(meteor,meteors);
 			++added;
 		}
+		
 	}
 
 	@Override

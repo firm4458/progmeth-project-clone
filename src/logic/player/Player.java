@@ -16,6 +16,8 @@ import application.NormalLevelScene;
 import drawing.ImageSprite;
 import drawing.Renderer;
 import drawing.Sprite;
+import logic.base.Entity;
+import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
@@ -24,11 +26,12 @@ import logic.base.ScriptNotFoundException;
 import logic.item.Item;
 import logic.util.ColliderBox;
 import logic.util.CollisionDetection;
+import logic.util.GameObjectGroup;
 import logic.util.IncompatibleScriptException;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
-public class Player extends GameObject {
+public class Player extends Entity {
 	
 	private static AnimationState idleState;
 	private static AnimationState goLeftState;
@@ -37,6 +40,8 @@ public class Player extends GameObject {
 	private static int MaxHealthPoint = 3;
 	private static boolean upgradeAmmo = false;
 	private static int upgradeTimeAmmo = 0;
+	
+	public static GameObjectGroup playerGroup;
 	
 	static {
 		Image fullimg = new Image("img/ship.png",400,240,true,true);
@@ -61,9 +66,17 @@ public class Player extends GameObject {
 		goLeftState.putTrigger("idle", idleState);
 		goLeftState.putTrigger("goRight", goRightState);
 	}
+	
+	@Override
+	public void onDeath() throws GameInterruptException {
+		throw new SceneChangeInterruptException(new MenuScene());
+	}
+
 
 	public Player(double X, double Y) {
-		super(X, Y);
+		super(X, Y, new EntityStatus(3));
+		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();
+		GameManager.getInstance().getCurrentScene().addGameObject(this, playerGroup);
 		HealthPoint = MaxHealthPoint;
 		WritableImage img = new WritableImage(new Image("img/ship.png",400,240,true,true).getPixelReader(),0,0,80,120);
 		sprite = new ImageSprite(this,img);
@@ -72,7 +85,7 @@ public class Player extends GameObject {
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
 		
 		//Collide with Meteors
-		addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {
+		/*addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {
 			
 			@Override
 			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {
@@ -84,7 +97,7 @@ public class Player extends GameObject {
 				if(HealthPoint <= 0)
 					throw new SceneChangeInterruptException(new MenuScene());
 			}
-		});
+		});*/
 		////////
 		
 		//Collide with Items

@@ -7,47 +7,43 @@ import application.GameManager;
 import application.NormalLevelScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
+import logic.Projectile;
+import logic.base.Entity;
 import logic.base.GameObject;
+import logic.base.Script;
 import logic.enemy.ExplosionAnimation;
 import logic.util.AutoRemove;
 import logic.util.ColliderBox;
 import logic.util.CollisionDetection;
 import logic.util.ConstantSpeedMove;
+import logic.util.GameObjectGroup;
+import logic.util.ResourceManager;
 
+public class Bullet extends Projectile {
 
-public class Bullet extends GameObject {
 	private int damage = 10;
-	
+	private static final Image img = ResourceManager.getImage("bullet");
+
 	public Bullet(double X, double Y) {
-		super(X,Y);
-		Image img = new Image("img/bullet1.png", 50, 50, true, true);
+
+		super(X, Y, 1, new ConstantSpeedMove(0, -5), new ColliderBox(img.getWidth(), img.getHeight()),
+				((NormalLevelScene) GameManager.getInstance().getCurrentScene()).groupOfMeteors.getMeteors(), 0);
+
 		sprite = new ImageSprite(this, img);
-		addScript(new ConstantSpeedMove(0,-5)).
-		addScript(new ColliderBox(img.getWidth(), img.getHeight())).
-		addScript(new AutoRemove()).
-		addScript(new CollisionDetection(((NormalLevelScene)GameManager.getInstance().getCurrentScene()).groupOfMeteors.getMeteors()) {
-			
-			@Override
-			public void onCollision(ArrayList<GameObject> targets) {
-				for(GameObject target: targets) {
-					if(!target.isDestroyed()) {
-						target.destroy();
-						parent.destroy();
-						GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(target.getX(), target.getY()));
-						GameManager.getInstance().setScore(GameManager.getInstance().getScore()+10);
-						return;
-					}
-				}
-			}
-		});
+
 	}
-	
+
 	public int getDamage() {
 		return damage;
 	}
-	
+
 	public void setDamage(int damage) {
 		this.damage = damage;
+	}
+
+	@Override
+	protected void actOn(Entity target) {
+		target.getStatus().takeDamage(getDamage());
 	}
 
 }

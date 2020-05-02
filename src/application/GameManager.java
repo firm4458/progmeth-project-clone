@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Enumeration;
+
 import drawing.Renderer;
 import javafx.animation.AnimationTimer;
 import logic.base.GameInterruptException;
@@ -15,6 +17,17 @@ public class GameManager {
 	private static int score = 0;
 	private static long genCounter1 = 0;
 	private static long genCounter2 = 0;
+	
+	private boolean isUpdating;
+	
+	public boolean isUpdating() {
+		return isUpdating;
+	}
+
+	public void setUpdating(boolean isUpdating) {
+		this.isUpdating = isUpdating;
+	}
+
 	static {
 		gameManager = new GameManager();
 	}
@@ -36,7 +49,9 @@ public class GameManager {
 			@Override
 			public void handle(long now) {
 				try {
+					setUpdating(true);
 					getCurrentScene().update();
+					setUpdating(false);
 					Renderer.getInstance().render();
 				} catch (SceneChangeInterruptException e) {
 					GameManager.getInstance().setScene(e.getScene());

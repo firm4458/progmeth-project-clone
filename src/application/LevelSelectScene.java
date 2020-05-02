@@ -1,5 +1,7 @@
 package application;
 
+import drawing.Camera;
+import drawing.Renderer;
 import gui.GameButton;
 import gui.util.ButtonScript;
 import logic.base.GameInterruptException;
@@ -10,6 +12,11 @@ public class LevelSelectScene extends GameScene {
 
 	@Override
 	public void init() {
+		
+		Camera camera = new Camera(Renderer.getInstance().getGc().getCanvas());
+		addGameObject(camera);
+		Renderer.getInstance().setCamera(camera);
+		
 		GameButton normalLevelButton = new GameButton(50, 50, "Space", 500,100,
 				ResourceManager.getImage("img/Button.png", 500, 100),
 				ResourceManager.getImage("img/clickedButton.png", 500, 100));
