@@ -32,6 +32,7 @@ public class Meteor extends Enemy{
 	public Meteor(double X, double Y) {
 		super(X, Y, 10, 1, new ConstantSpeedMove(0, 3), null, img);
 		addScript(new AutoRemove(60));
+		setPoint(10);
 	}
 	
 	@Override

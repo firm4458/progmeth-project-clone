@@ -19,6 +19,8 @@ public class ResourceManager {
 	static {
 		addImage("bullet", "img/bullet1.png", 50, 50, true);
 		addImage("meteor", "img/Meteor.png", 29.2, 50, false);
+		addImage("bossShip","img/boss.png",230*2, 300*2,false);
+		addImage("bossBullet", "img/bossBullet.png",20,20,false);	
 		
 		Image fullimg = new Image("img/ship.png",400,240,true,true);
 		Image[] images = new Image[20];
