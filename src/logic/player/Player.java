@@ -1,4 +1,5 @@
 package logic.player;
+import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -13,9 +14,11 @@ import application.GameManager;
 import application.GameScene;
 import application.MenuScene;
 import application.NormalLevelScene;
+import drawing.Camera;
 import drawing.ImageSprite;
 import drawing.Renderer;
 import drawing.Sprite;
+import drawing.base.Renderable;
 import logic.base.Entity;
 import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
@@ -86,8 +89,45 @@ public class Player extends Entity {
 		GameManager.getInstance().getCurrentScene().addGameObject(this, playerGroup);
 		sprite = new ImageSprite(this,ResourceManager.getImage("idle1"));
 		animator = new Animator((ImageSprite)sprite,idleState);
-		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(20,0,40,100));
+		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(10,5,60,100));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
+		
+Renderer.renderables.add(new Renderable() {
+			
+			@Override
+			public boolean isVisible() {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public boolean isDestroyed() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public int getZ() {
+				// TODO Auto-generated method stub
+				return 100;
+			}
+			
+			@Override
+			public void draw(GraphicsContext gc, Camera camera) {
+				ColliderBox collider = null;
+				try {
+					collider = getScript(ColliderBox.class);
+				} catch (ScriptNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BoundingBox bound = collider.getBound();
+				gc.setFill(Color.TRANSPARENT);
+				gc.setStroke(Color.WHITE);
+				gc.setLineWidth(1);
+				gc.strokeRect(getX()+10,getY()+5,bound.getWidth(),bound.getHeight());
+			}
+		});
 		
 		//Collide with Meteors
 		/*addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {

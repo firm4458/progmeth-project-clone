@@ -38,6 +38,7 @@ public class Meteor extends Enemy{
 	@Override
 	protected void onHitPlayer(ArrayList<GameObject> targets) {
 		super.onHitPlayer(targets);
+		GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(getX(), getY()));
 		destroy();
 	}
 	

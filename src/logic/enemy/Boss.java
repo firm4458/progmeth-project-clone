@@ -21,6 +21,8 @@ public class Boss extends Enemy {
 				AttackController controller = new AttackController(AttackPickStrategy.RANDOM_PICK);
 				controller.getScripts().add(new RadialBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2,
 						10, 6000));
+				controller.getScripts().add(new WaveBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2,
+						10, 10000));
 				parent.addScript(controller);
 				parent.removeScript(this);
 			}

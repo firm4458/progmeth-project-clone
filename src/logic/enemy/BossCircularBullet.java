@@ -21,7 +21,6 @@ public class BossCircularBullet extends Projectile {
 
 		super(X, Y, 1, new ConstantSpeedMove(speedX,speedY), new ColliderBox(img.getWidth(), img.getHeight()),
 				Player.playerGroup, 0);
-		System.out.println(Y);
 		sprite = new ImageSprite(this, img);
 
 	}
