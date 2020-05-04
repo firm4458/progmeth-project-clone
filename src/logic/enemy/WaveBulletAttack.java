@@ -29,7 +29,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 		private long duration;
 		private long start;
 		private int counter;
-		private static final int COOLDOWN = 10;
+		private static final int COOLDOWN = 5;
 		private static final int BASE_SPEED = 5;
 		private double amplitude;
 		private double frequency;
@@ -38,7 +38,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
-			amplitude = 100;
+			amplitude = Math.PI/3;
 			frequency = 0.5;
 			this.originX = originX;
 			this.originY = originY;
@@ -50,7 +50,8 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			if (now - start <= duration) {
 				if (counter == 0) {
 					counter = COOLDOWN;
-					createBullet(amplitude*Math.sin(2*Math.PI*frequency*((now-start)/1000.0))); // simple harmonic oscillation
+					double angle = amplitude*Math.sin(2*Math.PI*frequency*((now-start)/1000.0)); // simple harmonic oscillation
+					createBullet(angle); 
 				} else {
 					counter--;
 				}
@@ -59,9 +60,9 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			}
 		}
 		
-		private void createBullet(double offsetX) {
+		private void createBullet(double angle) {
 			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(originX+offsetX, 10, 0, BASE_SPEED));
+			.addGameObject(new BossCircularBullet(originX, originY, BASE_SPEED*Math.sin(angle), BASE_SPEED));
 		}
 
 	}

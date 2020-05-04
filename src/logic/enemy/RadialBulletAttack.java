@@ -33,7 +33,7 @@ public class RadialBulletAttack extends AttackScriptFactory {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
-			angleDifferent = Math.PI/4;
+			angleDifferent = Math.PI/6;
 		}
 
 		@Override
