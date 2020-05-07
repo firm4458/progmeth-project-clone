@@ -48,16 +48,18 @@ public class GameObject implements Destroyable {
 	}
 	
 	public GameObject addScript(Script script) {
+		try {
+			script.setParent(this);
+		}catch(IncompatibleScriptException e) {
+			e.printStackTrace();
+			System.err.println(e.getMessage());
+			return this;
+		}
+		
 		if(isUpdating) {
 			bufferAdd.add(script);
 		}else {
-			try {
-				script.setParent(this);
-				scripts.add(script);
-			}catch(IncompatibleScriptException e) {
-				e.printStackTrace();
-				System.err.println(e.getMessage());
-			}
+			scripts.add(script);
 		}
 		return this;
 	}
@@ -66,26 +68,25 @@ public class GameObject implements Destroyable {
 		if(isUpdating) {
 			bufferRemove.add(script);
 		}else {
-			scripts.remove(script);
+			removeScriptNoConcurrency(script);
 		}
 		return this;
 	}
 	
 	public void resolveBuffer() {
 		for(Script script : bufferAdd) {
-			try {
-				script.setParent(this);
-				scripts.add(script);
-			}catch(IncompatibleScriptException e) {
-				e.printStackTrace();
-				System.err.println(e.getMessage());
-			}
+			addScript(script);
 		}
 		bufferAdd.clear();
 		for(Script script : bufferRemove) {
-			scripts.remove(script);
+			removeScriptNoConcurrency(script);
 		}
 		bufferRemove.clear();
+	}
+	
+	private void removeScriptNoConcurrency(Script script) {
+		script.onDestroy();
+		scripts.remove(script);
 	}
 	
 	public <T extends Script> T getScript(Class<T> type) throws ScriptNotFoundException{

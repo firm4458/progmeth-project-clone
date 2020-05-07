@@ -32,6 +32,7 @@ import logic.util.CollisionDetection;
 import logic.util.GameObjectGroup;
 import logic.util.IncompatibleScriptException;
 import logic.util.ResourceManager;
+import logic.util.ShakerScript;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
@@ -41,7 +42,7 @@ public class Player extends Entity {
 	private static AnimationState goLeftState;
 	private static AnimationState goRightState;
 	private static int HealthPoint;
-	private static int MaxHealthPoint = 3;
+	private static int MaxHealthPoint = 1000;
 	private static boolean upgradeAmmo = false;
 	private static int upgradeTimeAmmo = 0;
 	
@@ -82,7 +83,7 @@ public class Player extends Entity {
 			@Override
 			public void takeDamage(int damage){
 				super.takeDamage(damage);
-				Renderer.getInstance().getCamera().setShake(true);
+				Renderer.getInstance().getCamera().addScript(new ShakerScript(4, 1.2));
 			}
 		});
 		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();

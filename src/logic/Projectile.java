@@ -35,7 +35,8 @@ public abstract class Projectile extends Entity {
 				actOn(entity);
 				hitCount--;
 			}catch(ClassCastException e) {
-				System.err.println("warning: some target in is not and Entity");
+				e.printStackTrace();
+				System.err.println(target.toString()+" is not an Entity");
 			}
 		}
 		if(hitCount<=0) {

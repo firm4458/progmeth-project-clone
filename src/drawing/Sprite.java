@@ -1,9 +1,14 @@
 package drawing;
 
+import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import application.GameManager;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import logic.base.GameObject;
@@ -16,6 +21,7 @@ public class Sprite implements Renderable{
 	protected GameObject parent;
 	protected int Z;
 	protected ColorAdjust colorAdjust;
+	protected final TreeMap<String,Effect> effects = new TreeMap<String,Effect>();
 
 	public Sprite(GameObject parent) {
 		relativeX = 0;
@@ -32,10 +38,24 @@ public class Sprite implements Renderable{
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		gc.setFill(Color.WHITE);
 		gc.setEffect(colorAdjust);
+		effects.forEach((name,effect)->gc.setEffect(effect));
+		effects.clear();
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.fillRect(absoluteX*XScale, absoluteY*YScale, 50*XScale, 50*YScale);
 		gc.restore();
+	}
+	
+	public void addEffect(String name, Effect e) {
+		effects.put(name,e);
+	}
+	
+	public void removeEffect(String name) {
+		effects.remove(name);
+	}
+	
+	public void clearEffect() {
+		effects.clear();
 	}
 
 	@Override
@@ -67,11 +87,13 @@ public class Sprite implements Renderable{
 	public int getZ() {
 		return Z;
 	}
-
+	
+	@Deprecated
 	public ColorAdjust getColorAdjust() {
 		return colorAdjust;
 	}
-
+	
+	@Deprecated
 	public void setColorAdjust(ColorAdjust colorAdjust) {
 		this.colorAdjust = colorAdjust;
 	}

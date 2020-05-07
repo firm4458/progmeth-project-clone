@@ -14,7 +14,7 @@ import logic.util.ResourceManager;
 public class BossCircularBullet extends Projectile {
 	
 
-	private int damage = 1;
+	private int damage = 10;
 	private static final Image img = ResourceManager.getImage("bossBullet");
 
 	public BossCircularBullet(double X, double Y, double speedX, double speedY) {

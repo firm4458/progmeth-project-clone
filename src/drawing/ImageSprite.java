@@ -26,6 +26,7 @@ public class ImageSprite extends Sprite {
 		double absoluteX = parent.getX()+relativeX-camera.getX();
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		gc.setEffect(colorAdjust);
+		effects.forEach((name,effect)->gc.setEffect(effect));
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.drawImage(getImage(), absoluteX*XScale, absoluteY*YScale,
