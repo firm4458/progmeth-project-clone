@@ -9,7 +9,15 @@ import logic.base.GameObject;
 
 public class ImageSprite extends Sprite {
 	
-	private Image image;
+	protected Image image;
+	
+	private double scale=1.0;
+	public double getScale() {
+		return scale;
+	}
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
 	
 	public ImageSprite(GameObject parent, Image image) {
 		super(parent);
@@ -30,7 +38,7 @@ public class ImageSprite extends Sprite {
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.drawImage(getImage(), absoluteX*XScale, absoluteY*YScale,
-				image.getWidth()*XScale,image.getHeight()*YScale);
+				image.getWidth()*XScale*scale,image.getHeight()*YScale*scale);
 		gc.restore();
 	}
 

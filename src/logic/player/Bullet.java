@@ -8,6 +8,7 @@ import application.NormalLevelScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.Projectile;
+import logic.base.Dio;
 import logic.base.Entity;
 import logic.base.GameObject;
 import logic.base.Script;
@@ -19,7 +20,7 @@ import logic.util.ConstantSpeedMove;
 import logic.util.GameObjectGroup;
 import logic.util.ResourceManager;
 
-public class Bullet extends Projectile {
+public class Bullet extends Projectile implements Dio {
 
 	private int damage = 10;
 	private static final Image img = ResourceManager.getImage("bullet");

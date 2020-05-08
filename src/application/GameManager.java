@@ -20,6 +20,8 @@ public class GameManager {
 	
 	private boolean isUpdating;
 	
+	public boolean isFreezing;
+	
 	public boolean isUpdating() {
 		return isUpdating;
 	}

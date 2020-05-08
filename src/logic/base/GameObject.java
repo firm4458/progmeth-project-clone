@@ -124,7 +124,7 @@ public class GameObject implements Destroyable {
 		isUpdating = false;
 	}
 	
-	public final void update() throws GameInterruptException {
+	public void update() throws GameInterruptException {
 			resolveBuffer();
 			isUpdating = true;
 			for(Script script : scripts) {

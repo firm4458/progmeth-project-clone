@@ -20,6 +20,7 @@ import drawing.ImageSprite;
 import drawing.Renderer;
 import drawing.Sprite;
 import drawing.base.Renderable;
+import logic.base.Dio;
 import logic.base.Entity;
 import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
@@ -37,7 +38,7 @@ import logic.util.ShakerScript;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 
-public class Player extends Entity {
+public class Player extends Entity implements Dio {
 	
 	private static AnimationState idleState;
 	private static AnimationState goLeftState;
@@ -98,6 +99,7 @@ public class Player extends Entity {
 		animator = new Animator((ImageSprite)sprite,idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(10,5,60,100));
 		addScript(new Dash(this));
+		addScript(new TheWorld(this));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
 		
 Renderer.renderables.add(new Renderable() {

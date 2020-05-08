@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.util.Pair;
 import logic.base.Destroyable;
+import logic.base.Dio;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.SceneChangeInterruptException;
@@ -49,17 +50,27 @@ public abstract class GameScene implements Destroyable {
 	}
 
 	public void update() throws GameInterruptException {
+		boolean freezing = GameManager.getInstance().isFreezing;
 		if(!isPause) {
 			resolveBuffer();
 			for (GameObject gameObj : allObj) {
+				if(freezing && !(gameObj instanceof Dio)) {
+					continue;
+				}
 				gameObj.earlyUpdate();
 			}
 			resolveBuffer();
 			for (GameObject gameObj : allObj) {
+				if(freezing && !(gameObj instanceof Dio)) {
+					continue;
+				}
 				gameObj.update();
 			}
 			resolveBuffer();
 			for (GameObject gameObj : allObj) {
+				if(freezing && !(gameObj instanceof Dio)) {
+					continue;
+				}
 				gameObj.lateUpdate();
 			}
 		}
