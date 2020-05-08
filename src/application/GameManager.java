@@ -56,9 +56,11 @@ public class GameManager {
 				} catch (SceneChangeInterruptException e) {
 					GameManager.getInstance().setScene(e.getScene());
 					return;
-				} catch (GameInterruptException e) {
+				}catch (GamePauseException e){
+					getCurrentScene().pause();
+				}catch (GameInterruptException e) {
 					e.printStackTrace();
-				}
+				} 
 
 			}
 		};

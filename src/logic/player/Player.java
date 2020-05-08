@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,10 +81,15 @@ public class Player extends Entity {
 
 	public Player(double X, double Y) {
 		super(X, Y, new EntityStatus(MaxHealthPoint) {
+			MediaPlayer mediaPlayer;
 			@Override
 			public void takeDamage(int damage){
-				super.takeDamage(damage);
-				Renderer.getInstance().getCamera().addScript(new ShakerScript(4, 1.2));
+				if(!isInvincible) {
+					super.takeDamage(damage);
+					Renderer.getInstance().getCamera().addScript(new ShakerScript(4, 1.2));
+					mediaPlayer = new MediaPlayer(ResourceManager.getSound("sound/Boss hit 1.wav"));
+					mediaPlayer.play();
+				}
 			}
 		});
 		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();
@@ -91,6 +97,7 @@ public class Player extends Entity {
 		sprite = new ImageSprite(this,ResourceManager.getImage("idle1"));
 		animator = new Animator((ImageSprite)sprite,idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter()).addScript(new ColliderBox(10,5,60,100));
+		addScript(new Dash(this));
 		NormalLevelScene scene = (NormalLevelScene)GameManager.getInstance().getCurrentScene();
 		
 Renderer.renderables.add(new Renderable() {

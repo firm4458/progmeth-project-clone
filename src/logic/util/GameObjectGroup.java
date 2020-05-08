@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import application.GUI;
 import logic.base.GameObject;

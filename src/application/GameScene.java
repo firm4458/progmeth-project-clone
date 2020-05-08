@@ -12,11 +12,14 @@ import logic.util.GameObjectGroup;
 public abstract class GameScene implements Destroyable {
 
 	protected GameObjectGroup allObj;
+	protected GameObjectGroup gui;
 	protected ArrayList<Pair<GameObject, GameObjectGroup>> addBuffer;
 
 	protected ArrayList<GameObjectGroup> groups;
 
 	protected boolean isDestroyed=false;
+	
+	protected boolean isPause;
 
 	private String name;
 
@@ -24,6 +27,7 @@ public abstract class GameScene implements Destroyable {
 
 	public GameScene() {
 		allObj = new GameObjectGroup();
+		gui = new GameObjectGroup();
 		groups = new ArrayList<GameObjectGroup>();
 		addBuffer = new ArrayList<Pair<GameObject, GameObjectGroup>>();
 	}
@@ -31,26 +35,42 @@ public abstract class GameScene implements Destroyable {
 	public GameObject getGameObject(String name) {
 		return allObj.getGameObject(name);
 	}
+	
+	public void pause() {
+		isPause = true;
+	}
+	
+	public void flipPause() {
+		isPause = !isPause;
+	}
+	
+	public void resume() {
+		isPause = false;
+	}
 
 	public void update() throws GameInterruptException {
-		resolveBuffer();
-		for (GameObject gameObj : allObj.getChildren()) {
-			gameObj.earlyUpdate();
+		if(!isPause) {
+			resolveBuffer();
+			for (GameObject gameObj : allObj) {
+				gameObj.earlyUpdate();
+			}
+			resolveBuffer();
+			for (GameObject gameObj : allObj) {
+				gameObj.update();
+			}
+			resolveBuffer();
+			for (GameObject gameObj : allObj) {
+				gameObj.lateUpdate();
+			}
 		}
 		resolveBuffer();
-		for (GameObject gameObj : allObj.getChildren()) {
+		for(GameObject gameObj: gui) {
 			gameObj.update();
 		}
-		resolveBuffer();
-		for (GameObject gameObj : allObj.getChildren()) {
-			gameObj.lateUpdate();
-		}
 		
-		if(isDestroyed()) {
-			System.out.println("GG");
-		}
 
 		allObj.update();
+		gui.update();
 		for (GameObjectGroup group : groups) {
 			group.update();
 		}
@@ -68,6 +88,10 @@ public abstract class GameScene implements Destroyable {
 		}
 
 		addBuffer.clear();
+	}
+	
+	public void addGUIObject(GameObject gameObj) {
+		addGameObject(gameObj, gui);
 	}
 
 	public void addGameObject(GameObject gameObj) {

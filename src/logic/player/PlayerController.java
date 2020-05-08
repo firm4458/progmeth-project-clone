@@ -12,8 +12,16 @@ import logic.util.InputUtil;
 public class PlayerController implements Script {
 	
 	private Player parent;
-	private final double speed=3;
+	private double speed=3;
 	
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
 	@Override
 	public void update() throws SceneChangeInterruptException {
 		double x = InputUtil.isKeyPressed(KeyCode.LEFT)?-1:0;
@@ -22,6 +30,9 @@ public class PlayerController implements Script {
 		double y = InputUtil.isKeyPressed(KeyCode.UP)?-1:0;
 		y += InputUtil.isKeyPressed(KeyCode.DOWN)?1:0;
 		y *= speed;
+		if(y==0 && speed!=3) {
+			y=-speed;
+		}
 		parent.translate(x, y);
 		parent.setX(Math.max(0, parent.getX()));
 		parent.setY(Math.max(0, parent.getY()));

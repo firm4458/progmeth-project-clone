@@ -7,6 +7,8 @@ import drawing.Renderer;
 import drawing.Sprite;
 import drawing.TextSprite;
 import drawing.base.Renderable;
+import gui.GameButton;
+import gui.util.ButtonScript;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -59,6 +61,31 @@ public class NormalLevelScene extends GameScene {
 		GameObject planetSpawn = new GameObject(0, 0);
 		planetSpawn.addScript(new PlanetSpawner());
 		addGameObject(planetSpawn);
+		
+		GameObject pauseButton = new GameButton(500, 0, "pause", 100, 100, ResourceManager.getImage("img/Button.png", 100, 100),
+				ResourceManager.getImage("img/clickedButton.png", 100, 100));
+		pauseButton.addScript(new ButtonScript() {
+			
+			@Override
+			public void onRelease() throws GameInterruptException {
+				GameManager.getInstance().getCurrentScene().flipPause();
+			}
+
+			@Override
+			public void onPressed() throws GameInterruptException {
+				
+				
+			}
+
+			@Override
+			public void whilePressed() throws GameInterruptException {
+				
+			}
+
+		});
+		
+		
+		addGUIObject(pauseButton);
 
 		GameObject background = new GameObject(0, -420,"background");
 		Image img = new Image("img/parallax-space-backgound.png", GameManager.NATIVE_WIDTH+10, 0, true, true);

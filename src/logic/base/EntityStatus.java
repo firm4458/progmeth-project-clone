@@ -8,7 +8,16 @@ public class EntityStatus implements Script {
 	protected int maxHealth;
 	protected Entity parent;
 	protected int damage;
+	protected boolean isInvincible;
 	
+	public boolean isInvincible() {
+		return isInvincible;
+	}
+
+	public void setInvincible(boolean isInvincible) {
+		this.isInvincible = isInvincible;
+	}
+
 	public EntityStatus(int health) {
 		super();
 		this.health = health;
@@ -47,7 +56,9 @@ public class EntityStatus implements Script {
 	}
 	
 	public void takeDamage(int damage) {
-		health -= damage;
+		if(!isInvincible) {
+			health -= damage;
+		}
 	}
 	
 	public void heal(int heal) {
