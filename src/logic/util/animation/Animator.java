@@ -10,7 +10,7 @@ import logic.base.Script;
 
 public class Animator implements Script {
 
-	private AnimationState currentState;
+	protected AnimationState currentState;
 	private ArrayList<String> receivedTrigger;
 	private GameObject parent;
 	private final ImageSprite sprite;
@@ -32,17 +32,11 @@ public class Animator implements Script {
 		receivedTrigger.add(trigger);
 	}
 
-	public Image getCurrentImage() {
-		return currentState.next();
-	}
-
 	@Override
 	public void update() {
-		for (String trigger : receivedTrigger) {
-			currentState = currentState.updateState(trigger);
-		}
+		currentState = currentState.updateState(receivedTrigger.toArray(new String[0]));
 		receivedTrigger.clear();
-		sprite.setImage(getCurrentImage());
+		sprite.setImage(currentState.getImage());
 	}
 
 	@Override

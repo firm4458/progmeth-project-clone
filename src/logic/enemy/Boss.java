@@ -1,9 +1,11 @@
 package logic.enemy;
 
+import application.LevelSelectScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.util.IncompatibleScriptException;
 import logic.util.ResourceManager;
@@ -38,6 +40,11 @@ public class Boss extends Enemy {
 			this.parent = parent;
 		}
 	};
+	
+	@Override
+	public void onDeath() throws SceneChangeInterruptException {
+		throw new SceneChangeInterruptException(new LevelSelectScene()); 
+	}
 
 	public Boss(double X, double Y, Script motionScript, AttackController controller) {
 		super(X, Y, 100000, 50000, motionScript, controller, img);

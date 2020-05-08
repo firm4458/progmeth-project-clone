@@ -26,6 +26,9 @@ public class GameButton extends GameObject {
 
 	public GameButton(double X, double Y, String name, double width, double height, Image img, Image clickedImg) {
 		super(X, Y);
+		if(clickedImg == null) {
+			clickedImg = img;
+		}
 		button = new Button();
 		button.setFocusTraversable(false);
 		button.setBackground(null);

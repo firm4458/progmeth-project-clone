@@ -3,12 +3,22 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import javafx.scene.image.Image;
 
-public class AnimationState implements Iterator<Image> {
-	private int index;
+public class AnimationState {
+	protected int index;
 	private Image[] images;
 	private TreeMap<String, AnimationState> stateMap;
 	public String name;
+	protected boolean loop = true;
+	protected Animator animator;
 	
+	protected Animator getAnimator() {
+		return animator;
+	}
+
+	public void setAnimator(Animator animator) {
+		this.animator = animator;
+	}
+
 	public AnimationState(String name,Image[] images, TreeMap<String, AnimationState> stateMap) {
 		this.stateMap = stateMap;
 		this.images = images;
@@ -26,31 +36,36 @@ public class AnimationState implements Iterator<Image> {
 		stateMap.put(key, value);
 	}
 	
-	@Override
-	public boolean hasNext() {
-		return true;
-	}
-	@Override
-	public Image next() {
-		index %= images.length;
-		Image image = images[index++];
-		return image;
+	public void onEnterState() {
+		index=0;
 	}
 	
-	public AnimationState updateState(String trigger) {
+	public void onEnd() {}
+	
+	public AnimationState updateState(String[] triggers) {
 		AnimationState newState = this;
-		if(stateMap.containsKey(trigger)) {
-			index = 0;
-			newState = stateMap.get(trigger);
-		}else if(index == images.length && stateMap.containsKey("next")) {
-			index = 0;
-			newState = stateMap.get("next");
+		for(String trigger : triggers) {
+			if(stateMap.containsKey(trigger)) {
+				newState = stateMap.get(trigger);
+				newState.onEnterState();
+				return newState;
+			}
+		}
+		if(index == images.length-1 ) {
+			index = loop ? 0 : -1;
+			onEnd();
+		}else if(index!=-1) {
+			index++;
 		}
 		return newState;
 	}
 	
 	public Image getImage() {
-		return next();
+		if(index==-1) {
+			return images[images.length-1];
+		}else {
+			return images[index];
+		}
 	}
 	
 	public int getIndex() {

@@ -42,7 +42,7 @@ public class Player extends Entity {
 	private static AnimationState goLeftState;
 	private static AnimationState goRightState;
 	private static int HealthPoint;
-	private static int MaxHealthPoint = 1000;
+	private static int MaxHealthPoint = 500;
 	private static boolean upgradeAmmo = false;
 	private static int upgradeTimeAmmo = 0;
 	

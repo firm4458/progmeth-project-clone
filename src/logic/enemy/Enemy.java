@@ -9,6 +9,7 @@ import logic.base.Entity;
 import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.player.Player;
 import logic.util.ColliderBox;
@@ -29,7 +30,7 @@ public class Enemy extends Entity {
 	}
 
 	@Override
-	public void onDeath() {
+	public void onDeath() throws SceneChangeInterruptException {
 		GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(getX(), getY()));
 		GameManager.getInstance().setScore(GameManager.getInstance().getScore() + getPoint());
 		destroy();

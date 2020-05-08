@@ -87,7 +87,23 @@ public class Sprite implements Renderable{
 	public int getZ() {
 		return Z;
 	}
-	
+
+	public double getRelativeX() {
+		return relativeX;
+	}
+
+	public void setRelativeX(double relativeX) {
+		this.relativeX = relativeX;
+	}
+
+	public double getRelativeY() {
+		return relativeY;
+	}
+
+	public void setRelativeY(double relativeY) {
+		this.relativeY = relativeY;
+	}
+
 	@Deprecated
 	public ColorAdjust getColorAdjust() {
 		return colorAdjust;
