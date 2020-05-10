@@ -40,9 +40,11 @@ import logic.util.ResourceManager;
 public class GUI extends Application {
 	public static Pane root = new AnchorPane();
 	public static Canvas canvas;
+	public static Stage stage;
 
 	@Override
 	public void start(Stage primaryStage) {
+		stage = primaryStage;
 		canvas = new ResizableCanvas(GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
@@ -61,6 +63,10 @@ public class GUI extends Application {
 		scene.setOnKeyReleased(e -> {
 			InputUtil.setKeyPressed(e.getCode(), false);
 		});
+		
+		//GameManager.getInstance().load();
+		
+		primaryStage.setOnCloseRequest((evt)->GameManager.getInstance().save());
 
 		GameManager.getInstance().setScene(new MenuScene());
 		GameManager.getInstance().init();

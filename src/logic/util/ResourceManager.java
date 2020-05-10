@@ -5,23 +5,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.TreeMap;
 
+import application.GUI;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ResourceManager {
 	private ResourceManager() {}
 	private static TreeMap<String,InputStream> map = new TreeMap<String,InputStream>();
 	private static TreeMap<String,Image> imageMap = new TreeMap<String, Image>();
 	private static TreeMap<String,Media> soundMap = new TreeMap<String,Media>();
+	private static FileChooser fileChooser = new FileChooser();
 	
 	static {
+		
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Game Save File (*.save)","*.save"));
+		
 		addImage("bullet", "img/bullet1.png", 50, 50, true);
 		addImage("meteor", "img/meteor.png", 29.2, 50, false);
 		addImage("bossShip","img/boss.png",230*2, 300*2,false);
 		addImage("bossBullet", "img/bossBullet.png",20,20,false);
 		addImage("shield", "img/spr_shield.png",600,600,true);
+		addImage("logo","img/Logo.png",400,124,true);
+		addImage("normalLevelBanner","img/normalLevelBanner2.png",400,100,true);
 		
 		Image fullimg = new Image("img/ship.png",400,240,true,true);
 		Image[] images = new Image[20];
@@ -79,5 +88,15 @@ public class ResourceManager {
 			soundMap.put(url,sound);
 		}
 		return soundMap.get(url);
+	}
+	
+	public static File pickFile(String title) {
+		fileChooser.setTitle(title);
+		return fileChooser.showOpenDialog(GUI.stage);
+	}
+	
+	public static File saveFile(String title) {
+		fileChooser.setTitle(title);
+		return fileChooser.showSaveDialog(GUI.stage);
 	}
 }
