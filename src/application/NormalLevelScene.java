@@ -188,6 +188,7 @@ public class NormalLevelScene extends GameScene {
 		heart.getSprite().setZ(98);
 		
 		bgmPlayer = new MediaPlayer(ResourceManager.getSound(bgmUrl));
+		
 		bgmPlayer.play();
 	}
 	

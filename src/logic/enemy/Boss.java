@@ -25,6 +25,8 @@ public class Boss extends Enemy {
 						10, 6000));
 				controller.getScripts().add(new WaveBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2,
 						10, 10000));
+				controller.getScripts().add(new RandomBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2,
+						10, 4000));
 				parent.addScript(controller);
 				parent.removeScript(this);
 			}

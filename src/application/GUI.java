@@ -64,7 +64,7 @@ public class GUI extends Application {
 			InputUtil.setKeyPressed(e.getCode(), false);
 		});
 		
-		//GameManager.getInstance().load();
+//		GameManager.getInstance().load();
 		
 		primaryStage.setOnCloseRequest((evt)->GameManager.getInstance().save());
 
