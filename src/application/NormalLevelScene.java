@@ -105,6 +105,7 @@ public class NormalLevelScene extends BaseLevelScene {
 		LoopBackground.createLoopBackground(this,backgroundImage, 0.07, 3,arr);
 
 		bgmPlayer = new MediaPlayer(ResourceManager.getSound(bgmUrl));
+		
 		bgmPlayer.play();
 	}
 
