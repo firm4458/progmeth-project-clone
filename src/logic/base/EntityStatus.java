@@ -56,6 +56,7 @@ public class EntityStatus implements Script {
 	public void takeDamage(int damage) {
 		if(!isInvincible) {
 			health -= damage;
+			health = Math.max(health, 0); // health must not be negative
 		}
 	}
 	

@@ -114,7 +114,6 @@ public class GameButton extends GameObject {
 		TextSprite ts = new TextSprite(gameObj, name,new Font("ArcadeClassic",30),width);
 		ts.setZ(99);
 		gameObj.setSprite(ts);
-		GameManager.getInstance().getCurrentScene().addGUIObject(gameObj);
 	}
 
 	public double getNormalHeight() {

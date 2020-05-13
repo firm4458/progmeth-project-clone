@@ -38,7 +38,6 @@ import logic.util.group.GameObjectGroup;
 import logic.util.scripts.ConstantSpeedMove;
 
 public class NormalLevelScene extends BaseLevelScene {
-	public GroupOfItems groupOfItems;
 
 	protected Image backgroundImage;
 	protected ArrayList<Image> planetImgs;

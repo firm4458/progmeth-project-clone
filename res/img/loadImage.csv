@@ -32,3 +32,7 @@ button.keys.RIGHT,img/Keys/Right-Key.png,300,300,TRUE
 button.keys.RIGHT.pressed,img/Keys/Right-Key-Pressed.png,300,300,TRUE
 button.keys.Z,img/Keys/Up-Key.png,300,300,TRUE
 button.keys.Z.pressed,img/Keys/Up-Key-Pressed.png,300,300,TRUE
+levelBanner.space1.boss,img/Level-Banners/Space1-Boss.png,600,100,TRUE
+levelBanner.space1.boss.pressed,img/Level-Banners/Space1-Boss-pressed.png,600,100,TRUE
+planet.dark,img/parallax-space-big-planet.png,300,300,FALSE
+planet.ring,img/parallax-space-ring-planet.png,500,500,TRUE

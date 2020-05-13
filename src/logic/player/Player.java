@@ -19,6 +19,7 @@ import application.BaseLevelScene;
 import application.GUI;
 import application.GameManager;
 import application.GameScene;
+import application.LevelSelectScene;
 import application.MenuScene;
 import application.NormalLevelScene;
 import application.GameManager.GameEvent;
@@ -89,7 +90,7 @@ public class Player extends Entity implements Dio {
 	@Override
 	public void onDeath() throws GameInterruptException {
 		getScene().addGameObject(new ExplosionAnimation(getX(), getY()));
-		ImageButton button = new ImageButton(100, 100, ResourceManager.getImage("button"), null, null);
+		ImageButton button = new ImageButton(100, 50, ResourceManager.getImage("button"), null, null);
 		GameScene scene = getScene();
 		button.setOnAction((evt) -> {
 			GameManager gameManager = GameManager.getInstance();
@@ -99,10 +100,10 @@ public class Player extends Entity implements Dio {
 			}
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
 					new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
-			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new MenuScene("menu")));
+			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("selectLevel")));
 		});
-		button.getGameObject().setX(250);
-		button.getGameObject().setY(250);
+		button.getGameObject().setX(500);
+		button.getGameObject().setY(550);
 		scene.addGUIElement(button);
 		destroy();
 	}

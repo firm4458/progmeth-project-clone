@@ -83,7 +83,6 @@ public class Enemy extends Entity {
 			public void takeDamage(int damage) {
 				super.takeDamage(damage);
 				getParent().addScript(new DamageEffect(100,getParent()));
-				parent.getScene().addUpdatable(new DioShaker(parent,1.3,0.1));
 			}
 		});
 		getStatus().setDamage(damage);

@@ -79,7 +79,7 @@ public class MenuScene extends GameScene {
 			planetImgs.add(ResourceManager.getImage("planet1"));
 			planetImgs.add(ResourceManager.getImage("planet2"));
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
-					new TutorialScene("base",ResourceManager.getImage("background2"),planetImgs)));
+					new TutorialScene("base",ResourceManager.getImage("background1"),planetImgs)));
 		});
 		playButton.getGameObject().setX(250);
 		playButton.getGameObject().setY(280);

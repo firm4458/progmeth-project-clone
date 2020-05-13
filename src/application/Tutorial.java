@@ -72,15 +72,6 @@ public class Tutorial extends GameObject implements Dio {
 							super.onDestroy();
 							GameScene scene = parent.getScene();
 							scene.getGameObject("spawner").addScript(enemySpawner);
-							Group root = (Group) scene.getRoot();
-							ImageButton back = new ImageButton(100, 50, ResourceManager.getImage("button.blueButton"),
-									null, ResourceManager.getImage("button.blueButton.pressed"));
-							root.getChildren().add(back);
-							back.getGameObject().translate(400, 500);
-							back.setOnAction((evt)->{
-								GameManager.getInstance().signalEvent(
-										new GameEvent(scene, GameEventType.SCENE_CHANGE,new LevelSelectScene("select")));
-							});
 						}
 					});
 					parent.getScene().addGameObject(info);

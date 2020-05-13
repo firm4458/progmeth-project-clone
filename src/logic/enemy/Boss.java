@@ -45,11 +45,11 @@ public class Boss extends Enemy {
 	
 	@Override
 	public void onDeath() throws SceneChangeInterruptException {
-		throw new SceneChangeInterruptException(new LevelSelectScene()); 
+		DEFAULT_ON_DEATH.accept(this);
 	}
 
 	public Boss(double X, double Y, Script motionScript, AttackController controller) {
-		super(X, Y, 100000, 50000, motionScript, controller, img);
+		super(X, Y, 100000, 50000, img);
 		addScript(movementScript);
 		getSprite().setZ(50);
 	}
