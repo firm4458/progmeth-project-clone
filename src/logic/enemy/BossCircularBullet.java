@@ -7,9 +7,9 @@ import javafx.scene.image.Image;
 import logic.Projectile;
 import logic.base.Entity;
 import logic.player.Player;
-import logic.util.ColliderBox;
-import logic.util.ConstantSpeedMove;
 import logic.util.ResourceManager;
+import logic.util.scripts.ColliderBox;
+import logic.util.scripts.ConstantSpeedMove;
 
 public class BossCircularBullet extends Projectile {
 	

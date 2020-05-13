@@ -1,5 +1,6 @@
 package application;
 
+import javafx.scene.Parent;
 import logic.enemy.AttackController;
 import logic.enemy.AttackPickStrategy;
 import logic.enemy.Boss;
@@ -8,6 +9,9 @@ import logic.enemy.TestAttack1;
 import logic.enemy.TestAttack2;
 
 public class BossScene extends NormalLevelScene {
+	public BossScene(String name) {
+		super(name);
+	}
 
 	@Override
 	public void init() {

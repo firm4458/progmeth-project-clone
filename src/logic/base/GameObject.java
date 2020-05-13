@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import application.GameManager;
+import application.GameScene;
 import drawing.Sprite;
 import javafx.scene.canvas.GraphicsContext;
-import logic.util.IncompatibleScriptException;
+import logic.player.TheWorld;
 
 public class GameObject implements Destroyable {
+	protected static final int DEFAULT_SCRIPT_BUFFER_SIZE = 20;
 	public static final Comparator<GameObject> nameComparator = new Comparator<GameObject>() {
 		@Override
 		public int compare(GameObject o1, GameObject o2) {
@@ -18,6 +20,7 @@ public class GameObject implements Destroyable {
 	};
 	private ArrayList<Script> bufferAdd = new ArrayList<Script>();
 	private ArrayList<Script> bufferRemove = new ArrayList<Script>();
+	private Script[] buffer = new Script[DEFAULT_SCRIPT_BUFFER_SIZE];
 	protected final ArrayList<Script> scripts  = new ArrayList<Script>();
 	protected double X;
 	protected double Y;
@@ -26,6 +29,17 @@ public class GameObject implements Destroyable {
 	protected Sprite sprite;
 	protected String name;
 	protected boolean isUpdating;
+	protected GameScene scene=null;
+	
+	public GameScene getScene() {
+		return scene;
+	}
+	
+	public void setScene(GameScene scene) {
+		if(this.scene==null) {
+			this.scene = scene;
+		}
+	}
 	
 	public String getName() {
 		return name;
@@ -47,19 +61,19 @@ public class GameObject implements Destroyable {
 		
 	}
 	
+	public ArrayList<Script> getScripts(){
+		return scripts;
+	}
+
 	public GameObject addScript(Script script) {
 		try {
 			script.setParent(this);
+			scripts.add(script);
+			script.onAttach();
 		}catch(IncompatibleScriptException e) {
 			e.printStackTrace();
 			System.err.println(e.getMessage());
 			return this;
-		}
-		
-		if(isUpdating) {
-			bufferAdd.add(script);
-		}else {
-			scripts.add(script);
 		}
 		return this;
 	}
@@ -113,39 +127,30 @@ public class GameObject implements Destroyable {
 	}
 	
 	public final void earlyUpdate() throws GameInterruptException {
-		resolveBuffer();
-		isUpdating = true;
+		ArrayList<Script> scripts = new ArrayList<Script>(this.scripts);
 		for(Script script : scripts) {
-			if(isDestroyed) {
-				break;
+			if(!isDestroyed()) {
+				script.earlyUpdate();
 			}
-			script.earlyUpdate();
 		}
-		isUpdating = false;
 	}
 	
 	public void update() throws GameInterruptException {
-			resolveBuffer();
-			isUpdating = true;
-			for(Script script : scripts) {
-				if(isDestroyed) {
-					break;
-				}
+		ArrayList<Script> scripts = new ArrayList<Script>(this.scripts);
+		for(Script script : scripts) {
+			if(!isDestroyed()) {
 				script.update();
 			}
-			isUpdating = false;
+		}
 	}
 	
 	public final void lateUpdate() throws GameInterruptException {
-		resolveBuffer();
-		isUpdating = true;
+		ArrayList<Script> scripts = new ArrayList<Script>(this.scripts);
 		for(Script script : scripts) {
-			if(isDestroyed) {
-				break;
+			if(!isDestroyed()) {
+				script.lateUpdate();
 			}
-			script.lateUpdate();
 		}
-		isUpdating = false;
 	}
 	
 	public boolean isDestroyed() {
@@ -155,6 +160,7 @@ public class GameObject implements Destroyable {
 	public void destroy() {
 		isDestroyed = true;
 		isActive = false;
+		ArrayList<Script> scripts = new ArrayList<Script>(this.scripts);
 		for(Script script : scripts) {
 			script.onDestroy();
 		}

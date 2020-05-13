@@ -1,7 +1,5 @@
 package logic.base;
 
-import logic.util.IncompatibleScriptException;
-
 public class Entity extends GameObject {
 	private EntityStatus status; 
 	public Entity(double X, double Y, int health) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import application.GUI;
 import application.GameManager;
 import logic.base.GameObject;
-import logic.util.GameObjectGroup;
+import logic.util.group.GameObjectGroup;
 
 public class GroupOfMeteors extends GameObject {
 	public int max_meteors = 25;

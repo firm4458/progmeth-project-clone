@@ -10,8 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 import logic.util.ResourceManager;
 import logic.util.animation.AnimationState;
@@ -45,12 +45,14 @@ public class GameButton extends GameObject {
 		this.name = name;
 		InputUtil.buttonMap.put(name, false);
 		GUI.root.getChildren().add(button);
-		button.setPrefWidth(normalWidth);
-		button.setMaxWidth(normalWidth);
-		button.setMinWidth(normalWidth);
-		button.setPrefHeight(normalHeight);
-		button.setMaxHeight(normalHeight);
-		button.setMinHeight(normalHeight);
+		double Sscale = GUI.canvas.getWidth() / GameManager.NATIVE_WIDTH;
+		button.setPrefWidth(normalWidth*Sscale);
+		button.setMaxWidth(normalWidth*Sscale);
+		button.setMinWidth(normalWidth*Sscale);
+		Sscale = GUI.canvas.getHeight() / GameManager.NATIVE_HEIGHT;
+		button.setPrefHeight(normalHeight*Sscale);
+		button.setMaxHeight(normalHeight*Sscale);
+		button.setMinHeight(normalHeight*Sscale);
 		button.pressedProperty().addListener((observable, wasPressed, pressed) -> {
 			InputUtil.buttonMap.put(getName(), pressed);
 		});
@@ -108,7 +110,8 @@ public class GameButton extends GameObject {
 		
 		//GameObject gameObj = new GameObject(X+width/4, Y+20+height/4-3);
 		GameObject gameObj = new GameObject(X+width/2, Y+height/2-3);
-		TextSprite ts = new TextSprite(gameObj, name,new Font("Comic Sans MS", 20),width);
+		Font.loadFont( ClassLoader.getSystemResourceAsStream("font/ARCADECLASSIC.TTF"), 48);
+		TextSprite ts = new TextSprite(gameObj, name,new Font("ArcadeClassic",30),width);
 		ts.setZ(99);
 		gameObj.setSprite(ts);
 		GameManager.getInstance().getCurrentScene().addGUIObject(gameObj);
@@ -139,5 +142,6 @@ public class GameButton extends GameObject {
 		super.destroy();
 		InputUtil.buttonMap.remove(name);
 		GUI.root.getChildren().remove(button);
+		System.out.println(name);
 	}
 }

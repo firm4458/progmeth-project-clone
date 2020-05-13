@@ -1,7 +1,5 @@
 package logic.base;
 
-import logic.util.IncompatibleScriptException;
-
 public class EntityStatus implements Script {
 
 	protected int health;

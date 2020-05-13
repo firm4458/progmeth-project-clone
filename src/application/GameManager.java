@@ -8,41 +8,114 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
+import application.GameManager.GameEvent;
+import logic.util.DataManager;
+import logic.util.InputUtil;
 import logic.util.ResourceManager;
 
 import drawing.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.stage.FileChooser;
+import javafx.util.Pair;
 import logic.base.GameInterruptException;
+import logic.base.InvalidEventDataException;
 import logic.base.SceneChangeInterruptException;
 
 public class GameManager {
-	public static final double NATIVE_WIDTH=600;
-	public static final double NATIVE_HEIGHT=600;
-	
+	public static final double NATIVE_WIDTH = 600;
+	public static final double NATIVE_HEIGHT = 600;
+
 	private GameScene currentScene;
 	private static GameManager gameManager;
 	private AnimationTimer timer;
 	private static int score = 0;
 	private static long genCounter1 = 0;
 	private static long genCounter2 = 0;
-	
-	private static TreeMap<String,Object> persistentData = new TreeMap<String,Object>();;
-	
+
+	private boolean initialized = false;
+
+	private static TreeMap<String, Object> persistentData = new TreeMap<String, Object>();;
+
 	private boolean isUpdating;
-	
+
 	public boolean isFreezing;
-	
+
+	public static class GameEvent {
+		public GameScene source;
+		public GameEventType type;
+		public Object data;
+
+		public GameEvent(GameScene source, GameEventType type, Object data) {
+			super();
+			this.source = source;
+			this.type = type;
+			this.data = data;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("GameEvent:{%s,%s,%s}", source, type, data);
+		}
+	}
+
+	public enum GameEventType {
+		SCENE_CHANGE, GAME_PAUSE, GAME_RESUME, WRITE_PERSISTENT_DATA, SAVE_PERSISTENT_DATA, LOAD_PERSISTENT_DATA;
+	};
+
+	void handleEvent(GameEvent evt) throws InvalidEventDataException {
+		try {
+			switch (evt.type) {
+			case GAME_PAUSE:
+				getCurrentScene().pause();
+				break;
+			case GAME_RESUME:
+				getCurrentScene().resume();
+				break;
+			case SCENE_CHANGE:
+				GameScene newScene = (GameScene) evt.data;
+				setScene(newScene);
+
+				break;
+			case WRITE_PERSISTENT_DATA:
+				@SuppressWarnings("unchecked")
+				Pair<String, Object> p = (Pair<String, Object>) evt.data;
+				String key = p.getKey();
+				Object value = p.getValue();
+				DataManager.getInstance().writePersistentData(key, value);
+
+				break;
+			case SAVE_PERSISTENT_DATA:
+				@SuppressWarnings("unchecked")
+				Consumer<Boolean> saveCallback = (Consumer<Boolean>) evt.data;
+				saveCallback.accept(DataManager.getInstance().saveData());
+				break;
+			case LOAD_PERSISTENT_DATA:
+				@SuppressWarnings("unchecked")
+				Consumer<Boolean> loadCallback = (Consumer<Boolean>) evt.data;
+				loadCallback.accept(DataManager.getInstance().loadData());
+				break;
+			default:
+				break;
+
+			}
+		} catch (ClassCastException e) {
+			throw new InvalidEventDataException(evt);
+		}
+	}
+
 	public Object getPersistentData(String key) {
 		return persistentData.get(key);
 	}
-	
+
 	public void setPersistentData(String key, Object value) {
 		persistentData.put(key, value);
 	}
-	
+
 	public void save() {
 		FileOutputStream f = null;
 		ObjectOutputStream o = null;
@@ -62,10 +135,9 @@ public class GameManager {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void load() {
 		System.out.println("load");
@@ -74,7 +146,7 @@ public class GameManager {
 		try {
 			fi = new FileInputStream(ResourceManager.pickFile("Choose a save file"));
 			oi = new ObjectInputStream(fi);
-			persistentData = (TreeMap<String,Object>)oi.readObject();
+			persistentData = (TreeMap<String, Object>) oi.readObject();
 			score = (int) persistentData.get("score");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,12 +156,12 @@ public class GameManager {
 				fi.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch(Exception e) {
-				//e.printStackTrace();
+			} catch (Exception e) {
+				// e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public boolean isUpdating() {
 		return isUpdating;
 	}
@@ -101,41 +173,67 @@ public class GameManager {
 	static {
 		gameManager = new GameManager();
 	}
-	
-	public static String getGeneratedName() {
-		String name ="UNNAMED_OBJECT_"+Long.toString(genCounter2)+"_"+Long.toString(genCounter1);
-		if(genCounter1 == Long.MAX_VALUE) {
+
+	public static final String getGeneratedName() {
+		String name = "UNNAMED_OBJECT_" + Long.toString(genCounter2) + "_" + Long.toString(genCounter1);
+		if (genCounter1 == Long.MAX_VALUE) {
 			genCounter2++;
-			genCounter1=0;
-		}else {
+			genCounter1 = 0;
+		} else {
 			genCounter1++;
 		}
 		return name;
 	}
 
-	public void init() {
+	private Queue<GameEvent> events = new LinkedList<GameEvent>();
+
+	public void signalEvent(GameEvent evt) {
+		events.add(evt);
+	}
+
+	public void init(GameScene initialScene) {
+
+		currentScene = initialScene;
+		currentScene.init();
+		initialized = true;
+
 		timer = new AnimationTimer() {
 
 			@Override
 			public void handle(long now) {
 				try {
+					GameScene currentScene = getCurrentScene();
+					Renderer renderer = Renderer.getInstance();
 					setUpdating(true);
-					getCurrentScene().update();
+					currentScene.update();
 					setUpdating(false);
-					setPersistentData("score", score);
-					Renderer.getInstance().render();
+					while(!events.isEmpty()) {
+						GameEvent evt = events.poll();
+						try {
+							System.out.println(evt);
+							if (evt.source == getCurrentScene()) {
+								handleEvent(evt); // only handle event from current scene
+							}
+						} catch (InvalidEventDataException e) {
+							System.err.println(new StringBuilder("Invalid Event Data: ").append(evt));
+						}
+					}
+					events.clear();
+					renderer.render(currentScene);
 				} catch (SceneChangeInterruptException e) {
-					GameManager.getInstance().setScene(e.getScene());
+					setScene(e.getScene());
 					return;
-				}catch (GamePauseException e){
+				} catch (GamePauseException e) {
 					getCurrentScene().pause();
-				}catch (GameInterruptException e) {
+				} catch (GameInterruptException e) {
 					e.printStackTrace();
-				} 
+				}
 
 			}
 		};
 		timer.start();
+		GUI.stage.setScene(currentScene);
+		GUI.stage.show();
 	}
 
 	public void start() {
@@ -147,12 +245,18 @@ public class GameManager {
 	}
 
 	public void setScene(GameScene scene) {
-		if (currentScene != null) {
-			currentScene.destroy();
+		if (!initialized) {
+			System.err.println("GameManger not initialized!!!");
+			return;
 		}
+		timer.stop();
+		currentScene.destroy();
 		Renderer.getInstance().reset();
 		currentScene = scene;
 		currentScene.init();
+		GUI.stage.setScene(scene);
+		GUI.stage.show();
+		timer.start();
 	}
 
 	public static GameManager getInstance() {
@@ -166,7 +270,7 @@ public class GameManager {
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}

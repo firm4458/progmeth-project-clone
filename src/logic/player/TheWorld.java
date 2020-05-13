@@ -1,7 +1,8 @@
 package logic.player;
 
+import application.BaseLevelScene;
 import application.GameManager;
-import drawing.Camera;
+import drawing.SimpleCamera;
 import drawing.ImageSprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -9,14 +10,13 @@ import javafx.scene.media.MediaPlayer;
 import logic.base.Dio;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 import logic.base.ScriptNotFoundException;
-import logic.util.IncompatibleScriptException;
 import logic.util.ResourceManager;
 
 public class TheWorld extends PlayerSkill {
 
-	private Player parent;
 	private MediaPlayer zawarudo;
 	private long start;
 	private long duration=10000;
@@ -28,7 +28,7 @@ public class TheWorld extends PlayerSkill {
 
 	@Override
 	protected void startSkill() {
-		GameManager.getInstance().isFreezing = true;
+		parent.getScene().setFreezing(true);
 		zawarudo = new MediaPlayer(ResourceManager.getSound("sound/zawarudo.mp3"));
 		zawarudo.play();
 		start = System.currentTimeMillis();
@@ -44,11 +44,11 @@ public class TheWorld extends PlayerSkill {
 				e.printStackTrace();
 			}
 			timeSphere=null;
-			GameManager.getInstance().isFreezing = false;
+			parent.getScene().setFreezing(false);
 			skillDone();
 		}else if(now-start>1000 && timeSphere==null) {
 			timeSphere = new TimeSphere(300,300);
-			GameManager.getInstance().getCurrentScene().addGameObject(timeSphere);
+			parent.getScene().addGameObject(timeSphere);
 		}
 	}
 	

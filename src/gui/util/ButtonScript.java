@@ -3,8 +3,8 @@ package gui.util;
 import gui.GameButton;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public abstract class ButtonScript implements Script {

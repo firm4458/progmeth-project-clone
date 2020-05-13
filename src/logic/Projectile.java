@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import logic.base.Entity;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.AutoRemove;
-import logic.util.ColliderBox;
-import logic.util.CollisionDetection;
-import logic.util.GameObjectGroup;
-import logic.util.IncompatibleScriptException;
+import logic.util.group.GameObjectGroup;
+import logic.util.scripts.AutoRemove;
+import logic.util.scripts.ColliderBox;
+import logic.util.scripts.CollisionDetection;
 
 public abstract class Projectile extends Entity {
 	

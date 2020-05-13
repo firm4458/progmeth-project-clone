@@ -1,8 +1,8 @@
 package logic.enemy;
 
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 
 public abstract class AttackScriptFactory {
 	public abstract AttackScript createScript();

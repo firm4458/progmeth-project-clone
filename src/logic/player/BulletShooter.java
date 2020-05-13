@@ -6,7 +6,7 @@ import application.GUI;
 import application.GameManager;
 import logic.base.GameObject;
 import logic.base.Script;
-import logic.util.GameObjectGroup;
+import logic.util.group.GameObjectGroup;
 
 public class BulletShooter implements Script {
 	

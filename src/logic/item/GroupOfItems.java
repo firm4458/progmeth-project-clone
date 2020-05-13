@@ -3,7 +3,7 @@ package logic.item;
 import application.GUI;
 import application.GameManager;
 import logic.base.GameObject;
-import logic.util.GameObjectGroup;
+import logic.util.group.GameObjectGroup;
 
 public class GroupOfItems extends GameObject{
 	private GameObjectGroup items;

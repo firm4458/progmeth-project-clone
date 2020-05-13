@@ -3,9 +3,9 @@ package logic.item;
 import application.GUI;
 import application.GameManager;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.GameObjectGroup;
-import logic.util.IncompatibleScriptException;
+import logic.util.group.GameObjectGroup;
 
 public class ItemGenerator implements Script {
 	private GameObject parent;

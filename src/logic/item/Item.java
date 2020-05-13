@@ -6,9 +6,9 @@ import application.GameManager;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.base.GameObject;
-import logic.util.AutoRemove;
-import logic.util.ColliderBox;
-import logic.util.ConstantSpeedMove;
+import logic.util.scripts.AutoRemove;
+import logic.util.scripts.ColliderBox;
+import logic.util.scripts.ConstantSpeedMove;
 
 public class Item extends GameObject{
 	private static Random rand = new Random();

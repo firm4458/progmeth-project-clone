@@ -4,9 +4,9 @@ import application.GUI;
 import application.GameManager;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public class PlayerController implements Script {

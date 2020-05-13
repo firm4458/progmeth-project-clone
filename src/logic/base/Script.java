@@ -1,12 +1,7 @@
 package logic.base;
 
-import logic.util.IncompatibleScriptException;
-
-public interface Script {
-	default public void earlyUpdate()  throws GameInterruptException{}
-	public void update() throws GameInterruptException;
-	default public void lateUpdate()  throws GameInterruptException{}
-	default public void onDestroy(){};
+public interface Script extends Updatable {
 	public GameObject getParent();
 	public void setParent(GameObject parent) throws IncompatibleScriptException;
+	default public void onAttach() {}
 }

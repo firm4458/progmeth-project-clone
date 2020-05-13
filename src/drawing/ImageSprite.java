@@ -5,11 +5,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import logic.base.GameObject;
 
 public class ImageSprite extends Sprite {
 	
 	protected Image image;
+	private double width;
+	private double height;
 	
 	private double scale=1.0;
 	public double getScale() {
@@ -22,23 +25,33 @@ public class ImageSprite extends Sprite {
 	public ImageSprite(GameObject parent, Image image) {
 		super(parent);
 		this.setImage(image);
+		width = image.getWidth();
+		height = image.getHeight();
 	}
 	
 	public void setImage(Image image) {
 		this.image = image;
 	}
 	
-	
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	public void setHeight(double height) {
+		this.height = height;
+	}
 	@Override
-	public void draw(GraphicsContext gc, Camera camera) {
+	public void draw(GraphicsContext gc, SimpleCamera camera) {
 		double absoluteX = parent.getX()+relativeX-camera.getX();
 		double absoluteY = parent.getY()+relativeY-camera.getY();
+		gc.save();
+		Rotate r = new Rotate(rotate, absoluteX+getWidth()/2, absoluteY+getHeight()/2);
+	    gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 		gc.setEffect(colorAdjust);
 		effects.forEach((name,effect)->gc.setEffect(effect));
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.drawImage(getImage(), absoluteX*XScale, absoluteY*YScale,
-				image.getWidth()*XScale*scale,image.getHeight()*YScale*scale);
+				getWidth()*XScale*scale,getHeight()*YScale*scale);
 		gc.restore();
 	}
 
@@ -48,12 +61,12 @@ public class ImageSprite extends Sprite {
 
 	@Override
 	public double getHeight() {
-		return image.getHeight();
+		return height;
 	}
 	
 	@Override
 	public double getWidth() {
-		return image.getWidth();
+		return width;
 	}
 	
 	

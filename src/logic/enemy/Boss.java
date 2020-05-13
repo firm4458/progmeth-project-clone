@@ -5,9 +5,9 @@ import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.util.ResourceManager;
 
 public class Boss extends Enemy {

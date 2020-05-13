@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.enemy.AttackScriptFactory.AttackScript;
 
 public class AttackController implements Script {

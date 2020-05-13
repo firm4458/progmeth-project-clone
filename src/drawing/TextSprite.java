@@ -32,7 +32,7 @@ public class TextSprite extends Sprite {
 		this.font = font;
 	}
 	@Override
-	public void draw(GraphicsContext gc, Camera camera) {
+	public void draw(GraphicsContext gc, SimpleCamera camera) {
 		double absoluteX = parent.getX()+relativeX-camera.getX();
 		double absoluteY = parent.getY()+relativeY-camera.getY();
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;

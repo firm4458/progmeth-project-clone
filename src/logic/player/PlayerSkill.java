@@ -3,8 +3,8 @@ package logic.player;
 import javafx.scene.input.KeyCode;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.IncompatibleScriptException;
 import logic.base.Script;
-import logic.util.IncompatibleScriptException;
 import logic.util.InputUtil;
 
 public abstract class PlayerSkill implements Script {
