@@ -6,6 +6,8 @@ import drawing.ImageSprite;
 import drawing.TextSprite;
 import gui.ImageButton;
 import javafx.scene.Group;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import logic.TextObject;
 import logic.base.BasicScript;
@@ -18,8 +20,18 @@ import logic.util.group.GameObjectGroup;
 
 public class BaseLevelScene extends GameScene {
 	
-	public BaseLevelScene(String name) {
+	protected Media bgm;
+	protected MediaPlayer bgmPlayer;
+	
+	public BaseLevelScene(String name, Media bgm) {
 		super(name);
+		this.bgm = bgm;
+		bgmPlayer = new MediaPlayer(bgm);
+		bgmPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+	}
+	
+	public BaseLevelScene(String name) {
+		this(name,ResourceManager.getSound("sound/normal.mp3"));
 	}
 	
 	protected GameObjectGroup enemyGroup;
@@ -79,8 +91,8 @@ public class BaseLevelScene extends GameScene {
 		heart.getSprite().setZ(98);
 		addGameObject(heart);
 		
-		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("pauseButton"), null, null);
-		ImageButton cont = new ImageButton(50,50,ResourceManager.getImage("resumeButton"),null,null);
+		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("button.pause"), null, null);
+		ImageButton cont = new ImageButton(50,50,ResourceManager.getImage("button.resume"),null,null);
 		pause.getGameObject().setX(GameManager.NATIVE_WIDTH-50);
 		cont.getGameObject().setX(GameManager.NATIVE_WIDTH-50);
 		cont.disable();
@@ -101,6 +113,14 @@ public class BaseLevelScene extends GameScene {
 		Group root = (Group)getRoot();
 		root.getChildren().add(pause);
 		root.getChildren().add(cont);
+		
+		bgmPlayer.play();
+	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		bgmPlayer.stop();
 	}
 
 }

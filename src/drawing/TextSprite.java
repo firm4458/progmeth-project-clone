@@ -41,7 +41,7 @@ public class TextSprite extends Sprite {
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setFill(javafx.scene.paint.Color.WHITE);
-		gc.fillText(text, absoluteX*XScale, absoluteY*YScale, maxWidth/2*XScale);
+		gc.fillText(text, absoluteX*XScale, absoluteY*YScale, maxWidth*XScale);
 	}
 	public double getMaxWidth() {
 		return maxWidth;

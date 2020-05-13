@@ -260,8 +260,6 @@ public abstract class GameScene extends Scene implements Destroyable {
 		isDestroyed = true;
 		allObj.forEach(gameObj->gameObj.destroy());
 		updatables.forEach(updatable->updatable.destroy());
-		allObj = new GameObjectGroup();
-		groups = new ArrayList<GameObjectGroup>();
 	}
 
 	@Override

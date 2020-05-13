@@ -40,13 +40,11 @@ import logic.util.scripts.ConstantSpeedMove;
 public class NormalLevelScene extends BaseLevelScene {
 	public GroupOfItems groupOfItems;
 
-	protected MediaPlayer bgmPlayer;
-	protected String bgmUrl = "sound/normal.mp3";
 	protected Image backgroundImage;
 	protected ArrayList<Image> planetImgs;
 
-	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs) {
-		super(name);
+	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm) {
+		super(name,bgm);
 		this.backgroundImage = backgroundImage;
 		this.planetImgs = planetImgs;
 	}
@@ -58,33 +56,10 @@ public class NormalLevelScene extends BaseLevelScene {
 
 		GameObject spawner = new GameObject(0, 0);
 		spawner.addScript(new EnemySpawner(Meteor.meteorFactory, enemyGroup, Meteor.METEOR_SPAWN_STRATEGY));
-		spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
+		if(planetImgs.size()>0) {
+			spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
+		}
 		addGameObject(spawner);
-
-		/*
-		 * GameObject background = new GameObject(0, -420,"background"); Image img = new
-		 * Image("img/parallax-space-backgound.png", GameManager.NATIVE_WIDTH+10, 0,
-		 * true, true); Sprite bgSprite = new ImageSprite(background, img);
-		 * bgSprite.setZ(-99); background.setSprite(bgSprite); background.addScript(new
-		 * ConstantSpeedMove(0, 0.07)); background.addScript(new Script() {
-		 * 
-		 * private GameObject parent; private double a;
-		 * 
-		 * @Override public void update() {
-		 * parent.getSprite().getColorAdjust().setBrightness(0.1 * Math.sin(a)); a +=
-		 * 0.02; }
-		 * 
-		 * @Override public GameObject getParent() { return parent; }
-		 * 
-		 * @Override public void setParent(GameObject parent) throws
-		 * IncompatibleScriptException { this.parent = parent; }
-		 * 
-		 * @Override public void onDestroy() {
-		 * 
-		 * }
-		 * 
-		 * }); addGameObject(background);
-		 */
 
 		// using three background object so that background loop seamlessly
 		ScriptFactory factory = new ScriptFactory() {
@@ -100,18 +75,9 @@ public class NormalLevelScene extends BaseLevelScene {
 				};
 			}
 		};
+		
 		ArrayList<ScriptFactory> arr = new ArrayList<ScriptFactory>();
 		arr.add(factory);
 		LoopBackground.createLoopBackground(this,backgroundImage, 0.07, 3,arr);
-
-		bgmPlayer = new MediaPlayer(ResourceManager.getSound(bgmUrl));
-		
-		bgmPlayer.play();
-	}
-
-	@Override
-	public void destroy() {
-		bgmPlayer.stop();
-		super.destroy();
 	}
 }

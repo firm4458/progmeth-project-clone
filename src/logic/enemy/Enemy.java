@@ -17,6 +17,7 @@ import logic.player.Player;
 import logic.util.scripts.ColliderBox;
 import logic.util.scripts.CollisionDetection;
 import logic.util.scripts.DamageEffect;
+import logic.util.scripts.DioShaker;
 import logic.util.scripts.ShakerScript;
 import java.util.function.*;
 
@@ -48,7 +49,8 @@ public class Enemy extends Entity {
 	public void onDeath() throws SceneChangeInterruptException {
 		onDeathFunc.accept(this);
 	}
-
+	
+	@Deprecated
 	public Enemy(double X, double Y, int health, int damage, Script motionScript, Script attackScript, Image image) {
 		super(X, Y, new EntityStatus(health) {
 			@Override
@@ -81,6 +83,7 @@ public class Enemy extends Entity {
 			public void takeDamage(int damage) {
 				super.takeDamage(damage);
 				getParent().addScript(new DamageEffect(100,getParent()));
+				parent.getScene().addUpdatable(new DioShaker(parent,1.3,0.1));
 			}
 		});
 		getStatus().setDamage(damage);
@@ -95,6 +98,9 @@ public class Enemy extends Entity {
 	}
 	
 	protected static final BiConsumer<ArrayList<GameObject>,Enemy> DEFAULT_ON_HIT_PLAYER = (targets,enemy)->{
+		if(enemy.isDestroyed()) {
+			return;
+		}
 		for(GameObject gameObj : targets) {
 			if(gameObj.isDestroyed()) {
 				continue;
