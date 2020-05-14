@@ -26,11 +26,11 @@ public class Bullet extends Projectile implements Dio {
 	private int damage = 10;
 	private static final Image img = ResourceManager.getImage("bullet");
 
-	public Bullet(double X, double Y) {
+	public Bullet(double X, double Y, int damage) {
 
 		super(X, Y, 1, new ConstantSpeedMove(0, -5), new ColliderBox(img.getWidth(), img.getHeight()),
 				((BaseLevelScene) GameManager.getInstance().getCurrentScene()).getEnemyGroup(), 0);
-
+		this.damage = damage;
 		sprite = new ImageSprite(this, img);
 
 	}

@@ -36,16 +36,23 @@ import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.group.GameObjectGroup;
 import logic.util.scripts.ConstantSpeedMove;
+import logic.util.scripts.factory.FlashingScriptFactory;
 
 public class NormalLevelScene extends BaseLevelScene {
 
 	protected Image backgroundImage;
 	protected ArrayList<Image> planetImgs;
+	protected static ScriptFactory flashing = new FlashingScriptFactory(0.02, 0.07);
+	protected boolean isFlashing;
 
-	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm) {
+	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm, boolean isFlashing) {
 		super(name,bgm);
 		this.backgroundImage = backgroundImage;
 		this.planetImgs = planetImgs;
+		this.isFlashing = isFlashing;
+	}
+	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm) {
+		this(name,backgroundImage,planetImgs,bgm,false);
 	}
 	
 	@Override
@@ -60,23 +67,12 @@ public class NormalLevelScene extends BaseLevelScene {
 		}
 		addGameObject(spawner);
 
-		// using three background object so that background loop seamlessly
-		ScriptFactory factory = new ScriptFactory() {
-			@Override
-			public Script createScript() {
-				return new BasicScript<GameObject>() {
-					private double a;
-					@Override
-					public void update() {
-						parent.getSprite().getColorAdjust().setBrightness(0.07 * Math.sin(a));
-						a += 0.02;
-					}
-				};
-			}
-		};
-		
+
 		ArrayList<ScriptFactory> arr = new ArrayList<ScriptFactory>();
-		arr.add(factory);
+		if(isFlashing) {
+			arr.add(flashing);
+		}
+		// using three background object so that background loop seamlessly
 		LoopBackground.createLoopBackground(this,backgroundImage, 0.07, 3,arr);
 	}
 }

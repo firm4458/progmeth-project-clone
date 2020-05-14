@@ -62,11 +62,10 @@ public class BaseLevelScene extends GameScene {
 		addGameObject(player);
 		addGameObject(groupOfItems);
 
-		GameObject scoreText = new TextObject(300, 40, "Score: 0", new Font("Comic Sans MS", 35), 500);
-		GameObject healthText = new TextObject(50, 40, "X" + player.getStatus().getHealth(),
-				new Font("Comic Sans MS", 35), 100);
+		GameObject scoreText = new TextObject(0, 85, "Score: 0", new Font("Comic Sans MS", 28), 500);
+		TextSprite sprite = (TextSprite)scoreText.getSprite();
+		sprite.setCenterAligned(false);
 		scoreText.getSprite().setZ(99);
-		healthText.getSprite().setZ(99);
 		scoreText.addScript(new BasicScript<GameObject>() {
 
 			@Override
@@ -76,20 +75,31 @@ public class BaseLevelScene extends GameScene {
 			}
 
 		});
-		healthText.addScript(new BasicScript<GameObject>() {
+		addGameObject(scoreText);
+		GameObject healthBar = new GameObject(0,0);
+		healthBar.setSprite(new ImageSprite(healthBar, ResourceManager.getImage("healthBar")));
+		healthBar.getSprite().setZ(98);
+		addGameObject(healthBar);
+		
+		GameObject healthPortion = new GameObject(56,24);
+		healthPortion.setSprite(new ImageSprite(healthPortion, ResourceManager.getImage("health")));
+		healthPortion.getSprite().setZ(99);
+		healthPortion.addScript(new BasicScript<GameObject>() {
+			private double originalWidth;
+			private double maxHealth;
 			@Override
-			public void update() throws GameInterruptException {
-				TextSprite ts = (TextSprite) (parent.getSprite());
-				ts.setText("X" + player.getStatus().getHealth());
+			public void onAttach() {
+				originalWidth = parent.getSprite().getWidth();
+				maxHealth = player.getStatus().getMaxHealth();
+			}
+			@Override
+			public void lateUpdate() {
+				ImageSprite sprite = (ImageSprite) parent.getSprite();
+				double portion = player.getStatus().getHealth() / maxHealth;
+				sprite.setWidth(originalWidth * portion);
 			}
 		});
-		addGameObject(scoreText);
-		addGameObject(healthText);
-
-		GameObject heart = new GameObject(0, 0);
-		heart.setSprite(new ImageSprite(heart, ResourceManager.getImage("heart")));
-		heart.getSprite().setZ(98);
-		addGameObject(heart);
+		addGameObject(healthPortion);
 		
 		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("button.pause"), null, null);
 		ImageButton cont = new ImageButton(50,50,ResourceManager.getImage("button.resume"),null,null);

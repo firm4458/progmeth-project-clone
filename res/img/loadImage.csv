@@ -5,7 +5,7 @@ bossBullet,img/bossBullet.png,20,20,FALSE
 shield,img/spr_shield.png,600,600,TRUE
 logo,img/Logo.png,400,124,TRUE
 levelBanner.space1,img/Level-Banners/Space1.png,600,100,TRUE
-levelBanner.space1.pressed,img/Level-Banners/Space1-pressed.png,600,100,TRUE
+levelBanner.space1.pressed,img/Level-Banners/Space1-Pressed.png,600,100,TRUE
 planet1,img/parallax-space-big-planet.png,300,300,FALSE
 planet2,img/parallax-space-ring-planet.png,500,500,TRUE
 background1,img/parallax-space-backgound.png,600,0,TRUE
@@ -33,7 +33,7 @@ button.keys.RIGHT.pressed,img/Keys/Right-Key-Pressed.png,300,300,TRUE
 button.keys.Z,img/Keys/Up-Key.png,300,300,TRUE
 button.keys.Z.pressed,img/Keys/Up-Key-Pressed.png,300,300,TRUE
 levelBanner.space1.boss,img/Level-Banners/Space1-Boss.png,600,100,TRUE
-levelBanner.space1.boss.pressed,img/Level-Banners/Space1-Boss-pressed.png,600,100,TRUE
+levelBanner.space1.boss.pressed,img/Level-Banners/Space1-Boss-Pressed.png,600,100,TRUE
 planet.dark,img/parallax-space-big-planet.png,300,300,FALSE
 planet.ring,img/parallax-space-ring-planet.png,500,500,TRUE
 levelBanner.space2,img/Level-Banners/Space2.png,600,100,TRUE
@@ -41,3 +41,5 @@ levelBanner.space2.pressed,img/Level-Banners/Space2-Pressed.png,600,100,TRUE
 levelBanner.space2.boss,img/Level-Banners/Space2-Boss.png,600,100,TRUE
 levelBanner.space2.boss.pressed,img/Level-Banners/Space2-Boss-Pressed.png,600,100,TRUE
 boss.space2,img/1.png,400,400,TRUE
+healthBar,img/Health-Bar.png,228,60,TRUE
+health,img/Health.png,168,12,TRUE

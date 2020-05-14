@@ -35,6 +35,9 @@ public class ImageButton extends ToggleButton {
 		setPrefSize(width, height);
 		setBackground(null);
 		setFocusTraversable(false);
+		if(buttonImage==null) {
+			buttonImage = ResourceManager.getImage("button.blueButton");
+		}
 		this.buttonImage = buttonImage;
 		this.mouseOverImage = ((mouseOverImage==null)?  buttonImage : mouseOverImage);
 		this.pressedImage = ((pressedImage==null) ? buttonImage : pressedImage) ;
@@ -106,7 +109,11 @@ public class ImageButton extends ToggleButton {
 		return gameObject;
 	}
 
-
+	private GameObject textObject;
+	
+	public GameObject getTextObject() {
+		return textObject;
+	}
 
 	public void createFollowText(String str,double relativeX, double relativeY) {
 		GameObject gameObj = new GameObject(0,0);
@@ -135,6 +142,7 @@ public class ImageButton extends ToggleButton {
 		});
 		textSprite.setZ(99);
 		GameManager.getInstance().getCurrentScene().addGameObject(gameObj);
+		textObject = gameObject;
 	}
 
 	private Image getButtonImage() {

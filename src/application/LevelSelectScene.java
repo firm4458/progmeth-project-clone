@@ -62,7 +62,14 @@ public class LevelSelectScene extends GameScene {
 			GameManager.getInstance().signalEvent(
 					new GameEvent(scene, GameEventType.SCENE_CHANGE, new Space2Boss()));
 		});
-		root.getChildren().addAll(space1Button,space1BossButton,space2Button,space2BossButton);
+		
+		ImageButton upgradeButton = new ImageButton(100,50,null,null,null);
+		upgradeButton.getGameObject().translate(200,525);
+		upgradeButton.setOnAction((evt)->{
+			GameManager.getInstance().signalEvent(
+					new GameEvent(scene, GameEventType.SCENE_CHANGE, new UpgradeScene("upgrade")));
+		});
+		root.getChildren().addAll(space1Button,space1BossButton,space2Button,space2BossButton,upgradeButton);
 	}
 
 }

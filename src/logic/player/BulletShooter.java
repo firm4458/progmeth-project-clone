@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import application.GUI;
 import application.GameManager;
+import application.UpgradeScene;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.util.group.GameObjectGroup;
@@ -54,7 +55,7 @@ public class BulletShooter implements Script {
 	}
 	
 	public void addBullet(double X, double Y) {
-		Bullet bullet = new Bullet(X, Y);
+		Bullet bullet = new Bullet(X, Y, UpgradeScene.calculateDamage());
 		GameManager.getInstance().getCurrentScene().addGameObject(bullet);
 		GameManager.getInstance().getCurrentScene().addGameObject(bullet, bullets);
 		

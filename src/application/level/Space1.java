@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import application.NormalLevelScene;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
+import logic.base.GameObject;
+import logic.enemy.Meteor;
+import logic.enemy.spawner.EnemySpawner;
 import logic.util.ResourceManager;
 
 public class Space1 extends NormalLevelScene {
@@ -21,6 +24,13 @@ public class Space1 extends NormalLevelScene {
 	}
 	public Space1(String name,Media bgm) {
 		super(name, background, planetImgs, bgm);
+	}
+	
+	@Override
+	public void init() {
+		super.init();
+		GameObject spawner = new GameObject(0,0);
+		spawner.addScript(new EnemySpawner(Meteor.meteorFactory, enemyGroup, Meteor.METEOR_SPAWN_STRATEGY));
 	}
 
 }

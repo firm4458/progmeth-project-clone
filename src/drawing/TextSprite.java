@@ -31,6 +31,16 @@ public class TextSprite extends Sprite {
 	public void setFont(Font font) {
 		this.font = font;
 	}
+	
+	private boolean isCenterAligned=true;
+	
+	
+	public boolean isCenterAligned() {
+		return isCenterAligned;
+	}
+	public void setCenterAligned(boolean isCenterAligned) {
+		this.isCenterAligned = isCenterAligned;
+	}
 	@Override
 	public void draw(GraphicsContext gc, SimpleCamera camera) {
 		double absoluteX = parent.getX()+relativeX-camera.getX();
@@ -38,8 +48,13 @@ public class TextSprite extends Sprite {
 		double XScale = gc.getCanvas().getWidth()/GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight()/GameManager.NATIVE_HEIGHT;
 		gc.setFont(font);
-		gc.setTextAlign(TextAlignment.CENTER);
-		gc.setTextBaseline(VPos.CENTER);
+		if(isCenterAligned) {
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.setTextBaseline(VPos.CENTER);
+		}else {
+			gc.setTextAlign(TextAlignment.LEFT);
+			gc.setTextBaseline(VPos.BASELINE);
+		}
 		gc.setFill(javafx.scene.paint.Color.WHITE);
 		gc.fillText(text, absoluteX*XScale, absoluteY*YScale, maxWidth*XScale);
 	}

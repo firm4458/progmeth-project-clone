@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
@@ -25,6 +26,7 @@ import application.LevelResultScene.LevelResult;
 import application.LevelSelectScene;
 import application.MenuScene;
 import application.NormalLevelScene;
+import application.UpgradeScene;
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
 import drawing.SimpleCamera;
@@ -60,7 +62,7 @@ public class Player extends Entity implements Dio {
 	private static AnimationState goLeftState;
 	private static AnimationState goRightState;
 	private static int HealthPoint;
-	private static int MaxHealthPoint = 3;
+	private static int MaxHealthPoint = 10;
 	private static boolean upgradeAmmo = false;
 	private static int upgradeTimeAmmo = 0;
 
@@ -108,19 +110,20 @@ public class Player extends Entity implements Dio {
 	}
 
 	public Player(double X, double Y) {
-		super(X, Y, new EntityStatus(MaxHealthPoint) {
-			MediaPlayer mediaPlayer;
+		super(X, Y, new EntityStatus(UpgradeScene.calculateHealth()) {
+			AudioClip mediaPlayer;
 
 			@Override
 			public void takeDamage(int damage) {
 				if (!isInvincible) {
 					super.takeDamage(damage);
 					Renderer.getInstance().getCamera().addScript(new ShakerScript(4, 1.2));
-					mediaPlayer = new MediaPlayer(ResourceManager.getSound("sound/Boss hit 1.wav"));
+					mediaPlayer = new AudioClip(ResourceManager.getSound("sound/Boss hit 1.wav").getSource());
 					mediaPlayer.play();
 				}
 			}
 		});
+		upgradeAmmo=false;
 		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();
 		GameManager.getInstance().getCurrentScene().addGameObject(this, playerGroup);
 		sprite = new ImageSprite(this, ResourceManager.getImage("idle1"));
@@ -130,18 +133,6 @@ public class Player extends Entity implements Dio {
 		addScript(new Dash(this));
 		addScript(new TheWorld(this));
 		BaseLevelScene scene = (BaseLevelScene) GameManager.getInstance().getCurrentScene();
-
-		// Collide with Meteors
-		/*
-		 * addScript(new CollisionDetection(scene.groupOfMeteors.getMeteors()) {
-		 * 
-		 * @Override public void onCollision(ArrayList<GameObject> targets) throws
-		 * GameInterruptException { Renderer.getInstance().getCamera().setShake(true);
-		 * for(GameObject meteor: targets) { meteor.destroy(); HealthPoint--; }
-		 * if(HealthPoint <= 0) throw new SceneChangeInterruptException(new
-		 * MenuScene()); } });
-		 */
-		////////
 
 		// Collide with Items
 		addScript(new CollisionDetection(scene.groupOfItems.getItems()) {
@@ -153,7 +144,8 @@ public class Player extends Entity implements Dio {
 						String itemName = ((Item) item).getItemName();
 						switch (itemName) {
 						case "Powerup_Health":
-							getStatus().heal(1);
+							getStatus().heal(UpgradeScene.calculateHealthItem());
+							System.out.println(UpgradeScene.calculateHealthItem());
 							break;
 						case "Powerup_Ammo":
 							upgradeAmmo = true;
@@ -187,14 +179,6 @@ public class Player extends Entity implements Dio {
 		if (HealthPoint < MaxHealthPoint) {
 			HealthPoint += heal;
 		}
-	}
-
-	public int getHealthPoint() {
-		return HealthPoint;
-	}
-
-	public int getMaxHealthPoint() {
-		return MaxHealthPoint;
 	}
 
 	public void setUpgradeAmmo(boolean upgrade) {
