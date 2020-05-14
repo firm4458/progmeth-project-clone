@@ -1,13 +1,13 @@
 package logic.util.scripts.factory;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.base.ScriptFactory;
 import logic.util.group.GameObjectGroup;
 import logic.util.scripts.CollisionDetection;
-
-import java.util.ArrayList;
-import java.util.function.*;
 
 public class CollisionDetectionFactory extends ScriptFactory {
 

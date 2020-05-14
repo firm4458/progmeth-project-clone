@@ -1,10 +1,6 @@
 package logic.player;
 
-import application.BaseLevelScene;
-import application.GameManager;
-import drawing.SimpleCamera;
 import drawing.ImageSprite;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 import logic.base.Dio;
@@ -19,9 +15,9 @@ public class TheWorld extends PlayerSkill {
 
 	private MediaPlayer zawarudo;
 	private long start;
-	private long duration=10000;
-	private TimeSphere timeSphere=null;
-	
+	private long duration = 10000;
+	private TimeSphere timeSphere = null;
+
 	public TheWorld(Player parent) {
 		super(KeyCode.X, 5000);
 	}
@@ -37,37 +33,38 @@ public class TheWorld extends PlayerSkill {
 	@Override
 	protected void skillUpdate() {
 		long now = System.currentTimeMillis();
-		if(now-start>duration) {
+		if (now - start > duration) {
 			try {
 				timeSphere.getScript(ExpansionScript.class).expanding = false;
 			} catch (ScriptNotFoundException e) {
 				e.printStackTrace();
 			}
-			timeSphere=null;
+			timeSphere = null;
 			parent.getScene().setFreezing(false);
 			skillDone();
-		}else if(now-start>1000 && timeSphere==null) {
-			timeSphere = new TimeSphere(300,300);
+		} else if (now - start > 1000 && timeSphere == null) {
+			timeSphere = new TimeSphere(300, 300);
 			parent.getScene().addGameObject(timeSphere);
 		}
 	}
-	
+
 	private class TimeSphere extends GameObject implements Dio {
 		public TimeSphere(double X, double Y) {
-			super(X,Y);
-			sprite = new ImageSprite(this,ResourceManager.getImage("shield"));
+			super(X, Y);
+			sprite = new ImageSprite(this, ResourceManager.getImage("shield"));
 			sprite.setZ(100);
-			((ImageSprite)sprite).setScale(0);
-			addScript(new ExpansionScript(X,Y));
+			((ImageSprite) sprite).setScale(0);
+			addScript(new ExpansionScript(X, Y));
 		}
 	}
+
 	private class ExpansionScript implements Script {
-		double scale=0;
-		double maxScale=2.0;
+		double scale = 0;
+		double maxScale = 2.0;
 		double originX;
 		double originY;
 		GameObject parent;
-		boolean expanding=true;
+		boolean expanding = true;
 		double step = 0.05;
 
 		public ExpansionScript(double originX, double originY) {
@@ -78,14 +75,14 @@ public class TheWorld extends PlayerSkill {
 
 		@Override
 		public void update() throws GameInterruptException {
-			
-			if((expanding && scale<maxScale) || (!expanding && scale>=0)) {
-				ImageSprite sprite = (ImageSprite)parent.getSprite();
-				scale+=expanding? step: -step*5;
+
+			if ((expanding && scale < maxScale) || (!expanding && scale >= 0)) {
+				ImageSprite sprite = (ImageSprite) parent.getSprite();
+				scale += expanding ? step : -step * 5;
 				sprite.setScale(scale);
-				parent.setX(originX-sprite.getWidth()/2*scale);
-				parent.setY(originY-sprite.getHeight()/2*scale);
-			}else if (!expanding && scale<=0) {
+				parent.setX(originX - sprite.getWidth() / 2 * scale);
+				parent.setY(originY - sprite.getHeight() / 2 * scale);
+			} else if (!expanding && scale <= 0) {
 				parent.destroy();
 			}
 		}
@@ -99,7 +96,7 @@ public class TheWorld extends PlayerSkill {
 		public void setParent(GameObject parent) throws IncompatibleScriptException {
 			this.parent = parent;
 		}
-		
+
 	}
 
 }

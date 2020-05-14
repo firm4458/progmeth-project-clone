@@ -1,30 +1,16 @@
 package application;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.TreeMap;
 import java.util.function.Consumer;
-
-import application.GameManager.GameEvent;
-import logic.util.DataManager;
-import logic.util.InputUtil;
-import logic.util.ResourceManager;
 
 import drawing.Renderer;
 import javafx.animation.AnimationTimer;
-import javafx.stage.FileChooser;
 import javafx.util.Pair;
 import logic.base.GameInterruptException;
 import logic.base.InvalidEventDataException;
 import logic.base.SceneChangeInterruptException;
+import logic.util.DataManager;
 
 public class GameManager {
 	public static final double NATIVE_WIDTH = 600;
@@ -33,13 +19,10 @@ public class GameManager {
 	private GameScene currentScene;
 	private static GameManager gameManager;
 	private AnimationTimer timer;
-	private static int score = 0;
 	private static long genCounter1 = 0;
 	private static long genCounter2 = 0;
 
 	private boolean initialized = false;
-
-	private static TreeMap<String, Object> persistentData = new TreeMap<String, Object>();;
 
 	private boolean isUpdating;
 
@@ -108,14 +91,6 @@ public class GameManager {
 		}
 	}
 
-	public Object getPersistentData(String key) {
-		return persistentData.get(key);
-	}
-
-	public void setPersistentData(String key, Object value) {
-		persistentData.put(key, value);
-	}
-
 	public boolean isUpdating() {
 		return isUpdating;
 	}
@@ -161,7 +136,7 @@ public class GameManager {
 					setUpdating(true);
 					currentScene.update();
 					setUpdating(false);
-					while(!events.isEmpty()) {
+					while (!events.isEmpty()) {
 						GameEvent evt = events.poll();
 						try {
 							System.out.println(evt);
@@ -221,11 +196,4 @@ public class GameManager {
 		return currentScene;
 	}
 
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
 }

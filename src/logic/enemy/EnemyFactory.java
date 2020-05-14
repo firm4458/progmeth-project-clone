@@ -1,12 +1,13 @@
 package logic.enemy;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import javafx.scene.image.Image;
 import logic.base.GameObject;
 import logic.base.GameObjectFactory;
 import logic.base.ScriptFactory;
-import java.util.function.*;
 
 public class EnemyFactory extends GameObjectFactory<Enemy> {
 

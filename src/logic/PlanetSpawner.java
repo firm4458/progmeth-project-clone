@@ -2,7 +2,6 @@ package logic;
 
 import java.util.ArrayList;
 
-import application.Main;
 import application.GameManager;
 import drawing.ImageSprite;
 import javafx.scene.effect.ColorAdjust;
@@ -10,8 +9,6 @@ import javafx.scene.image.Image;
 import logic.base.BasicScript;
 import logic.base.GameObject;
 import logic.base.GameObjectFactory;
-import logic.base.IncompatibleScriptException;
-import logic.base.Script;
 import logic.util.scripts.AutoRemove;
 import logic.util.scripts.ColliderBox;
 import logic.util.scripts.ConstantSpeedMove;
@@ -25,15 +22,15 @@ public class PlanetSpawner extends BasicScript<GameObject> {
 	private double speed;
 
 	private final GameObjectFactory<GameObject> planetFactory = new GameObjectFactory<GameObject>() {
-		
-		private int prevIndex=-1;
+
+		private int prevIndex = -1;
 
 		@Override
 		public GameObject createGameObject() {
 			int index = 0;
 			do {
 				index = (int) (Math.random() * planetImgs.size());
-			}while(index==prevIndex);
+			} while (index == prevIndex);
 			prevIndex = index;
 			Image img = planetImgs.get(index);
 			double scale = Math.random() * 0.4 + 0.6;

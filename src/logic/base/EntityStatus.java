@@ -7,7 +7,7 @@ public class EntityStatus implements Script {
 	protected Entity parent;
 	protected int damage;
 	protected boolean isInvincible;
-	
+
 	public boolean isInvincible() {
 		return isInvincible;
 	}
@@ -21,7 +21,7 @@ public class EntityStatus implements Script {
 		this.health = health;
 		maxHealth = health;
 	}
-	
+
 	public int getDamage() {
 		return damage;
 	}
@@ -48,32 +48,33 @@ public class EntityStatus implements Script {
 
 	@Override
 	public void lateUpdate() throws GameInterruptException {
-		if(health<=0) {
+		if (health <= 0) {
 			parent.onDeath();
 		}
 	}
+
 	@Override
 	public void earlyUpdate() throws GameInterruptException {
-		if(health<=0) {
+		if (health <= 0) {
 			parent.onDeath();
 		}
 	}
-	
+
 	public void takeDamage(int damage) {
-		if(!isInvincible) {
+		if (!isInvincible) {
 			health -= damage;
 			health = Math.max(health, 0); // health must not be negative
 		}
 	}
-	
+
 	public void heal(int heal) {
 		health += heal;
 		health = Math.min(health, maxHealth);
 	}
-	
+
 	@Override
 	public void update() throws GameInterruptException {
-		
+
 	}
 
 	@Override

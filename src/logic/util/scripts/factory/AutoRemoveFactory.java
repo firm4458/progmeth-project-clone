@@ -5,7 +5,7 @@ import logic.base.ScriptFactory;
 import logic.util.scripts.AutoRemove;
 
 public class AutoRemoveFactory extends ScriptFactory {
-	
+
 	private int delay;
 
 	public int getDelay() {
@@ -15,11 +15,11 @@ public class AutoRemoveFactory extends ScriptFactory {
 	public void setDelay(int delay) {
 		this.delay = delay;
 	}
-	
+
 	public AutoRemoveFactory() {
 		this.delay = 0;
 	}
-	
+
 	public AutoRemoveFactory(int delay) {
 		this.delay = delay;
 	}

@@ -1,24 +1,14 @@
 package logic.player;
 
-import java.util.ArrayList;
-
 import application.BaseLevelScene;
-import application.Main;
 import application.GameManager;
-import application.NormalLevelScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.Projectile;
 import logic.base.Dio;
 import logic.base.Entity;
-import logic.base.GameObject;
-import logic.base.Script;
-import logic.enemy.ExplosionAnimation;
 import logic.util.ResourceManager;
-import logic.util.group.GameObjectGroup;
-import logic.util.scripts.AutoRemove;
 import logic.util.scripts.ColliderBox;
-import logic.util.scripts.CollisionDetection;
 import logic.util.scripts.ConstantSpeedMove;
 
 public class Bullet extends Projectile implements Dio {

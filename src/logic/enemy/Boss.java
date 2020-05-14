@@ -6,14 +6,11 @@ import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
 import application.LevelResultScene;
 import application.LevelResultScene.LevelResult;
-import application.LevelSelectScene;
-import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
-import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.util.DataManager;
 import logic.util.ResourceManager;
@@ -32,7 +29,6 @@ public class Boss extends Enemy {
 			} else {
 				if (controller != null) {
 
-					
 				}
 				parent.addScript(controller);
 				parent.removeScript(this);
@@ -73,7 +69,7 @@ public class Boss extends Enemy {
 		});
 		scene.addGameObject(gameObj);
 	}
-	
+
 	public Boss(double X, double Y, int health, int damage, int point, Image img) {
 		super(X, Y, health, damage, img);
 		addScript(movementScript);

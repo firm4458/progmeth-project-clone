@@ -1,7 +1,5 @@
 package logic.enemy;
 
-import application.GameManager;
-import application.NormalLevelScene;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import logic.Projectile;
@@ -12,14 +10,13 @@ import logic.util.scripts.ColliderBox;
 import logic.util.scripts.ConstantSpeedMove;
 
 public class BossCircularBullet extends Projectile {
-	
 
 	private int damage = 10;
 	private static final Image img = ResourceManager.getImage("bossBullet");
 
 	public BossCircularBullet(double X, double Y, double speedX, double speedY) {
 
-		super(X, Y, 1, new ConstantSpeedMove(speedX,speedY), new ColliderBox(img.getWidth(), img.getHeight()),
+		super(X, Y, 1, new ConstantSpeedMove(speedX, speedY), new ColliderBox(img.getWidth(), img.getHeight()),
 				Player.playerGroup, 0);
 		sprite = new ImageSprite(this, img);
 
@@ -37,5 +34,5 @@ public class BossCircularBullet extends Projectile {
 	protected void actOn(Entity target) {
 		target.getStatus().takeDamage(getDamage());
 	}
-	
+
 }

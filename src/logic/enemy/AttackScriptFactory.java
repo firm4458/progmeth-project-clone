@@ -6,8 +6,9 @@ import logic.base.Script;
 
 public abstract class AttackScriptFactory {
 	public abstract AttackScript createScript();
+
 	public abstract class AttackScript implements Script {
-		
+
 		protected Enemy parent;
 		protected boolean isDone;
 
@@ -20,11 +21,11 @@ public abstract class AttackScriptFactory {
 		public void setParent(GameObject parent) throws IncompatibleScriptException {
 			try {
 				this.parent = (Enemy) parent;
-			}catch(ClassCastException e) {
+			} catch (ClassCastException e) {
 				throw new IncompatibleScriptException("AttackScript", "must be attached to Enemy");
 			}
 		}
-		
+
 		public boolean isDone() {
 			return isDone;
 		}

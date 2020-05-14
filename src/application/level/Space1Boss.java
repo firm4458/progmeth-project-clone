@@ -1,16 +1,10 @@
 package application.level;
 
-import java.util.ArrayList;
-
-import application.BossScene;
-import javafx.scene.image.Image;
-import javafx.scene.media.Media;
 import logic.base.BasicScript;
 import logic.base.GameInterruptException;
 import logic.base.ScriptNotFoundException;
 import logic.enemy.AttackController;
 import logic.enemy.AttackPickStrategy;
-import logic.enemy.Boss;
 import logic.enemy.Enemy;
 import logic.enemy.RadialBulletAttack;
 import logic.enemy.RandomBulletAttack;

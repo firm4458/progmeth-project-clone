@@ -8,9 +8,9 @@ import logic.base.ScriptNotFoundException;
 import logic.util.ResourceManager;
 
 public class Dash extends PlayerSkill {
-	
-	private static long cooldown=500;
-	private static long duration=50; 
+
+	private static long cooldown = 500;
+	private static long duration = 50;
 	private long start;
 	private double normalSpeed;
 	private PlayerController playerController;
@@ -24,8 +24,8 @@ public class Dash extends PlayerSkill {
 	@Override
 	public void skillUpdate() {
 		long now = System.currentTimeMillis();
-		playerController.setSpeed(normalSpeed*8.0);
-		if(now-start > duration) {
+		playerController.setSpeed(normalSpeed * 8.0);
+		if (now - start > duration) {
 			playerController.setSpeed(normalSpeed);
 			status.setInvincible(false);
 			skillDone();

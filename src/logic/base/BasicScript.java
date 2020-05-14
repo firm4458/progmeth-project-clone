@@ -1,8 +1,8 @@
 package logic.base;
 
-public abstract class  BasicScript <T extends GameObject> implements Script {
+public abstract class BasicScript<T extends GameObject> implements Script {
 	protected T parent;
-	
+
 	@Override
 	public GameObject getParent() {
 		return parent;
@@ -13,7 +13,7 @@ public abstract class  BasicScript <T extends GameObject> implements Script {
 	public void setParent(GameObject parent) throws IncompatibleScriptException {
 		try {
 			this.parent = (T) parent;
-		}catch(ClassCastException ex) {
+		} catch (ClassCastException ex) {
 			throw new IncompatibleScriptException(this.getClass().toString(), "incompatible");
 		}
 	}

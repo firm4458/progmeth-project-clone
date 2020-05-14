@@ -1,15 +1,12 @@
 package drawing;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import application.GameManager;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import logic.base.GameObject;
 
@@ -93,6 +90,7 @@ public class Sprite implements Renderable {
 		this.Z = Z;
 	}
 
+	@Override
 	public int getZ() {
 		return Z;
 	}

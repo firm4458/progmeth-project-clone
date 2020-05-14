@@ -7,7 +7,7 @@ import logic.util.scripts.FlashingScript;
 public class FlashingScriptFactory extends ScriptFactory {
 	private double speed;
 	private double amplitude;
-	
+
 	public FlashingScriptFactory(double speed, double amplitude) {
 		super();
 		this.speed = speed;

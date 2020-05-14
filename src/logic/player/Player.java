@@ -1,50 +1,28 @@
 package logic.player;
 
-import javafx.geometry.BoundingBox;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.util.Pair;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.TreeMap;
-
-import com.sun.media.jfxmediaimpl.platform.Platform;
 
 import application.BaseLevelScene;
 import application.BossScene;
-import application.Main;
 import application.GameManager;
+import application.GameManager.GameEvent;
+import application.GameManager.GameEventType;
 import application.GameScene;
 import application.LevelResultScene;
 import application.LevelResultScene.LevelResult;
-import application.LevelSelectScene;
-import application.MenuScene;
-import application.NormalLevelScene;
 import application.UpgradeScene;
-import application.GameManager.GameEvent;
-import application.GameManager.GameEventType;
-import drawing.SimpleCamera;
 import drawing.ImageSprite;
 import drawing.Renderer;
-import drawing.Sprite;
-import drawing.base.Renderable;
-import gui.ImageButton;
+import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
+import javafx.util.Pair;
 import logic.base.BasicScript;
 import logic.base.Dio;
 import logic.base.Entity;
 import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
-import logic.base.IncompatibleScriptException;
-import logic.base.SceneChangeInterruptException;
-import logic.base.Script;
-import logic.base.ScriptNotFoundException;
 import logic.enemy.ExplosionAnimation;
 import logic.item.Item;
 import logic.util.DataManager;
@@ -123,7 +101,7 @@ public class Player extends Entity implements Dio {
 				}
 			}
 		});
-		upgradeAmmo=false;
+		upgradeAmmo = false;
 		playerGroup = GameManager.getInstance().getCurrentScene().createGroup();
 		GameManager.getInstance().getCurrentScene().addGameObject(this, playerGroup);
 		sprite = new ImageSprite(this, ResourceManager.getImage("idle1"));
@@ -166,8 +144,9 @@ public class Player extends Entity implements Dio {
 			public void update() throws GameInterruptException {
 				if (upgradeAmmo) {
 					upgradeTimeAmmo--;
-					if (upgradeTimeAmmo == 0)
+					if (upgradeTimeAmmo == 0) {
 						upgradeAmmo = false;
+					}
 				}
 			}
 		});

@@ -13,38 +13,41 @@ import logic.util.scripts.ColliderBox;
 public class SimpleCamera extends GameObject {
 	private Canvas canvas;
 	private boolean shake;
+
 	public boolean isShake() {
 		return shake;
 	}
+
 	public void setShake(boolean shake) {
 		this.shake = shake;
 	}
+
 	private final Script shaker = new Script() {
-		
+
 		SimpleCamera parent;
 		private boolean shaking = false;
 		private double offset;
 		private double originalX;
 		private double originalY;
-		
+
 		@Override
 		public void update() throws GameInterruptException {
-			if(shaking && offset<=3) {
+			if (shaking && offset <= 3) {
 				parent.translate(1.2, 1.2);
-				offset+=1;
-			}else if(shaking) {
+				offset += 1;
+			} else if (shaking) {
 				offset = 0;
 				parent.setX(originalX);
 				parent.setY(originalY);
 				shaking = false;
-			}else if(parent.isShake()) {
+			} else if (parent.isShake()) {
 				shaking = true;
 				parent.setShake(false);
-				offset=0;
+				offset = 0;
 				originalX = parent.getX();
 				originalY = parent.getY();
 			}
-			
+
 		}
 
 		@Override
@@ -55,34 +58,37 @@ public class SimpleCamera extends GameObject {
 		@Override
 		public void setParent(GameObject parent) throws IncompatibleScriptException {
 			try {
-				this.parent = (SimpleCamera)parent;
-			}catch(ClassCastException e) {
+				this.parent = (SimpleCamera) parent;
+			} catch (ClassCastException e) {
 				throw new IncompatibleScriptException("shaker", "must be attached to camera");
 			}
 		}
 
 		@Override
 		public void onDestroy() {
-			
+
 		}
-		
+
 	};
+
 	public SimpleCamera(Canvas canvas) {
-		super(0,0);
+		super(0, 0);
 		this.canvas = canvas;
 		this.name = "camera";
 		Renderer.getInstance().setCamera(this);
 		addScript(shaker);
 	}
+
 	public boolean isInCamera(GameObject gameObject) {
-		BoundingBox bound = new BoundingBox(X,Y,GameManager.NATIVE_WIDTH,GameManager.NATIVE_HEIGHT);
+		BoundingBox bound = new BoundingBox(X, Y, GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		try {
 			BoundingBox targetBound = gameObject.getScript(ColliderBox.class).getBound();
 			return bound.intersects(targetBound);
-		}catch(ScriptNotFoundException e) {
-			return bound.contains(gameObject.getX(),gameObject.getY());
+		} catch (ScriptNotFoundException e) {
+			return bound.contains(gameObject.getX(), gameObject.getY());
 		}
 	}
+
 	public Canvas getCanvas() {
 		return canvas;
 	}

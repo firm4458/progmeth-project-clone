@@ -3,7 +3,6 @@ package drawing;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import application.GameManager;
 import application.GameScene;
 import drawing.base.Renderable;
 import javafx.geometry.BoundingBox;
@@ -95,8 +94,9 @@ public class Renderer {
 				renderable.draw(gc, camera);
 			}
 		}
-		if (bb != null)
+		if (bb != null) {
 			gc.fillRect(bb.getMinX(), bb.getMinY(), bb.getWidth(), bb.getHeight());
+		}
 		if (++renderCount >= 60) {
 			clearDestroyedRenderable();
 		}

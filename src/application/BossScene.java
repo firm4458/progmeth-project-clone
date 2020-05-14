@@ -2,7 +2,6 @@ package application;
 
 import java.util.ArrayList;
 
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import logic.LoopBackground;
@@ -12,7 +11,6 @@ import logic.base.GameObject;
 import logic.base.Script;
 import logic.base.ScriptFactory;
 import logic.enemy.AttackController;
-import logic.enemy.AttackPickStrategy;
 import logic.enemy.Boss;
 import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
@@ -22,8 +20,9 @@ public class BossScene extends BaseLevelScene {
 	protected ArrayList<Image> planetImgs;
 	protected AttackController controller;
 	protected Boss boss;
-	public BossScene(String name,Image backgroundImage, ArrayList<Image> planetImgs,Media bgm) {
-		super(name,bgm);
+
+	public BossScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm) {
+		super(name, bgm);
 		this.backgroundImage = backgroundImage;
 		this.planetImgs = planetImgs;
 	}
@@ -31,10 +30,11 @@ public class BossScene extends BaseLevelScene {
 	@Override
 	public void init() {
 		super.init();
-		
+
 		GameObject spawner = new GameObject(0, 0);
-		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
-		if(planetImgs.size()>0) {
+		spawner.addScript(
+				new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
+		if (planetImgs.size() > 0) {
 			spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
 		}
 		addGameObject(spawner);
@@ -45,6 +45,7 @@ public class BossScene extends BaseLevelScene {
 			public Script createScript() {
 				return new BasicScript<GameObject>() {
 					private double a;
+
 					@Override
 					public void update() {
 						parent.getSprite().getColorAdjust().setBrightness(0.07 * Math.sin(a));
@@ -53,12 +54,12 @@ public class BossScene extends BaseLevelScene {
 				};
 			}
 		};
-		
+
 		ArrayList<ScriptFactory> arr = new ArrayList<ScriptFactory>();
 		arr.add(factory);
-		LoopBackground.createLoopBackground(this,backgroundImage, 0.07, 3,arr);
+		LoopBackground.createLoopBackground(this, backgroundImage, 0.07, 3, arr);
 		addGameObject(boss);
-		addGameObject(boss,enemyGroup);
+		addGameObject(boss, enemyGroup);
 	}
 
 }

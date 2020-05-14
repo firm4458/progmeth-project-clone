@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import logic.base.Entity;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
-import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 import logic.util.group.GameObjectGroup;
 import logic.util.scripts.AutoRemove;
@@ -13,41 +12,44 @@ import logic.util.scripts.ColliderBox;
 import logic.util.scripts.CollisionDetection;
 
 public abstract class Projectile extends Entity {
-	
+
 	private int hitCount = 0;
-	private static final int MAX_HIT_COUNT=1;
-	
+	private static final int MAX_HIT_COUNT = 1;
+
 	protected abstract void actOn(Entity target);
 
 	protected void onHit(ArrayList<GameObject> targets) {
-		for(GameObject target: targets) {
-			if(isDestroyed()) {
+		for (GameObject target : targets) {
+			if (isDestroyed()) {
 				break;
 			}
-			if(target.isDestroyed()) {
+			if (target.isDestroyed()) {
 				continue;
 			}
-			if(hitCount==0) {
+			if (hitCount == 0) {
 				break;
 			}
 			try {
-				Entity entity = (Entity)target;
+				Entity entity = (Entity) target;
 				actOn(entity);
 				hitCount--;
-			}catch(ClassCastException e) {
+			} catch (ClassCastException e) {
 				e.printStackTrace();
-				System.err.println(target.toString()+" is not an Entity");
+				System.err.println(target.toString() + " is not an Entity");
 			}
 		}
-		if(hitCount<=0) {
+		if (hitCount <= 0) {
 			destroy();
 		}
 	}
 
-	public Projectile(double X, double Y,int health, Script motionScript, ColliderBox colliderBox, GameObjectGroup targetGroup, boolean autoRemove) {
-		this(X, Y, health,motionScript, colliderBox, targetGroup, autoRemove?20:-1);
+	public Projectile(double X, double Y, int health, Script motionScript, ColliderBox colliderBox,
+			GameObjectGroup targetGroup, boolean autoRemove) {
+		this(X, Y, health, motionScript, colliderBox, targetGroup, autoRemove ? 20 : -1);
 	}
-	public Projectile(double X, double Y,int health, Script motionScript,ColliderBox colliderBox, GameObjectGroup targetGroup, int delayRemove) {
+
+	public Projectile(double X, double Y, int health, Script motionScript, ColliderBox colliderBox,
+			GameObjectGroup targetGroup, int delayRemove) {
 		super(X, Y, health);
 		hitCount = MAX_HIT_COUNT;
 		addScript(motionScript);
@@ -58,7 +60,7 @@ public abstract class Projectile extends Entity {
 				onHit(targets);
 			}
 		});
-		if(delayRemove>=0) {
+		if (delayRemove >= 0) {
 			addScript(new AutoRemove(delayRemove));
 		}
 	}

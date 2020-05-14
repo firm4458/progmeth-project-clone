@@ -44,8 +44,8 @@ public class RandomBulletAttack extends AttackScriptFactory {
 			if (now - start <= duration) {
 				if (counter == 0) {
 					counter = COOLDOWN;
-					createBullet(BASE_SPEED*Math.random(), BASE_SPEED);
-					createBullet(BASE_SPEED*Math.random()*-1, BASE_SPEED);
+					createBullet(BASE_SPEED * Math.random(), BASE_SPEED);
+					createBullet(BASE_SPEED * Math.random() * -1, BASE_SPEED);
 				} else {
 					counter--;
 				}
@@ -53,10 +53,10 @@ public class RandomBulletAttack extends AttackScriptFactory {
 				setDone(true);
 			}
 		}
-		
+
 		private void createBullet(double speedX, double speedY) {
-			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(parent.getX()+offsetX, parent.getY()+offsetY, speedX, speedY));
+			GameManager.getInstance().getCurrentScene().addGameObject(
+					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY));
 		}
 
 	}

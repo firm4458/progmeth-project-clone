@@ -8,8 +8,6 @@ public class RadialBulletAttack extends AttackScriptFactory {
 	private double offsetX;
 	private double offsetY;
 	private long duration;
-	
-	
 
 	public RadialBulletAttack(double offsetX, double offsetY, long duration) {
 		this.offsetX = offsetX;
@@ -37,7 +35,7 @@ public class RadialBulletAttack extends AttackScriptFactory {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
-			angleDifferent = Math.PI/6;
+			angleDifferent = Math.PI / 6;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
 		}
@@ -48,8 +46,8 @@ public class RadialBulletAttack extends AttackScriptFactory {
 			if (now - start <= duration) {
 				if (counter == 0) {
 					counter = COOLDOWN;
-					for(double theta=0;theta<=Math.PI;theta+=angleDifferent) {
-						createBullet(BASE_SPEED*Math.cos(theta),BASE_SPEED*Math.sin(theta));
+					for (double theta = 0; theta <= Math.PI; theta += angleDifferent) {
+						createBullet(BASE_SPEED * Math.cos(theta), BASE_SPEED * Math.sin(theta));
 					}
 				} else {
 					counter--;
@@ -58,10 +56,10 @@ public class RadialBulletAttack extends AttackScriptFactory {
 				setDone(true);
 			}
 		}
-		
+
 		private void createBullet(double speedX, double speedY) {
-			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(parent.getX()+offsetX, parent.getY()+offsetY, speedX, speedY));
+			GameManager.getInstance().getCurrentScene().addGameObject(
+					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY));
 		}
 
 	}

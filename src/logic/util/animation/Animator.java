@@ -1,9 +1,8 @@
 package logic.util.animation;
+
 import java.util.ArrayList;
 
 import drawing.ImageSprite;
-import drawing.Sprite;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import logic.base.GameObject;
 import logic.base.Script;
@@ -51,7 +50,7 @@ public class Animator implements Script {
 
 	@Override
 	public void onDestroy() {
-		
+
 	}
 
 }

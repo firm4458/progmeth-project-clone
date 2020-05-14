@@ -6,23 +6,23 @@ import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 
 public class ShakerScript implements Script {
-	
+
 	private GameObject parent;
 	private double magnitude;
 	private double speed;
 	private double totalOffset;
-	
-	public ShakerScript(double magnitude,double speed) {
+
+	public ShakerScript(double magnitude, double speed) {
 		this.magnitude = magnitude;
 		this.speed = speed;
 	}
 
 	@Override
 	public void update() throws GameInterruptException {
-		if(totalOffset < magnitude) {
+		if (totalOffset < magnitude) {
 			parent.translate(speed, speed);
-			totalOffset+=speed;
-		}else {
+			totalOffset += speed;
+		} else {
 			parent.translate(-totalOffset, -totalOffset);
 			parent.removeScript(this);
 		}

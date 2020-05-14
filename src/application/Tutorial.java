@@ -2,11 +2,7 @@ package application;
 
 import java.util.TreeMap;
 
-import application.GameManager.GameEvent;
-import application.GameManager.GameEventType;
 import drawing.ImageSprite;
-import gui.ImageButton;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;

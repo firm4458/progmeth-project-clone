@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.TreeMap;
+
 import application.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -27,7 +28,7 @@ public class ResourceManager {
 		loadImage("img/loadImage.csv");
 		cropPlayerImage();
 	}
-	
+
 	private static void cropPlayerImage() {
 		Image fullimg = getImage("ship");
 		Image[] images = new Image[20];

@@ -1,27 +1,15 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
-import drawing.ImageSprite;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Font;
 import logic.LoopBackground;
 import logic.PlanetSpawner;
-import logic.TextObject;
-import logic.base.BasicScript;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.base.ScriptFactory;
 import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
-import logic.util.InputUtil;
-import logic.util.ResourceManager;
-import logic.util.animation.AnimationState;
-import logic.util.animation.Animator;
-import logic.util.scripts.AutoDestroy;
 import logic.util.scripts.factory.FlashingScriptFactory;
 
 public class TutorialScene extends BaseLevelScene {
@@ -40,7 +28,8 @@ public class TutorialScene extends BaseLevelScene {
 		super.init();
 
 		GameObject spawner = new GameObject(0, 0, "spawner");
-		Script enemySpawner = new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY);
+		Script enemySpawner = new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup,
+				FodderEnemies.FODDER_SPAWN_STRATEGY);
 		spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
 		addGameObject(spawner);
 

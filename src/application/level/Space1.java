@@ -11,7 +11,7 @@ import logic.enemy.spawner.EnemySpawner;
 import logic.util.ResourceManager;
 
 public class Space1 extends NormalLevelScene {
-	
+
 	private static Image background = ResourceManager.getImage("background1");
 	private static ArrayList<Image> planetImgs = new ArrayList<Image>();
 	static {
@@ -20,17 +20,19 @@ public class Space1 extends NormalLevelScene {
 	}
 
 	public Space1() {
-		this("space1",ResourceManager.getSound("sound/normal.mp3"));
+		this("space1", ResourceManager.getSound("sound/normal.mp3"));
 	}
-	public Space1(String name,Media bgm) {
+
+	public Space1(String name, Media bgm) {
 		super(name, background, planetImgs, bgm);
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
-		GameObject spawner = new GameObject(0,0);
-		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
+		GameObject spawner = new GameObject(0, 0);
+		spawner.addScript(
+				new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
 	}
 
 }

@@ -9,36 +9,37 @@ import logic.base.Script;
 import logic.enemy.AttackScriptFactory.AttackScript;
 
 public class AttackController implements Script {
-	
+
 	private AttackScript currentScript;
 	private Enemy parent;
-	private AttackPickStrategy pickStrategy; 
+	private AttackPickStrategy pickStrategy;
 	private final ArrayList<AttackScriptFactory> scripts = new ArrayList<AttackScriptFactory>();
 	private int pickCount;
-	
+
 	public AttackController(AttackPickStrategy pickStrategy) {
 		super();
 		this.pickStrategy = pickStrategy;
 	}
-	
+
 	public int getPickCount() {
 		return pickCount;
 	}
-	
-	public ArrayList<AttackScriptFactory> getScripts(){
+
+	public ArrayList<AttackScriptFactory> getScripts() {
 		return scripts;
 	}
 
 	@Override
-	public void update() throws GameInterruptException {}
-	
+	public void update() throws GameInterruptException {
+	}
+
 	@Override
 	public void earlyUpdate() throws GameInterruptException {
-		if(currentScript == null || currentScript.isDone()) {
-			if(currentScript!=null) {
+		if (currentScript == null || currentScript.isDone()) {
+			if (currentScript != null) {
 				parent.removeScript(currentScript);
 			}
-			AttackScriptFactory fact = pickStrategy.pick(scripts,this); 
+			AttackScriptFactory fact = pickStrategy.pick(scripts, this);
 			pickCount++;
 			System.out.println(fact);
 			currentScript = fact.createScript();
@@ -55,7 +56,7 @@ public class AttackController implements Script {
 	public void setParent(GameObject parent) throws IncompatibleScriptException {
 		try {
 			this.parent = (Enemy) parent;
-		}catch(ClassCastException e) {
+		} catch (ClassCastException e) {
 			throw new IncompatibleScriptException("AttackScript", "must be attached to Enemy");
 		}
 	}

@@ -1,27 +1,16 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.stream.Stream;
 
-import application.GameManager.GameEvent;
 import drawing.SimpleCamera;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 import logic.base.Destroyable;
 import logic.base.Dio;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
-import logic.base.SceneChangeInterruptException;
 import logic.base.Updatable;
 import logic.util.InputUtil;
 import logic.util.group.DuplicateGameObjectException;
@@ -35,15 +24,15 @@ public abstract class GameScene extends Scene implements Destroyable {
 	private static final int DEFAULT_UPDATABLE_BUFFER_SIZE = 60;
 
 	protected ArrayList<GameObjectGroup> groups;
-	
+
 	protected boolean isFreezing = false;
 
-	protected boolean isDestroyed=false;
-	
+	protected boolean isDestroyed = false;
+
 	protected boolean isPause;
-	
+
 	private Canvas canvas;
-	
+
 	private GameObject[] gameObjBuffer;
 	private Updatable[] updatableBuffer;
 
@@ -51,38 +40,26 @@ public abstract class GameScene extends Scene implements Destroyable {
 	protected SimpleCamera simpleCamera;
 
 	public abstract void init();
-	
+
 	public Canvas getCanvas() {
 		return canvas;
 	}
-	
-	/*protected class ResizableCanvas extends Canvas {
 
-		public ResizableCanvas(double width, double height) {
-			// Redraw canvas when size changes.
-			super(width, height);
-			widthProperty().bind(root.widthProperty());
-			heightProperty().bind(root.heightProperty());
-		}
+	/*
+	 * protected class ResizableCanvas extends Canvas {
+	 * 
+	 * public ResizableCanvas(double width, double height) { // Redraw canvas when
+	 * size changes. super(width, height);
+	 * widthProperty().bind(root.widthProperty());
+	 * heightProperty().bind(root.heightProperty()); }
+	 * 
+	 * @Override public boolean isResizable() { return true; }
+	 * 
+	 * @Override public double prefWidth(double height) { return getWidth(); }
+	 * 
+	 * @Override public double prefHeight(double width) { return getHeight(); } }
+	 */
 
-		@Override
-		public boolean isResizable() {
-			return true;
-		}
-
-		@Override
-		public double prefWidth(double height) {
-			return getWidth();
-		}
-
-		@Override
-		public double prefHeight(double width) {
-			return getHeight();
-		}
-	}*/
-	
-	
-	
 	public GameObjectGroup getAllGameObject() {
 		return allObj;
 	}
@@ -99,7 +76,7 @@ public abstract class GameScene extends Scene implements Destroyable {
 		Group root = (Group) getRoot();
 		root.getChildren().add(e);
 	}
-	
+
 	public GameScene(String name) {
 		super(new Group(), GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		Group root = (Group) getRoot();
@@ -119,11 +96,11 @@ public abstract class GameScene extends Scene implements Destroyable {
 		initializeGroups();
 		addGameObject(simpleCamera);
 	}
-	
+
 	public void addUpdatable(Updatable updatable) {
 		updatables.add(updatable);
 	}
-	
+
 	private void initializeGroups() {
 		allObj = new GameObjectGroup();
 		groups = new ArrayList<GameObjectGroup>();
@@ -131,46 +108,47 @@ public abstract class GameScene extends Scene implements Destroyable {
 		gameObjBuffer = new GameObject[DEFAULT_GAMEOBJ_BUFFER_SIZE];
 		updatableBuffer = new Updatable[DEFAULT_UPDATABLE_BUFFER_SIZE];
 	}
-	
+
 	public GameObject getGameObject(String name) {
 		return allObj.getGameObject(name);
 	}
-	
+
 	public void pause() {
 		isPause = true;
 	}
-	
+
 	public void flipPause() {
 		isPause = !isPause;
 	}
-	
+
 	public void resume() {
 		isPause = false;
 	}
-	
+
 	private boolean shouldUpdate(Destroyable obj) {
-		return !obj.isDestroyed() && (!isFreezing || obj instanceof Dio) ;
+		return !obj.isDestroyed() && (!isFreezing || obj instanceof Dio);
 	}
-	
+
 	private void copyIntoBuffer() {
-		if(allObj.getChildren().size()>=gameObjBuffer.length) {
-			gameObjBuffer = new GameObject[allObj.getChildren().size()+DEFAULT_GAMEOBJ_BUFFER_SIZE];
+		if (allObj.getChildren().size() >= gameObjBuffer.length) {
+			gameObjBuffer = new GameObject[allObj.getChildren().size() + DEFAULT_GAMEOBJ_BUFFER_SIZE];
 		}
-		
-		if(updatables.size()>=updatableBuffer.length) {
-			updatableBuffer = new Updatable[updatables.size()+DEFAULT_UPDATABLE_BUFFER_SIZE];
+
+		if (updatables.size() >= updatableBuffer.length) {
+			updatableBuffer = new Updatable[updatables.size() + DEFAULT_UPDATABLE_BUFFER_SIZE];
 		}
-		
+
 		// copy elements in arraylist into buffer
-		// note that array is null terminated ( last element will be null signifying that it is end of array)
-		
+		// note that array is null terminated ( last element will be null signifying
+		// that it is end of array)
+
 		gameObjBuffer = allObj.getChildren().toArray(gameObjBuffer);
 		updatableBuffer = updatables.toArray(updatableBuffer);
 	}
 
 	public void update() throws GameInterruptException {
-		
-		if(!isPause) {
+
+		if (!isPause) {
 			copyIntoBuffer();
 			earlyUpdateObjects();
 			copyIntoBuffer();
@@ -178,59 +156,59 @@ public abstract class GameScene extends Scene implements Destroyable {
 			copyIntoBuffer();
 			lateUpdateObjects();
 		}
-		
+
 		allObj.update();
 		for (GameObjectGroup group : groups) {
 			group.update();
 		}
 
 	}
-	
+
 	private void earlyUpdateObjects() throws GameInterruptException {
 		int index = 0;
-		while(gameObjBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(gameObjBuffer[index])) {
+		while (gameObjBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(gameObjBuffer[index])) {
 				gameObjBuffer[index].earlyUpdate();
 			}
 			++index;
 		}
 		index = 0;
-		while(updatableBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(updatableBuffer[index])) {
+		while (updatableBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(updatableBuffer[index])) {
 				updatableBuffer[index].earlyUpdate();
 			}
 			++index;
 		}
 	}
-	
+
 	private void updateObjects() throws GameInterruptException {
 		int index = 0;
-		while(gameObjBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(gameObjBuffer[index])) {
+		while (gameObjBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(gameObjBuffer[index])) {
 				gameObjBuffer[index].update();
 			}
 			++index;
 		}
 		index = 0;
-		while(updatableBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(updatableBuffer[index])) {
+		while (updatableBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(updatableBuffer[index])) {
 				updatableBuffer[index].update();
 			}
 			++index;
 		}
 	}
-	
+
 	private void lateUpdateObjects() throws GameInterruptException {
 		int index = 0;
-		while(gameObjBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(gameObjBuffer[index])) {
+		while (gameObjBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(gameObjBuffer[index])) {
 				gameObjBuffer[index].lateUpdate();
 			}
 			++index;
 		}
 		index = 0;
-		while(updatableBuffer[index]!=null && !isDestroyed()) {
-			if(shouldUpdate(updatableBuffer[index])) {
+		while (updatableBuffer[index] != null && !isDestroyed()) {
+			if (shouldUpdate(updatableBuffer[index])) {
 				updatableBuffer[index].lateUpdate();
 			}
 			++index;
@@ -259,8 +237,8 @@ public abstract class GameScene extends Scene implements Destroyable {
 	@Override
 	public void destroy() {
 		isDestroyed = true;
-		allObj.forEach(gameObj->gameObj.destroy());
-		updatables.forEach(updatable->updatable.destroy());
+		allObj.forEach(gameObj -> gameObj.destroy());
+		updatables.forEach(updatable -> updatable.destroy());
 	}
 
 	@Override

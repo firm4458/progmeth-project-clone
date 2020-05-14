@@ -2,8 +2,6 @@ package logic.enemy;
 
 import application.GameManager;
 import logic.base.GameInterruptException;
-import logic.enemy.AttackScriptFactory.AttackScript;
-import logic.enemy.RadialBulletAttack.RadialBulletAttackScript;
 
 public class WaveBulletAttack extends AttackScriptFactory {
 
@@ -38,7 +36,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
-			amplitude = Math.PI/3;
+			amplitude = Math.PI / 3;
 			frequency = 0.5;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
@@ -50,8 +48,10 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			if (now - start <= duration) {
 				if (counter == 0) {
 					counter = COOLDOWN;
-					double angle = amplitude*Math.sin(2*Math.PI*frequency*((now-start)/1000.0)); // simple harmonic oscillation
-					createBullet(angle); 
+					double angle = amplitude * Math.sin(2 * Math.PI * frequency * ((now - start) / 1000.0)); // simple
+																												// harmonic
+																												// oscillation
+					createBullet(angle);
 				} else {
 					counter--;
 				}
@@ -59,10 +59,10 @@ public class WaveBulletAttack extends AttackScriptFactory {
 				setDone(true);
 			}
 		}
-		
+
 		private void createBullet(double angle) {
-			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(parent.getX()+offsetX, parent.getY()+offsetY, BASE_SPEED*Math.sin(angle), BASE_SPEED));
+			GameManager.getInstance().getCurrentScene().addGameObject(new BossCircularBullet(parent.getX() + offsetX,
+					parent.getY() + offsetY, BASE_SPEED * Math.sin(angle), BASE_SPEED));
 		}
 
 	}

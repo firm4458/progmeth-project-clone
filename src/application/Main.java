@@ -1,40 +1,8 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import application.level.Space2;
-import drawing.SimpleCamera;
-import drawing.ImageSprite;
-import drawing.Renderer;
-import drawing.Sprite;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import logic.PlanetSpawner;
-import logic.base.GameInterruptException;
-import logic.base.GameObject;
-import logic.base.IncompatibleScriptException;
-import logic.base.SceneChangeInterruptException;
-import logic.base.Script;
-import logic.enemy.ExplosionAnimation;
-import logic.enemy.FodderEnemies;
-import logic.player.Player;
-import logic.util.InputUtil;
 import logic.util.ResourceManager;
-import logic.util.scripts.ConstantSpeedMove;
 
 public class Main extends Application {
 	public static Stage stage;
@@ -42,17 +10,13 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		stage = primaryStage;
+		primaryStage.setTitle("Space Master");
+		primaryStage.getIcons().add(ResourceManager.getImage("lavaPlanet"));
+		primaryStage.setResizable(false);
 		GameManager.getInstance().init(new MenuScene("menu"));
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-	
-
-	/*
-	 * public List<Sprite> sprite(){ return root.getChildren().stream().map(n ->
-	 * (Sprite)n).collect(Collectors.toList()); }
-	 */
 }

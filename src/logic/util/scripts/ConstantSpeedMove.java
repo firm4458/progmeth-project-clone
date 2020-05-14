@@ -5,12 +5,12 @@ import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 
 public class ConstantSpeedMove implements Script {
-	
+
 	private GameObject parent;
 	private double speedX;
 	private double speedY;
-	
-	public ConstantSpeedMove(double speedX, double speedY){
+
+	public ConstantSpeedMove(double speedX, double speedY) {
 		this.speedX = speedX;
 		this.speedY = speedY;
 	}
