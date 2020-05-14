@@ -42,9 +42,29 @@ public class ColliderBox implements Script {
 	public void setParent(GameObject parent) throws IncompatibleScriptException {
 		this.parent = parent;
 	}
-
-	@Override
-	public void onDestroy() {
-		
+	public double getWidth() {
+		return width;
 	}
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	public double getHeight() {
+		return height;
+	}
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	public double getRelativeX() {
+		return relativeX;
+	}
+	public void setRelativeX(double relativeX) {
+		this.relativeX = relativeX;
+	}
+	public double getRelativeY() {
+		return relativeY;
+	}
+	public void setRelativeY(double relativeY) {
+		this.relativeY = relativeY;
+	}
+	
 }

@@ -31,6 +31,12 @@ public class GameObjectGroup implements Iterable<GameObject>{
 		}
 	}
 	
+	public void destroyAll() {
+		for(GameObject gameObj : children) {
+			gameObj.destroy();
+		}
+	}
+	
 	public boolean addGameObject(GameObject gameObj) throws DuplicateGameObjectException {
 		boolean success = children.add(gameObj);
 		if(!success) {

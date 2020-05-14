@@ -23,6 +23,8 @@ import logic.enemy.spawner.EnemySpawner;
 public class BossScene extends BaseLevelScene {
 	protected Image backgroundImage;
 	protected ArrayList<Image> planetImgs;
+	protected AttackController controller;
+	protected Boss boss;
 	public BossScene(String name,Image backgroundImage, ArrayList<Image> planetImgs,Media bgm) {
 		super(name,bgm);
 		this.backgroundImage = backgroundImage;
@@ -58,8 +60,6 @@ public class BossScene extends BaseLevelScene {
 		ArrayList<ScriptFactory> arr = new ArrayList<ScriptFactory>();
 		arr.add(factory);
 		LoopBackground.createLoopBackground(this,backgroundImage, 0.07, 3,arr);
-		
-		Boss boss = new Boss(80,-600,null,null);
 		addGameObject(boss);
 		addGameObject(boss,enemyGroup);
 	}

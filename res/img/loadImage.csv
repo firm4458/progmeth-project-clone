@@ -36,3 +36,8 @@ levelBanner.space1.boss,img/Level-Banners/Space1-Boss.png,600,100,TRUE
 levelBanner.space1.boss.pressed,img/Level-Banners/Space1-Boss-pressed.png,600,100,TRUE
 planet.dark,img/parallax-space-big-planet.png,300,300,FALSE
 planet.ring,img/parallax-space-ring-planet.png,500,500,TRUE
+levelBanner.space2,img/Level-Banners/Space2.png,600,100,TRUE
+levelBanner.space2.pressed,img/Level-Banners/Space2-Pressed.png,600,100,TRUE
+levelBanner.space2.boss,img/Level-Banners/Space2-Boss.png,600,100,TRUE
+levelBanner.space2.boss.pressed,img/Level-Banners/Space2-Boss-Pressed.png,600,100,TRUE
+boss.space2,img/1.png,400,400,TRUE

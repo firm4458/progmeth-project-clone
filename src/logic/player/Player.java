@@ -16,9 +16,12 @@ import java.util.TreeMap;
 import com.sun.media.jfxmediaimpl.platform.Platform;
 
 import application.BaseLevelScene;
+import application.BossScene;
 import application.GUI;
 import application.GameManager;
 import application.GameScene;
+import application.LevelResultScene;
+import application.LevelResultScene.LevelResult;
 import application.LevelSelectScene;
 import application.MenuScene;
 import application.NormalLevelScene;
@@ -90,21 +93,17 @@ public class Player extends Entity implements Dio {
 	@Override
 	public void onDeath() throws GameInterruptException {
 		getScene().addGameObject(new ExplosionAnimation(getX(), getY()));
-		ImageButton button = new ImageButton(100, 50, ResourceManager.getImage("button"), null, null);
 		GameScene scene = getScene();
-		button.setOnAction((evt) -> {
-			GameManager gameManager = GameManager.getInstance();
-			int totalScore = 0;
-			if(DataManager.getInstance().contains("totalScore")) {
-				totalScore = (int) DataManager.getInstance().getPesistentData("totalScore");
-			}
-			gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
-					new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
-			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("selectLevel")));
-		});
-		button.getGameObject().setX(500);
-		button.getGameObject().setY(550);
-		scene.addGUIElement(button);
+		GameManager gameManager = GameManager.getInstance();
+		int totalScore = 0;
+		if (DataManager.getInstance().contains("totalScore")) {
+			totalScore = (int) DataManager.getInstance().getPesistentData("totalScore");
+		}
+		gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
+				new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
+		gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
+				new LevelResultScene("result", (scene instanceof BossScene) ? LevelResult.LOSE : LevelResult.NONE,
+						((BaseLevelScene) scene).getScore())));
 		destroy();
 	}
 

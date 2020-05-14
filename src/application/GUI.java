@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import application.level.Space2;
 import drawing.SimpleCamera;
 import drawing.ImageSprite;
 import drawing.Renderer;
@@ -49,7 +50,7 @@ public class GUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Renderer.getInstance().setGc(gc);
 		root.getChildren().add(canvas);
-		GameManager.getInstance().init(new MenuScene("menu"));
+		GameManager.getInstance().init(new LevelSelectScene("select"));
 
 	}
 

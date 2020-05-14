@@ -69,6 +69,7 @@ public class Meteor extends Enemy{
 	};
 	
 	public static final EnemyFactory meteorFactory;
+	public static final EnemyFactory asteroidFactory;
 	
 	static {
 		meteorFactory = new EnemyFactory();
@@ -78,8 +79,35 @@ public class Meteor extends Enemy{
 		meteorFactory.setPoint(10);
 		ArrayList<ScriptFactory> scriptFactories = meteorFactory.getScriptFactories();
 		scriptFactories.add(new ConstantSpeedMoveFactory(0,Meteor.SPEED));
-		scriptFactories.add(new AutoRemoveFactory());
+		scriptFactories.add(new AutoRemoveFactory(20));
 		meteorFactory.setOnHitPlayerFunc((targets,enemy)->{
+			Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
+			GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
+			enemy.destroy();
+		});
+		asteroidFactory = new EnemyFactory();
+		asteroidFactory.setHealth(30);
+		asteroidFactory.setDamage(2);
+		asteroidFactory.setImage(ResourceManager.getImage("asteroid"));
+		asteroidFactory.setPoint(30);
+		scriptFactories = asteroidFactory.getScriptFactories();
+		scriptFactories.add(new ConstantSpeedMoveFactory(0,Meteor.SPEED));
+		scriptFactories.add(new ScriptFactory() {
+			@Override
+			public Script createScript() {
+				return new BasicScript<GameObject>() {
+					private double degree=0;
+					@Override
+					public void update() {
+						ImageSprite imgSprite = (ImageSprite) parent.getSprite();
+						imgSprite.setRotate(degree);
+						degree += 1;
+					}
+				};
+			}
+		});
+		scriptFactories.add(new AutoRemoveFactory(20));
+		asteroidFactory.setOnHitPlayerFunc((targets,enemy)->{
 			Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
 			GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
 			enemy.destroy();

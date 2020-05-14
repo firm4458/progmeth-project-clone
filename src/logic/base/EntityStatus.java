@@ -52,6 +52,12 @@ public class EntityStatus implements Script {
 			parent.onDeath();
 		}
 	}
+	@Override
+	public void earlyUpdate() throws GameInterruptException {
+		if(health<=0) {
+			parent.onDeath();
+		}
+	}
 	
 	public void takeDamage(int damage) {
 		if(!isInvincible) {

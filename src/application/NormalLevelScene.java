@@ -47,7 +47,7 @@ public class NormalLevelScene extends BaseLevelScene {
 		this.backgroundImage = backgroundImage;
 		this.planetImgs = planetImgs;
 	}
-
+	
 	@Override
 	public void init() {
 		

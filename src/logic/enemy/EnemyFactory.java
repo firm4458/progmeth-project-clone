@@ -18,7 +18,6 @@ public class EnemyFactory extends GameObjectFactory<Enemy> {
 	protected ArrayList<ScriptFactory> scriptFactories = new ArrayList<ScriptFactory>();
 	protected BiConsumer<ArrayList<GameObject>, Enemy> onHitPlayerFunc = null;
 	protected Consumer<Enemy> onDeathFunc = null;
-
 	protected Image image;
 
 	@Override

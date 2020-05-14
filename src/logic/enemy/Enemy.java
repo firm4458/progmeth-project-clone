@@ -111,7 +111,7 @@ public class Enemy extends Entity {
 	
 	protected static final Consumer<Enemy> DEFAULT_ON_DEATH = (enemy)->{
 		BaseLevelScene scene = (BaseLevelScene)enemy.getScene();
-		scene.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
+		scene.addGameObject(new ExplosionAnimation(enemy.getX()+enemy.getSprite().getWidth()/2, enemy.getY()+enemy.getSprite().getHeight()/2));
 		scene.addScore(enemy.getPoint());
 		enemy.destroy();
 	};
