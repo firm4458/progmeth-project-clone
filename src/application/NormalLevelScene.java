@@ -7,8 +7,6 @@ import drawing.Renderer;
 import drawing.Sprite;
 import drawing.TextSprite;
 import drawing.base.Renderable;
-import gui.GameButton;
-import gui.util.ButtonScript;
 import javafx.scene.Parent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -27,9 +25,7 @@ import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 import logic.base.ScriptFactory;
-import logic.enemy.GroupOfMeteors;
-import logic.enemy.Meteor;
-import logic.enemy.MeteorFactory;
+import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
 import logic.item.GroupOfItems;
 import logic.player.Player;
@@ -52,7 +48,7 @@ public class NormalLevelScene extends BaseLevelScene {
 		this.isFlashing = isFlashing;
 	}
 	public NormalLevelScene(String name, Image backgroundImage, ArrayList<Image> planetImgs, Media bgm) {
-		this(name,backgroundImage,planetImgs,bgm,false);
+		this(name,backgroundImage,planetImgs,bgm,true);
 	}
 	
 	@Override
@@ -61,7 +57,7 @@ public class NormalLevelScene extends BaseLevelScene {
 		super.init();
 
 		GameObject spawner = new GameObject(0, 0);
-		spawner.addScript(new EnemySpawner(Meteor.meteorFactory, enemyGroup, Meteor.METEOR_SPAWN_STRATEGY));
+		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
 		if(planetImgs.size()>0) {
 			spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
 		}

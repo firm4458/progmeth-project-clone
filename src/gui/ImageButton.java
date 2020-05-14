@@ -10,6 +10,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -28,7 +29,7 @@ public class ImageButton extends ToggleButton {
 	private GameObject gameObject;
 	private ImageSprite imgSprite;
 	private Text text; 
-	private MediaPlayer mediaPlayer;
+	private AudioClip mediaPlayer;
 	
 	public ImageButton(double width, double height, Image buttonImage, Image mouseOverImage, Image pressedImage) {
 		super();
@@ -83,7 +84,7 @@ public class ImageButton extends ToggleButton {
 			imgSprite.setImage(getMouseOverImage());
 		});
 		setOnMouseReleased((evt)->{
-			mediaPlayer = new MediaPlayer(ResourceManager.getSound("sound/Select 1.wav"));
+			mediaPlayer = new AudioClip(ResourceManager.getSound("sound/Select 1.wav").getSource());
 			mediaPlayer.play();
 			imgSprite.setImage(getButtonImage());
 		});

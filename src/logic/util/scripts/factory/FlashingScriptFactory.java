@@ -2,6 +2,7 @@ package logic.util.scripts.factory;
 
 import logic.base.Script;
 import logic.base.ScriptFactory;
+import logic.util.scripts.FlashingScript;
 
 public class FlashingScriptFactory extends ScriptFactory {
 	private double speed;
@@ -31,7 +32,7 @@ public class FlashingScriptFactory extends ScriptFactory {
 
 	@Override
 	public Script createScript() {
-		return null;
+		return new FlashingScript(speed, amplitude);
 	}
 
 }

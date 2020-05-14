@@ -5,19 +5,19 @@ import logic.base.GameInterruptException;
 
 public class RandomBulletAttack extends AttackScriptFactory {
 
-	private double originX;
-	private double originY;
+	private double offsetX;
+	private double offsetY;
 	private long duration;
 
-	public RandomBulletAttack(double originX, double originY, long duration) {
-		this.originX = originX;
-		this.originY = originY;
+	public RandomBulletAttack(double offsetX, double offsetY, long duration) {
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 		this.duration = duration;
 	}
 
 	@Override
 	public AttackScript createScript() {
-		return new RandomBulletAttackScript(originX, originY, duration);
+		return new RandomBulletAttackScript(offsetX, offsetY, duration);
 	}
 
 	public class RandomBulletAttackScript extends AttackScript {
@@ -25,13 +25,17 @@ public class RandomBulletAttack extends AttackScriptFactory {
 		private long duration;
 		private long start;
 		private int counter;
+		private double offsetX;
+		private double offsetY;
 		private static final int COOLDOWN = 10;
 		private static final int BASE_SPEED = 5;
 
-		private RandomBulletAttackScript(double originX, double originY, long duration) {
+		private RandomBulletAttackScript(double offsetX, double offsetY, long duration) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
+			this.offsetX = offsetX;
+			this.offsetY = offsetY;
 		}
 
 		@Override
@@ -52,7 +56,7 @@ public class RandomBulletAttack extends AttackScriptFactory {
 		
 		private void createBullet(double speedX, double speedY) {
 			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(originX, originY, speedX, speedY));
+			.addGameObject(new BossCircularBullet(parent.getX()+offsetX, parent.getY()+offsetY, speedX, speedY));
 		}
 
 	}

@@ -27,7 +27,6 @@ public class Dash extends PlayerSkill {
 		playerController.setSpeed(normalSpeed*8.0);
 		if(now-start > duration) {
 			playerController.setSpeed(normalSpeed);
-			System.out.println("GG");
 			status.setInvincible(false);
 			skillDone();
 		}

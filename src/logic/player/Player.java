@@ -18,7 +18,7 @@ import com.sun.media.jfxmediaimpl.platform.Platform;
 
 import application.BaseLevelScene;
 import application.BossScene;
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import application.GameScene;
 import application.LevelResultScene;
@@ -145,7 +145,6 @@ public class Player extends Entity implements Dio {
 						switch (itemName) {
 						case "Powerup_Health":
 							getStatus().heal(UpgradeScene.calculateHealthItem());
-							System.out.println(UpgradeScene.calculateHealthItem());
 							break;
 						case "Powerup_Ammo":
 							upgradeAmmo = true;

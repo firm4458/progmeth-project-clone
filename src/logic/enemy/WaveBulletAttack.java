@@ -7,25 +7,25 @@ import logic.enemy.RadialBulletAttack.RadialBulletAttackScript;
 
 public class WaveBulletAttack extends AttackScriptFactory {
 
-	private double originX;
-	private double originY;
+	private double offsetX;
+	private double offsetY;
 	private long duration;
 
-	public WaveBulletAttack(double originX, double originY, long duration) {
-		this.originX = originX;
-		this.originY = originY;
+	public WaveBulletAttack(double offsetX, double offsetY, long duration) {
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 		this.duration = duration;
 	}
 
 	@Override
 	public AttackScript createScript() {
-		return new WaveBulletAttackScript(originX, originY, duration);
+		return new WaveBulletAttackScript(offsetX, offsetY, duration);
 	}
 
 	public class WaveBulletAttackScript extends AttackScript {
 
-		private double originX;
-		private double originY;
+		private double offsetX;
+		private double offsetY;
 		private long duration;
 		private long start;
 		private int counter;
@@ -34,14 +34,14 @@ public class WaveBulletAttack extends AttackScriptFactory {
 		private double amplitude;
 		private double frequency;
 
-		private WaveBulletAttackScript(double originX, double originY, long duration) {
+		private WaveBulletAttackScript(double offsetX, double offsetY, long duration) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
 			amplitude = Math.PI/3;
 			frequency = 0.5;
-			this.originX = originX;
-			this.originY = originY;
+			this.offsetX = offsetX;
+			this.offsetY = offsetY;
 		}
 
 		@Override
@@ -62,7 +62,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 		
 		private void createBullet(double angle) {
 			GameManager.getInstance().getCurrentScene()
-			.addGameObject(new BossCircularBullet(originX, originY, BASE_SPEED*Math.sin(angle), BASE_SPEED));
+			.addGameObject(new BossCircularBullet(parent.getX()+offsetX, parent.getY()+offsetY, BASE_SPEED*Math.sin(angle), BASE_SPEED));
 		}
 
 	}

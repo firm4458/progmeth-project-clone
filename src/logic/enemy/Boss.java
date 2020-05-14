@@ -27,17 +27,12 @@ public class Boss extends Enemy {
 
 		@Override
 		public void update() throws GameInterruptException {
-			if (parent.getY() <= -parent.getSprite().getHeight()+200) {
+			if (parent.getY() <= -parent.getSprite().getHeight() + 200) {
 				parent.translate(0, 0.2);
 			} else {
-				if(controller == null) {
-				controller = new AttackController(AttackPickStrategy.RANDOM_PICK);
-				controller.getScripts()
-						.add(new RadialBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2, 10, 6000));
-				controller.getScripts()
-						.add(new WaveBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2, 10, 10000));
-				controller.getScripts()
-						.add(new RandomBulletAttack(parent.getX() + parent.getSprite().getWidth() / 2, 10, 4000));
+				if (controller != null) {
+
+					
 				}
 				parent.addScript(controller);
 				parent.removeScript(this);
@@ -59,9 +54,10 @@ public class Boss extends Enemy {
 	public void onDeath() {
 		DEFAULT_ON_DEATH.accept(this);
 		GameManager manager = GameManager.getInstance();
-		scene.addGameObject(new ExplosionAnimation(getX()+sprite.getWidth()/2, getY()+sprite.getHeight()/2,10));
-		System.out.println(getY()+sprite.getHeight()/2);
-		GameObject gameObj = new GameObject(0,0);
+		scene.addGameObject(
+				new ExplosionAnimation(getX() + sprite.getWidth() / 2, getY() + sprite.getHeight() / 2, 10));
+		System.out.println(getY() + sprite.getHeight() / 2);
+		GameObject gameObj = new GameObject(0, 0);
 		gameObj.addScript(new AutoDestroy(1000) {
 			@Override
 			public void onDestroy() {
@@ -77,14 +73,9 @@ public class Boss extends Enemy {
 		});
 		scene.addGameObject(gameObj);
 	}
-
-	public Boss(double X, double Y,int health, int damage, int point, AttackController controller) {
-		this(X, Y, health,damage, point, controller, img);
-	}
 	
-	public Boss(double X, double Y,int health, int damage, int point, AttackController controller,Image img) {
-		super(X, Y, health,damage, img);
-		this.controller = controller;
+	public Boss(double X, double Y, int health, int damage, int point, Image img) {
+		super(X, Y, health, damage, img);
 		addScript(movementScript);
 		setPoint(point);
 		getSprite().setZ(50);

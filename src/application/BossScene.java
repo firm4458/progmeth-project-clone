@@ -14,10 +14,7 @@ import logic.base.ScriptFactory;
 import logic.enemy.AttackController;
 import logic.enemy.AttackPickStrategy;
 import logic.enemy.Boss;
-import logic.enemy.GroupOfMeteors;
-import logic.enemy.Meteor;
-import logic.enemy.TestAttack1;
-import logic.enemy.TestAttack2;
+import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
 
 public class BossScene extends BaseLevelScene {
@@ -36,7 +33,7 @@ public class BossScene extends BaseLevelScene {
 		super.init();
 		
 		GameObject spawner = new GameObject(0, 0);
-		spawner.addScript(new EnemySpawner(Meteor.meteorFactory, enemyGroup, Meteor.METEOR_SPAWN_STRATEGY));
+		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
 		if(planetImgs.size()>0) {
 			spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
 		}

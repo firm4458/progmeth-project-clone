@@ -2,7 +2,7 @@ package logic.player;
 
 import java.util.ArrayList;
 
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import application.UpgradeScene;
 import logic.base.GameObject;

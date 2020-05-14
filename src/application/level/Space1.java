@@ -6,7 +6,7 @@ import application.NormalLevelScene;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import logic.base.GameObject;
-import logic.enemy.Meteor;
+import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
 import logic.util.ResourceManager;
 
@@ -30,7 +30,7 @@ public class Space1 extends NormalLevelScene {
 	public void init() {
 		super.init();
 		GameObject spawner = new GameObject(0,0);
-		spawner.addScript(new EnemySpawner(Meteor.meteorFactory, enemyGroup, Meteor.METEOR_SPAWN_STRATEGY));
+		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
 	}
 
 }

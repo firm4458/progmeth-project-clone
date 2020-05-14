@@ -116,52 +116,6 @@ public class GameManager {
 		persistentData.put(key, value);
 	}
 
-	public void save() {
-		FileOutputStream f = null;
-		ObjectOutputStream o = null;
-		try {
-			f = new FileOutputStream(ResourceManager.saveFile("Create a save file"));
-			o = new ObjectOutputStream(f);
-			o.writeObject(persistentData);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				o.close();
-				f.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	@SuppressWarnings("unchecked")
-	public void load() {
-		System.out.println("load");
-		FileInputStream fi = null;
-		ObjectInputStream oi = null;
-		try {
-			fi = new FileInputStream(ResourceManager.pickFile("Choose a save file"));
-			oi = new ObjectInputStream(fi);
-			persistentData = (TreeMap<String, Object>) oi.readObject();
-			score = (int) persistentData.get("score");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				oi.close();
-				fi.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				// e.printStackTrace();
-			}
-		}
-	}
-
 	public boolean isUpdating() {
 		return isUpdating;
 	}
@@ -232,8 +186,8 @@ public class GameManager {
 			}
 		};
 		timer.start();
-		GUI.stage.setScene(currentScene);
-		GUI.stage.show();
+		Main.stage.setScene(currentScene);
+		Main.stage.show();
 	}
 
 	public void start() {
@@ -254,8 +208,8 @@ public class GameManager {
 		Renderer.getInstance().reset();
 		currentScene = scene;
 		currentScene.init();
-		GUI.stage.setScene(scene);
-		GUI.stage.show();
+		Main.stage.setScene(scene);
+		Main.stage.show();
 		timer.start();
 	}
 

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.TreeMap;
-import application.GUI;
+import application.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
@@ -57,7 +57,7 @@ public class ResourceManager {
 			Image img = new Image(ClassLoader.getSystemResource(path).toString(), width, height, preserveRatio, true);
 			imageMap.put(imageName, img);
 		} catch (NullPointerException e) {
-			System.out.println(path);
+			System.out.println("problem loading: " + path);
 		}
 	}
 
@@ -109,12 +109,12 @@ public class ResourceManager {
 
 	public static File pickFile(String title) {
 		fileChooser.setTitle(title);
-		return fileChooser.showOpenDialog(GUI.stage);
+		return fileChooser.showOpenDialog(Main.stage);
 	}
 
 	public static File saveFile(String title) {
 		fileChooser.setTitle(title);
-		return fileChooser.showSaveDialog(GUI.stage);
+		return fileChooser.showSaveDialog(Main.stage);
 	}
 
 	public static InputStream getFont(String url) {

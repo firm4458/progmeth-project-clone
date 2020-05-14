@@ -36,16 +36,16 @@ public class Tutorial extends GameObject implements Dio {
 			@Override
 			public void onAttach() {
 				button = new GameObject(0, 0);
-				ImageSprite sprite = new ImageSprite(button, ResourceManager.getImage("button.keys.Z"));
+				ImageSprite sprite = new ImageSprite(button, ResourceManager.getImage("button.keys.X"));
 				sprite.setScale(0.2);
 				sprite.setZ(99);
 				button.setSprite(sprite);
 				Image[] frames = new Image[20];
 				for (int j = 0; j < 10; ++j) {
-					frames[j] = ResourceManager.getImage("button.keys.Z");
+					frames[j] = ResourceManager.getImage("button.keys.X");
 				}
 				for (int j = 10; j < 20; ++j) {
-					frames[j] = ResourceManager.getImage("button.keys.Z.pressed");
+					frames[j] = ResourceManager.getImage("button.keys.X.pressed");
 				}
 				button.addScript(new Animator(sprite,
 						new AnimationState("idle", frames, new TreeMap<String, AnimationState>())));

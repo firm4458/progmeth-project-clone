@@ -30,8 +30,8 @@ button.keys.LEFT,img/Keys/Left-Key.png,300,300,TRUE
 button.keys.LEFT.pressed,img/Keys/Left-Key-Pressed.png,300,300,TRUE
 button.keys.RIGHT,img/Keys/Right-Key.png,300,300,TRUE
 button.keys.RIGHT.pressed,img/Keys/Right-Key-Pressed.png,300,300,TRUE
-button.keys.Z,img/Keys/Up-Key.png,300,300,TRUE
-button.keys.Z.pressed,img/Keys/Up-Key-Pressed.png,300,300,TRUE
+button.keys.Z,img/Keys/Z-Key.png,300,300,TRUE
+button.keys.Z.pressed,img/Keys/Z-Key-Pressed.png,300,300,TRUE
 levelBanner.space1.boss,img/Level-Banners/Space1-Boss.png,600,100,TRUE
 levelBanner.space1.boss.pressed,img/Level-Banners/Space1-Boss-Pressed.png,600,100,TRUE
 planet.dark,img/parallax-space-big-planet.png,300,300,FALSE
@@ -43,3 +43,5 @@ levelBanner.space2.boss.pressed,img/Level-Banners/Space2-Boss-Pressed.png,600,10
 boss.space2,img/1.png,400,400,TRUE
 healthBar,img/Health-Bar.png,228,60,TRUE
 health,img/Health.png,168,12,TRUE
+button.keys.X,img/Keys/X-Key.png,300,300,TRUE
+button.keys.X.pressed,img/Keys/X-Key-Pressed.png,300,300,TRUE

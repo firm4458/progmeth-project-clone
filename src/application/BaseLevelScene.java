@@ -6,6 +6,7 @@ import drawing.ImageSprite;
 import drawing.TextSprite;
 import gui.ImageButton;
 import javafx.scene.Group;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -21,13 +22,13 @@ import logic.util.group.GameObjectGroup;
 public class BaseLevelScene extends GameScene {
 	
 	protected Media bgm;
-	protected MediaPlayer bgmPlayer;
+	protected AudioClip bgmPlayer;
 	
 	public BaseLevelScene(String name, Media bgm) {
 		super(name);
 		this.bgm = bgm;
-		bgmPlayer = new MediaPlayer(bgm);
-		bgmPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		bgmPlayer = new AudioClip(bgm.getSource());
+		bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
 	}
 	
 	public BaseLevelScene(String name) {
@@ -112,13 +113,11 @@ public class BaseLevelScene extends GameScene {
 			cont.enable();
 			pause.disable();
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.GAME_PAUSE, null));
-			System.out.println("pause");
 		});
 		cont.setOnAction((evt)->{
 			pause.enable();
 			cont.disable();
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.GAME_RESUME, null));
-			System.out.println("resume");
 		});
 		Group root = (Group)getRoot();
 		root.getChildren().add(pause);

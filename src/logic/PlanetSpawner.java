@@ -2,7 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import drawing.ImageSprite;
 import javafx.scene.effect.ColorAdjust;

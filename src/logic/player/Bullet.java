@@ -3,7 +3,7 @@ package logic.player;
 import java.util.ArrayList;
 
 import application.BaseLevelScene;
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import application.NormalLevelScene;
 import drawing.ImageSprite;

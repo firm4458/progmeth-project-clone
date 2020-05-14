@@ -1,6 +1,6 @@
 package logic.player;
 
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;

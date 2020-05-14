@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
-import application.GUI;
+import application.Main;
 import drawing.Sprite;
 import drawing.base.Renderable;
 import logic.base.GameObject;

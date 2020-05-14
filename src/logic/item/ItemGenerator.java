@@ -1,6 +1,6 @@
 package logic.item;
 
-import application.GUI;
+import application.Main;
 import application.GameManager;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;

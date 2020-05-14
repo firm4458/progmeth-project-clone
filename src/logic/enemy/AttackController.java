@@ -14,10 +14,15 @@ public class AttackController implements Script {
 	private Enemy parent;
 	private AttackPickStrategy pickStrategy; 
 	private final ArrayList<AttackScriptFactory> scripts = new ArrayList<AttackScriptFactory>();
+	private int pickCount;
 	
 	public AttackController(AttackPickStrategy pickStrategy) {
 		super();
 		this.pickStrategy = pickStrategy;
+	}
+	
+	public int getPickCount() {
+		return pickCount;
 	}
 	
 	public ArrayList<AttackScriptFactory> getScripts(){
@@ -34,6 +39,7 @@ public class AttackController implements Script {
 				parent.removeScript(currentScript);
 			}
 			AttackScriptFactory fact = pickStrategy.pick(scripts,this); 
+			pickCount++;
 			System.out.println(fact);
 			currentScript = fact.createScript();
 			parent.addScript(currentScript);
