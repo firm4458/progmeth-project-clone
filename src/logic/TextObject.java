@@ -16,4 +16,11 @@ public class TextObject extends GameObject {
 		TextSprite sprite = new TextSprite(this, text, font, maxWidth);
 		this.sprite = sprite;
 	}
+	
+	public void setText(String text) {
+		((TextSprite)sprite).setText(text);
+	}
+	public String getText() {
+		return ((TextSprite)sprite).getText(); 
+	}
 }

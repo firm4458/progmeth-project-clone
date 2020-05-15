@@ -12,12 +12,14 @@ import logic.enemy.DashAttack;
 import logic.enemy.Enemy;
 import logic.enemy.GlidingAttack;
 import logic.enemy.RandomBulletAttack;
+import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.scripts.ColliderBox;
 
 public class Space2Boss extends Space2 {
 	public Space2Boss() {
 		super("space2.boss", ResourceManager.getSound("sound/boss2.mp3"));
+		isBoss=true;
 	}
 
 	@Override
@@ -55,6 +57,8 @@ public class Space2Boss extends Space2 {
 				}
 				long now = System.currentTimeMillis();
 				if (now - start > 13500) {
+					Player player = (Player) Player.playerGroup.getChildren().first();
+					player.setSkillActive();
 					parent.addScript(controller);
 					parent.removeScript(this);
 				}

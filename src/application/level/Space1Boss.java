@@ -9,6 +9,7 @@ import logic.enemy.Enemy;
 import logic.enemy.RadialBulletAttack;
 import logic.enemy.RandomBulletAttack;
 import logic.enemy.WaveBulletAttack;
+import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.scripts.ColliderBox;
 
@@ -16,6 +17,7 @@ public class Space1Boss extends Space1 {
 
 	public Space1Boss() {
 		super("space1boss", ResourceManager.getSound("sound/boss.mp3"));
+		isBoss=true;
 	}
 
 	@Override
@@ -35,6 +37,8 @@ public class Space1Boss extends Space1 {
 					parent.translate(0, 0.2);
 				} else {
 					parent.addScript(controller);
+					Player player = (Player) Player.playerGroup.getChildren().first();
+					player.setSkillActive();
 					parent.removeScript(this);
 				}
 			}

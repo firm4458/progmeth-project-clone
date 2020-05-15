@@ -12,6 +12,7 @@ import logic.enemy.AttackController;
 import logic.enemy.AttackPickStrategy;
 import logic.enemy.Enemy;
 import logic.enemy.MinionSpawnAttack;
+import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.scripts.ColliderBox;
 import logic.util.scripts.ConstantSpeedMove;
@@ -20,6 +21,7 @@ import logic.util.scripts.factory.ConstantSpeedMoveFactory;
 public class Space3Boss extends Space3 {
 	public Space3Boss() {
 		super("space3.boss", ResourceManager.getSound("sound/boss3.mp3"));
+		isBoss=true;
 	}
 
 	@Override
@@ -95,6 +97,8 @@ public class Space3Boss extends Space3 {
 					parent.translate(0, 5);
 				} else {
 					parent.addScript(controller);
+					Player player = (Player) Player.playerGroup.getChildren().first();
+					player.setSkillActive();
 					parent.removeScript(this);
 				}
 			}

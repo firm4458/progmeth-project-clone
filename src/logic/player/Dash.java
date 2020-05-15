@@ -3,6 +3,7 @@ package logic.player;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import logic.base.BasicScript;
 import logic.base.EntityStatus;
 import logic.base.ScriptNotFoundException;
 import logic.util.ResourceManager;
@@ -28,7 +29,17 @@ public class Dash extends PlayerSkill {
 		playerController.setSpeed(normalSpeed * 8.0);
 		if (now - start > duration) {
 			playerController.setSpeed(normalSpeed);
-			status.setInvincible(false);
+			parent.addScript(new BasicScript<Player>() {
+				long start = System.currentTimeMillis();
+				@Override
+				public void update() {
+					long now =System.currentTimeMillis();
+					if(now-start>200) {
+						parent.getStatus().setInvincible(false);
+						parent.removeScript(this);
+					}
+				}
+			});
 			skillDone();
 		}
 	}

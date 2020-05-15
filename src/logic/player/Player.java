@@ -150,6 +150,22 @@ public class Player extends Entity implements Dio {
 			}
 		});
 		//////
+		
+		addScript(new BasicScript<GameObject>() {
+
+			@Override
+			public void update() throws GameInterruptException {
+				if(!((BaseLevelScene)parent.getScene()).isBoss()) {
+					try {
+						parent.getScript(Dash.class).setActive(true);
+						parent.getScript(TheWorld.class).setActive(true);
+					} catch (ScriptNotFoundException e) {
+						e.printStackTrace();
+					}
+					parent.removeScript(this);
+				}
+			}
+		});
 	}
 
 	public void healing(int heal) {
@@ -186,6 +202,11 @@ public class Player extends Entity implements Dio {
 		return getScript(Dash.class).getUsingSkill();
 	}
 	
+	public boolean getDashSkillIsActive() throws ScriptNotFoundException {
+		return getScript(Dash.class).isActive();
+	}
+	
+	
 	public long getDashTime() {
 		try {
 			return getScript(Dash.class).getTimeDuration();
@@ -196,6 +217,10 @@ public class Player extends Entity implements Dio {
 	
 	public boolean getTheWorldSkillIsUsing() throws ScriptNotFoundException {
 		return getScript(TheWorld.class).getUsingSkill();
+	}
+	
+	public boolean getTheWorldIsActive() throws ScriptNotFoundException {
+		return getScript(TheWorld.class).isActive();
 	}
 	
 	public long getTheWorldSkillCooldown() {
@@ -215,5 +240,14 @@ public class Player extends Entity implements Dio {
 	}
 
 	public Animator animator;
+
+	public void setSkillActive() {
+		try {
+			getScript(Dash.class).setActive(true);
+			getScript(TheWorld.class).setActive(true);
+		} catch (ScriptNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

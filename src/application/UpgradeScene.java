@@ -24,9 +24,25 @@ public class UpgradeScene extends GameScene {
 	private static final int MAX_UPGRADE_POINT = -1;
 	private static TreeMap<String, int[]> upgradePrice = new TreeMap<String, int[]>();
 	static {
-		upgradePrice.put("health", new int[] { 10, 20, 40, 60, 80, 160, 320, 640, MAX_UPGRADE_POINT });
-		upgradePrice.put("damage", new int[] { 10, 20, 40, 60, 80, 160, 320, 640, MAX_UPGRADE_POINT });
-		upgradePrice.put("healthItem", new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90, MAX_UPGRADE_POINT });
+		int[] arr;
+		upgradePrice.put("health", new int[101]);
+		arr = upgradePrice.get("health");
+		for(int i=1;i<=100;++i) {
+			arr[i-1]=1000+i*i*100;
+		}
+		arr[100] = MAX_UPGRADE_POINT;
+		upgradePrice.put("damage", new int[101]);
+		arr = upgradePrice.get("damage");
+		for(int i=1;i<=100;++i) {
+			arr[i-1]=1000+i*i*100;
+		}
+		arr[100] = MAX_UPGRADE_POINT;
+		upgradePrice.put("healthItem", new int[101]);
+		arr = upgradePrice.get("healthItem");
+		for(int i=1;i<=100;++i) {
+			arr[i-1]=1000+i*i*100;
+		}
+		arr[100] = MAX_UPGRADE_POINT;
 	}
 
 	public static int calculateHealth() {
@@ -117,8 +133,8 @@ public class UpgradeScene extends GameScene {
 						upgradeLevel = (int) data;
 					}
 					int price = upgradePrice.get(currentUpgrade)[upgradeLevel];
-					String priceString = price == MAX_UPGRADE_POINT ? " Maximum level reached"
-							: " upgrade price : " + Integer.toString(price);
+					String priceString = price == MAX_UPGRADE_POINT ? "\nMaximum level reached"
+							: "\nupgrade price : " + Integer.toString(price);
 					int value = 0;
 					String name = "";
 					if (currentUpgrade.equals("health")) {
@@ -138,12 +154,24 @@ public class UpgradeScene extends GameScene {
 			addGameObject(info);
 			root.getChildren().add(button);
 		}
-
 		ImageButton levelSelect = new ImageButton(600, 100, null, null, null);
 		levelSelect.setOnAction((evt) -> {
 			GameManager.getInstance()
 					.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("select")));
 		});
+		TextObject totalScoreText = new TextObject(100, 300, "", new Font("ARCADECLASSIC",18), 500);
+		totalScoreText.addScript(new BasicScript<TextObject>() {
+			@Override
+			public void update() {
+				Object data = DataManager.getInstance().getPesistentData("totalScore");
+				int totalScore = 0;
+				if (data != null) {
+					totalScore = (int) data;
+				}
+				parent.setText("Total Score: "+Integer.toString(totalScore));
+			}
+		});
+		addGameObject(totalScoreText);
 		levelSelect.getGameObject().translate(0, 500);
 		root.getChildren().add(levelSelect);
 	}

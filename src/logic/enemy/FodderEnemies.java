@@ -2,10 +2,13 @@ package logic.enemy;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import application.GameManager;
 import drawing.ImageSprite;
 import logic.base.BasicScript;
+import logic.base.Entity;
 import logic.base.GameObject;
 import logic.base.Script;
 import logic.base.ScriptFactory;
@@ -152,6 +155,16 @@ public class FodderEnemies {
 	public static final EnemyFactory meteorFactory;
 	public static final EnemyFactory asteroidFactory;
 	public static final EnemyFactory spaceShipFactory;
+	
+	private static final BiConsumer<ArrayList<GameObject>, Enemy> DEFAULT_FODDER_ONHIT = (targets, enemy) -> {
+		Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
+		if(((Entity)targets.get(0)).getStatus().isInvincible()) {
+			return;
+		}
+		GameManager.getInstance().getCurrentScene()
+				.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
+		enemy.destroy();
+	};
 
 	static {
 		meteorFactory = new EnemyFactory();
@@ -162,12 +175,7 @@ public class FodderEnemies {
 		ArrayList<ScriptFactory> scriptFactories = meteorFactory.getScriptFactories();
 		scriptFactories.add(new ConstantSpeedMoveFactory(0, 3.0));
 		scriptFactories.add(new AutoRemoveFactory(20));
-		meteorFactory.setOnHitPlayerFunc((targets, enemy) -> {
-			Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
-			GameManager.getInstance().getCurrentScene()
-					.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
-			enemy.destroy();
-		});
+		meteorFactory.setOnHitPlayerFunc(DEFAULT_FODDER_ONHIT);
 		asteroidFactory = new EnemyFactory();
 		asteroidFactory.setHealth(50);
 		asteroidFactory.setDamage(2);
@@ -191,12 +199,7 @@ public class FodderEnemies {
 			}
 		});
 		scriptFactories.add(new AutoRemoveFactory(20));
-		asteroidFactory.setOnHitPlayerFunc((targets, enemy) -> {
-			Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
-			GameManager.getInstance().getCurrentScene()
-					.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
-			enemy.destroy();
-		});
+		asteroidFactory.setOnHitPlayerFunc(DEFAULT_FODDER_ONHIT);
 		spaceShipFactory = new EnemyFactory() {
 			@Override
 			public Enemy createGameObject() {
@@ -219,12 +222,7 @@ public class FodderEnemies {
 		scriptFactories.add(new ConstantSpeedMoveFactory(5, 0));
 		scriptFactories.add(new AutoRemoveFactory(20));
 		scriptFactories.add(new RotateScriptFactory());
-		spaceShipFactory.setOnHitPlayerFunc((targets, enemy) -> {
-			Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
-			GameManager.getInstance().getCurrentScene()
-					.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
-			enemy.destroy();
-		});
+		spaceShipFactory.setOnHitPlayerFunc(DEFAULT_FODDER_ONHIT);
 	}
 
 }

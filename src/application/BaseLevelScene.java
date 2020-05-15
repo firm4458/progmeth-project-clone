@@ -29,6 +29,17 @@ public class BaseLevelScene extends GameScene {
 
 	protected Media bgm;
 	protected AudioClip bgmPlayer;
+	protected boolean isBoss;
+	
+	
+
+	public boolean isBoss() {
+		return isBoss;
+	}
+
+	public void setBoss(boolean isBoss) {
+		this.isBoss = isBoss;
+	}
 
 	public BaseLevelScene(String name, Media bgm) {
 		super(name);

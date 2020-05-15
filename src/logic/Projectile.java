@@ -31,8 +31,10 @@ public abstract class Projectile extends Entity {
 			}
 			try {
 				Entity entity = (Entity) target;
-				actOn(entity);
-				hitCount--;
+				if(!entity.getStatus().isInvincible()) {
+					actOn(entity);
+					hitCount--;
+				}
 			} catch (ClassCastException e) {
 				e.printStackTrace();
 				System.err.println(target.toString() + " is not an Entity");

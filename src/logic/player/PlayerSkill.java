@@ -16,6 +16,15 @@ public abstract class PlayerSkill implements Script {
 	protected long cooldownStart = -9999;
 	protected boolean usingSkill;
 	protected KeyCode activateKey;
+	protected boolean isActive = false;
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	public PlayerSkill(KeyCode activateKey, long cooldown) {
 		this.activateKey = activateKey;
@@ -29,6 +38,9 @@ public abstract class PlayerSkill implements Script {
 
 	@Override
 	public void earlyUpdate() {
+		if(!isActive) {
+			return;
+		}
 		long timePassed = System.currentTimeMillis() - cooldownStart;
 		timeCount = timePassed;
 		if (!usingSkill && InputUtil.isKeyPressed(activateKey) && timePassed > cooldown) {

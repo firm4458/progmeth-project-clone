@@ -22,7 +22,11 @@ public class TextSkillObject extends TextObject implements Dio {
 				public void update() throws GameInterruptException {
 					TextSprite ts = (TextSprite) (parent.getSprite());
 					try {
-						if(player.getDashSkillIsUsing()) {
+						if(!player.getDashSkillIsActive()) {
+							ts.setColor(Color.RED);
+							ts.setText("X");
+						}
+						else if(player.getDashSkillIsUsing()) {
 							ts.setColor(Color.GREEN);
 							ts.setText(""+player.getDashTime());
 						}
@@ -48,7 +52,11 @@ public class TextSkillObject extends TextObject implements Dio {
 				public void update() throws GameInterruptException {
 					TextSprite ts = (TextSprite) (parent.getSprite());
 					try {
-						if(player.getTheWorldSkillIsUsing()) {
+						if(!player.getTheWorldIsActive()) {
+							ts.setColor(Color.RED);
+							ts.setText("X");
+						}
+						else if(player.getTheWorldSkillIsUsing()) {
 							ts.setColor(Color.GREEN);
 							ts.setText(""+player.getTheWorldTime());
 						}
