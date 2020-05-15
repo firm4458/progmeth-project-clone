@@ -36,7 +36,6 @@ public abstract class GameScene extends Scene implements Destroyable {
 	private GameObject[] gameObjBuffer;
 	private Updatable[] updatableBuffer;
 
-	private String name;
 	protected SimpleCamera simpleCamera;
 
 	public abstract void init();
@@ -83,8 +82,6 @@ public abstract class GameScene extends Scene implements Destroyable {
 		canvas = new Canvas(GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		simpleCamera = new SimpleCamera(canvas);
 		root.getChildren().add(canvas);
-		this.name = name;
-
 		// Set Player move
 		setOnKeyPressed(e -> {
 			InputUtil.setKeyPressed(e.getCode(), true);

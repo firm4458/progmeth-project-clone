@@ -34,7 +34,7 @@ public class Space2 extends NormalLevelScene {
 		super.init();
 		GameObject spawner = new GameObject(0, 0);
 		spawner.addScript(
-				new EnemySpawner(FodderEnemies.asteroidFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
+				new EnemySpawner(FodderEnemies.spaceShipFactory, enemyGroup, FodderEnemies.SPACE_SHIP_FODDER_SPAWN_STRATEGY));
 		addGameObject(spawner);
 	}
 

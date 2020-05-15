@@ -17,7 +17,6 @@ public class GameObject implements Destroyable {
 	};
 	private ArrayList<Script> bufferAdd = new ArrayList<Script>();
 	private ArrayList<Script> bufferRemove = new ArrayList<Script>();
-	private Script[] buffer = new Script[DEFAULT_SCRIPT_BUFFER_SIZE];
 	protected final ArrayList<Script> scripts = new ArrayList<Script>();
 	protected double X;
 	protected double Y;

@@ -45,3 +45,4 @@ healthBar,img/Health-Bar.png,228,60,TRUE
 health,img/Health.png,168,12,TRUE
 button.keys.X,img/Keys/X-Key.png,300,300,TRUE
 button.keys.X.pressed,img/Keys/X-Key-Pressed.png,300,300,TRUE
+enemy.ship,img/Enemy-Ship.png,96,96,TRUE

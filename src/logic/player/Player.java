@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import application.BaseLevelScene;
-import application.BossScene;
 import application.GameManager;
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
@@ -13,7 +12,6 @@ import application.LevelResultScene;
 import application.LevelResultScene.LevelResult;
 import application.UpgradeScene;
 import drawing.ImageSprite;
-import drawing.Renderer;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.util.Pair;
@@ -82,7 +80,7 @@ public class Player extends Entity implements Dio {
 		gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
 				new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
 		gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
-				new LevelResultScene("result", (scene instanceof BossScene) ? LevelResult.LOSE : LevelResult.NONE,
+				new LevelResultScene("result", LevelResult.NONE,
 						((BaseLevelScene) scene).getScore())));
 		destroy();
 	}
@@ -95,7 +93,7 @@ public class Player extends Entity implements Dio {
 			public void takeDamage(int damage) {
 				if (!isInvincible) {
 					super.takeDamage(damage);
-					Renderer.getInstance().getCamera().addScript(new ShakerScript(4, 1.2));
+					GameManager.getInstance().getCurrentScene().getSimpleCamera().addScript(new ShakerScript(4, 1.2));
 					mediaPlayer = new AudioClip(ResourceManager.getSound("sound/Boss hit 1.wav").getSource());
 					mediaPlayer.play();
 				}
@@ -107,7 +105,7 @@ public class Player extends Entity implements Dio {
 		sprite = new ImageSprite(this, ResourceManager.getImage("idle1"));
 		animator = new Animator((ImageSprite) sprite, idleState);
 		addScript(new PlayerController()).addScript(animator).addScript(new BulletShooter())
-				.addScript(new ColliderBox(10, 5, 60, 100));
+				.addScript(new ColliderBox(10, 5, 60, 80));
 		addScript(new Dash(this));
 		addScript(new TheWorld(this));
 		BaseLevelScene scene = (BaseLevelScene) GameManager.getInstance().getCurrentScene();

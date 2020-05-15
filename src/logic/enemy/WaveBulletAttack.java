@@ -8,16 +8,18 @@ public class WaveBulletAttack extends AttackScriptFactory {
 	private double offsetX;
 	private double offsetY;
 	private long duration;
+	private int damage;
 
-	public WaveBulletAttack(double offsetX, double offsetY, long duration) {
+	public WaveBulletAttack(double offsetX, double offsetY, long duration, int damage) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 		this.duration = duration;
+		this.damage = damage;
 	}
 
 	@Override
 	public AttackScript createScript() {
-		return new WaveBulletAttackScript(offsetX, offsetY, duration);
+		return new WaveBulletAttackScript(offsetX, offsetY, duration, damage);
 	}
 
 	public class WaveBulletAttackScript extends AttackScript {
@@ -31,8 +33,9 @@ public class WaveBulletAttack extends AttackScriptFactory {
 		private static final int BASE_SPEED = 5;
 		private double amplitude;
 		private double frequency;
+		private int damage;
 
-		private WaveBulletAttackScript(double offsetX, double offsetY, long duration) {
+		private WaveBulletAttackScript(double offsetX, double offsetY, long duration, int damage) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
@@ -40,6 +43,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			frequency = 0.5;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
+			this.damage = damage;
 		}
 
 		@Override
@@ -62,7 +66,7 @@ public class WaveBulletAttack extends AttackScriptFactory {
 
 		private void createBullet(double angle) {
 			GameManager.getInstance().getCurrentScene().addGameObject(new BossCircularBullet(parent.getX() + offsetX,
-					parent.getY() + offsetY, BASE_SPEED * Math.sin(angle), BASE_SPEED));
+					parent.getY() + offsetY, BASE_SPEED * Math.sin(angle), BASE_SPEED, damage));
 		}
 
 	}

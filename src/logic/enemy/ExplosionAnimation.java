@@ -10,7 +10,6 @@ import logic.util.animation.Animator;
 
 public class ExplosionAnimation extends GameObject {
 	private static AnimationState animation;
-	private int count = 0;
 	public Animator animator;
 	private static Image[] img;
 	static {

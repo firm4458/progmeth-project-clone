@@ -7,7 +7,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
@@ -19,7 +18,6 @@ public class ImageButton extends ToggleButton {
 	private Image pressedImage;
 	private GameObject gameObject;
 	private ImageSprite imgSprite;
-	private Text text;
 	private AudioClip mediaPlayer;
 
 	public ImageButton(double width, double height, Image buttonImage, Image mouseOverImage, Image pressedImage) {

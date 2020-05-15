@@ -11,14 +11,15 @@ import logic.util.scripts.ConstantSpeedMove;
 
 public class BossCircularBullet extends Projectile {
 
-	private int damage = 10;
+	private int damage;
 	private static final Image img = ResourceManager.getImage("bossBullet");
 
-	public BossCircularBullet(double X, double Y, double speedX, double speedY) {
+	public BossCircularBullet(double X, double Y, double speedX, double speedY, int damage) {
 
 		super(X, Y, 1, new ConstantSpeedMove(speedX, speedY), new ColliderBox(img.getWidth(), img.getHeight()),
 				Player.playerGroup, 0);
 		sprite = new ImageSprite(this, img);
+		this.damage = damage;
 
 	}
 

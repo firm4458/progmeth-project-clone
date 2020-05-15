@@ -9,7 +9,6 @@ import javafx.animation.AnimationTimer;
 import javafx.util.Pair;
 import logic.base.GameInterruptException;
 import logic.base.InvalidEventDataException;
-import logic.base.SceneChangeInterruptException;
 import logic.util.DataManager;
 
 public class GameManager {
@@ -149,11 +148,6 @@ public class GameManager {
 					}
 					events.clear();
 					renderer.render(currentScene);
-				} catch (SceneChangeInterruptException e) {
-					setScene(e.getScene());
-					return;
-				} catch (GamePauseException e) {
-					getCurrentScene().pause();
 				} catch (GameInterruptException e) {
 					e.printStackTrace();
 				}
@@ -180,7 +174,6 @@ public class GameManager {
 		}
 		timer.stop();
 		currentScene.destroy();
-		Renderer.getInstance().reset();
 		currentScene = scene;
 		currentScene.init();
 		Main.stage.setScene(scene);

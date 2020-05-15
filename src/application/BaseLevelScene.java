@@ -105,24 +105,31 @@ public class BaseLevelScene extends GameScene {
 
 		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("button.pause"), null, null);
 		ImageButton cont = new ImageButton(50, 50, ResourceManager.getImage("button.resume"), null, null);
+		ImageButton leave = new ImageButton(50,50,ResourceManager.getImage("button.blueButton"), null, null);
 		pause.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
 		cont.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
+		leave.getGameObject().translate(GameManager.NATIVE_WIDTH - 50, 50);
 		cont.disable();
+		leave.disable();
 		GameManager gameManager = GameManager.getInstance();
 		GameScene scene = this;
 		pause.setOnAction((evt) -> {
 			cont.enable();
+			leave.enable();
 			pause.disable();
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.GAME_PAUSE, null));
 		});
 		cont.setOnAction((evt) -> {
 			pause.enable();
+			leave.disable();
 			cont.disable();
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.GAME_RESUME, null));
 		});
+		leave.setOnAction((evt)->{
+			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("select")));
+		});
 		Group root = (Group) getRoot();
-		root.getChildren().add(pause);
-		root.getChildren().add(cont);
+		root.getChildren().addAll(pause,cont,leave);
 
 		bgmPlayer.play();
 	}

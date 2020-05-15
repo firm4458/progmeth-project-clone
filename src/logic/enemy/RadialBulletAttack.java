@@ -8,16 +8,18 @@ public class RadialBulletAttack extends AttackScriptFactory {
 	private double offsetX;
 	private double offsetY;
 	private long duration;
+	private int damage;
 
-	public RadialBulletAttack(double offsetX, double offsetY, long duration) {
+	public RadialBulletAttack(double offsetX, double offsetY, long duration, int damage) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 		this.duration = duration;
+		this.damage = damage;
 	}
 
 	@Override
 	public AttackScript createScript() {
-		return new RadialBulletAttackScript(offsetX, offsetY, duration);
+		return new RadialBulletAttackScript(offsetX, offsetY, duration, damage);
 	}
 
 	public class RadialBulletAttackScript extends AttackScript {
@@ -26,18 +28,20 @@ public class RadialBulletAttack extends AttackScriptFactory {
 		private long start;
 		private int counter;
 		private static final int COOLDOWN = 10;
-		private static final int BASE_SPEED = 10;
+		private static final int BASE_SPEED = 5;
 		private double angleDifferent;
 		private double offsetX;
 		private double offsetY;
+		private int damage;
 
-		private RadialBulletAttackScript(double offsetX, double offsetY, long duration) {
+		private RadialBulletAttackScript(double offsetX, double offsetY, long duration, int damage) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
 			angleDifferent = Math.PI / 6;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
+			this.damage = damage;
 		}
 
 		@Override
@@ -59,7 +63,7 @@ public class RadialBulletAttack extends AttackScriptFactory {
 
 		private void createBullet(double speedX, double speedY) {
 			GameManager.getInstance().getCurrentScene().addGameObject(
-					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY));
+					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY, damage));
 		}
 
 	}

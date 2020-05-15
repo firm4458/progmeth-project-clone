@@ -21,12 +21,13 @@ public class Space1Boss extends Space1 {
 	@Override
 	public void init() {
 		super.init();
-		Enemy boss = new Enemy(80, -600, 10000, 500, ResourceManager.getImage("boss.space1"));
+		Enemy boss = new Enemy(80, -600, 10000, 500, ResourceManager.getImage("bossShip"));
 		boss.setPoint(50000);
+		boss.getSprite().setZ(80);
 		AttackController controller = new AttackController(AttackPickStrategy.RANDOM_PICK);
-		controller.getScripts().add(new RadialBulletAttack(250, 590, 6000));
-		controller.getScripts().add(new WaveBulletAttack(250, 590, 10000));
-		controller.getScripts().add(new RandomBulletAttack(250, 590, 4000));
+		controller.getScripts().add(new RadialBulletAttack(220, 520, 6000,10));
+		controller.getScripts().add(new WaveBulletAttack(220, 520, 10000,10));
+		controller.getScripts().add(new RandomBulletAttack(220, 520, 4000,10));
 		boss.addScript(new BasicScript<Enemy>() {
 			@Override
 			public void update() throws GameInterruptException {
@@ -45,6 +46,7 @@ public class Space1Boss extends Space1 {
 		} catch (ScriptNotFoundException e) {
 			e.printStackTrace();
 		}
+		boss.setOnDeathFunc(Enemy.BOSS_ON_DEATH);
 		addGameObject(boss);
 		addGameObject(boss, enemyGroup);
 	}

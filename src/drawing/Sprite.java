@@ -5,7 +5,6 @@ import java.util.TreeMap;
 import application.GameManager;
 import drawing.base.Renderable;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 import logic.base.GameObject;
@@ -18,7 +17,6 @@ public class Sprite implements Renderable {
 	protected double rotate;
 	protected GameObject parent;
 	protected int Z;
-	protected ColorAdjust colorAdjust;
 	protected final TreeMap<String, Effect> effects = new TreeMap<String, Effect>();
 
 	public Sprite(GameObject parent) {
@@ -26,8 +24,6 @@ public class Sprite implements Renderable {
 		relativeY = 0;
 		isVisible = true;
 		this.parent = parent;
-		colorAdjust = new ColorAdjust();
-		Renderer.getInstance().add(this);
 	}
 
 	public double getRotate() {
@@ -43,7 +39,6 @@ public class Sprite implements Renderable {
 		double absoluteX = parent.getX() + relativeX - camera.getX();
 		double absoluteY = parent.getY() + relativeY - camera.getY();
 		gc.setFill(Color.WHITE);
-		gc.setEffect(colorAdjust);
 		effects.forEach((name, effect) -> gc.setEffect(effect));
 		effects.clear();
 		double XScale = gc.getCanvas().getWidth() / GameManager.NATIVE_WIDTH;
@@ -111,13 +106,4 @@ public class Sprite implements Renderable {
 		this.relativeY = relativeY;
 	}
 
-	@Deprecated
-	public ColorAdjust getColorAdjust() {
-		return colorAdjust;
-	}
-
-	@Deprecated
-	public void setColorAdjust(ColorAdjust colorAdjust) {
-		this.colorAdjust = colorAdjust;
-	}
 }

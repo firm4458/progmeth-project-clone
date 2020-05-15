@@ -46,6 +46,8 @@ public abstract class PlayerSkill implements Script {
 	protected abstract void startSkill();
 
 	protected abstract void skillUpdate();
+	
+	//public abstract void get
 
 	@Override
 	public GameObject getParent() {

@@ -1,6 +1,5 @@
 package logic.util.scripts;
 
-import drawing.Renderer;
 import logic.base.BasicScript;
 import logic.base.GameObject;
 
@@ -22,7 +21,7 @@ public class AutoRemove extends BasicScript<GameObject> {
 			--delay;
 			return;
 		}
-		if (!Renderer.getInstance().getCamera().isInCamera(parent)) {
+		if (!parent.getScene().getSimpleCamera().isInCamera(parent)) {
 			parent.destroy();
 		}
 	}

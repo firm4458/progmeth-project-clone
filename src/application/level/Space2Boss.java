@@ -11,6 +11,7 @@ import logic.enemy.AttackScriptFactory;
 import logic.enemy.DashAttack;
 import logic.enemy.Enemy;
 import logic.enemy.GlidingAttack;
+import logic.enemy.RandomBulletAttack;
 import logic.util.ResourceManager;
 import logic.util.scripts.ColliderBox;
 
@@ -25,6 +26,7 @@ public class Space2Boss extends Space2 {
 		Enemy boss = new Enemy(120, -400, 50000, 5000, ResourceManager.getImage("boss.space2"));
 		boss.setPoint(100000);
 		boss.getSprite().setZ(80);
+		boss.setOnDeathFunc(Enemy.BOSS_ON_DEATH);
 		AttackController controller = new AttackController(new AttackPickStrategy() {
 
 			@Override
@@ -36,8 +38,8 @@ public class Space2Boss extends Space2 {
 			}
 		});
 		controller.getScripts().add(new DashAttack(-150));
-		// controller.getScripts().add(new RandomBulletAttack(250, 590, 4000));
-		controller.getScripts().add(new GlidingAttack(200, 200, 220, 5000));
+		controller.getScripts().add(new RandomBulletAttack(200, 200, 4000,20));
+		controller.getScripts().add(new GlidingAttack(200, 200, 220, 5000,20));
 		/*
 		 * controller.getScripts().add(new RadialBulletAttack(250, 590, 6000));
 		 * controller.getScripts().add(new WaveBulletAttack(250, 590, 10000));

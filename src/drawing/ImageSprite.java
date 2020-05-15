@@ -48,7 +48,6 @@ public class ImageSprite extends Sprite {
 		gc.save();
 		Rotate r = new Rotate(rotate, absoluteX + getWidth() / 2, absoluteY + getHeight() / 2);
 		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-		gc.setEffect(colorAdjust);
 		effects.forEach((name, effect) -> gc.setEffect(effect));
 		double XScale = gc.getCanvas().getWidth() / GameManager.NATIVE_WIDTH;
 		double YScale = gc.getCanvas().getHeight() / GameManager.NATIVE_HEIGHT;

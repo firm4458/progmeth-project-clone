@@ -4,7 +4,6 @@ import application.GameManager;
 import javafx.scene.input.KeyCode;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
-import logic.base.SceneChangeInterruptException;
 import logic.base.Script;
 import logic.util.InputUtil;
 
@@ -22,7 +21,7 @@ public class PlayerController implements Script {
 	}
 
 	@Override
-	public void update() throws SceneChangeInterruptException {
+	public void update() {
 		double x = InputUtil.isKeyPressed(KeyCode.LEFT) ? -1 : 0;
 		x += InputUtil.isKeyPressed(KeyCode.RIGHT) ? 1 : 0;
 		x *= speed;
