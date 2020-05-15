@@ -26,7 +26,7 @@ public class Space1Boss extends Space1 {
 		Enemy boss = new Enemy(80, -600, 10000, 500, ResourceManager.getImage("bossShip"));
 		boss.setPoint(50000);
 		boss.getSprite().setZ(80);
-		AttackController controller = new AttackController(AttackPickStrategy.RANDOM_PICK);
+		AttackController controller = new AttackController(AttackPickStrategy.RANDOM_NO_REPEAT_PICK);
 		controller.getScripts().add(new RadialBulletAttack(220, 520, 6000,10));
 		controller.getScripts().add(new WaveBulletAttack(220, 520, 10000,10));
 		controller.getScripts().add(new RandomBulletAttack(220, 520, 4000,10));

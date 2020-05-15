@@ -4,6 +4,7 @@ import application.GameManager;
 import drawing.ImageSprite;
 import drawing.TextSprite;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
@@ -85,14 +86,12 @@ public class ImageButton extends ToggleButton {
 	public void disable() {
 		setDisabled(true);
 		setDisable(true);
-		setVisible(false);
 		imgSprite.setVisible(false);
 	}
 
 	public void enable() {
 		setDisabled(false);
 		setDisable(false);
-		setVisible(true);
 		imgSprite.setVisible(true);
 	}
 
@@ -105,10 +104,24 @@ public class ImageButton extends ToggleButton {
 	public GameObject getTextObject() {
 		return textObject;
 	}
+	
+	public void setInactive() {
+		setDisabled(true);
+		setDisable(true);
+		ColorAdjust effect = new ColorAdjust();
+		effect.setBrightness(-0.5);
+		imgSprite.addEffect("ImageButtonActive",effect);
+	}
+	
+	public void setActive() {
+		setDisabled(false);
+		setDisable(false);
+		imgSprite.removeEffect("ImageButtonActive");
+	}
 
 	public void createFollowText(String str, double relativeX, double relativeY) {
 		GameObject gameObj = new GameObject(0, 0);
-		TextSprite textSprite = new TextSprite(gameObj, str, new Font("ARCADECLASSIC", 30), getPrefWidth());
+		TextSprite textSprite = new TextSprite(gameObj, str, new Font("ARCADECLASSIC", 30), getPrefWidth()-10);
 		gameObj.setSprite(textSprite);
 		gameObj.addScript(new Script() {
 

@@ -3,7 +3,6 @@ package application;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.function.Consumer;
-
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
 import drawing.ImageSprite;
@@ -13,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import logic.LoopBackground;
 import logic.base.BasicScript;
 import logic.base.GameObject;
@@ -27,6 +27,7 @@ import logic.util.scripts.factory.FlashingScriptFactory;
 
 public class MenuScene extends GameScene {
 	private static AnimationState PlayerIcon;
+	private static AudioClip audioClip;
 
 	public MenuScene(String name) {
 		super(name);
@@ -34,6 +35,8 @@ public class MenuScene extends GameScene {
 
 	@Override
 	public void init() {
+		audioClip = new AudioClip(ResourceManager.getSound("sound/menu.mp3").getSource());
+		
 		Group root = (Group) getRoot();
 		GameScene scene = this;
 
@@ -119,19 +122,27 @@ public class MenuScene extends GameScene {
 		Image[] playerimg = { ResourceManager.getImage("idle1"), ResourceManager.getImage("idle1"),
 				ResourceManager.getImage("idle2"), ResourceManager.getImage("idle2") };
 		PlayerIcon = new AnimationState("idle", playerimg, new TreeMap<String, AnimationState>());
-		GameObject playerIcon = new GameObject(50, 600);
+		GameObject playerIcon = new GameObject(55, 600);
 		Sprite pyiconSprite = new ImageSprite(playerIcon, playerimg[0]);
 		playerIcon.setSprite(pyiconSprite);
 		playerIcon.addScript(new BasicScript<GameObject>() {
 			@Override
 			public void update() {
-				if (parent.getY() < -200) {
-					parent.setY(600);
+				parent.translate(0, -2.7);
+				if (parent.getY() < 240) {
+					parent.setY(240);
+					parent.removeScript(this);
 				}
 			}
 		});
-		playerIcon.addScript(new ConstantSpeedMove(0, -3));
 		playerIcon.addScript(new Animator((ImageSprite) pyiconSprite, PlayerIcon));
 		addGameObject(playerIcon);
+		audioClip.setCycleCount(audioClip.INDEFINITE);
+		audioClip.play();
+	}
+	@Override
+	public void destroy() {
+		super.destroy();
+		audioClip.stop();
 	}
 }

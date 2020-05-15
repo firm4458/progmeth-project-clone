@@ -53,3 +53,4 @@ background3,img/space2.png,600,0,TRUE
 levelBanner.space3,img/Level-Banners/Space3.png,600,100,TRUE
 levelBanner.space3.pressed,img/Level-Banners/Space3-Pressed.png,600,100,TRUE
 minion,img/minion.png,70,70,TRUE
+button.back,img/Buttons/Back-Button.png,50,50,TRUE

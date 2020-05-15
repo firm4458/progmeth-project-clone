@@ -39,16 +39,18 @@ public class LevelResultScene extends GameScene {
 			break;
 		}
 		int totalScore = (int) DataManager.getInstance().getPesistentData("totalScore");
-		TextObject resultText = new TextObject(300, 200, "RESULT" + str, new Font("ARCADECLASSIC", 48), 600);
-		TextObject scoreText = new TextObject(300, 300, "SCORE : " + Integer.toString(score),
+		TextObject resultText = new TextObject(300, 150, "RESULT" + str, new Font("ARCADECLASSIC", 48), 600);
+		TextObject scoreText = new TextObject(300, 200, "SCORE : " + Integer.toString(score),
 				new Font("ARCADECLASSIC", 30), 600);
-		TextObject totalScoreText = new TextObject(300, 350, "TOTAL SCORE : " + Integer.toString(totalScore),
+		TextObject totalScoreText = new TextObject(300, 250, "TOTAL SCORE : " + Integer.toString(totalScore),
 				new Font("ARCADECLASSIC", 30), 600);
 		addGameObject(resultText);
 		addGameObject(scoreText);
 		addGameObject(totalScoreText);
-		ImageButton returnButton = new ImageButton(100, 50, ResourceManager.getImage("button.blueButton"), null,
+		ImageButton returnButton = new ImageButton(150, 50, ResourceManager.getImage("button.blueButton"), null,
 				ResourceManager.getImage("button.blueButton.pressed"));
+		returnButton.getGameObject().translate(225, 300);
+		returnButton.createFollowText("Go Back", 75, 23);
 		GameScene scene = this;
 		returnButton.setOnAction((evt) -> {
 			GameManager.getInstance()

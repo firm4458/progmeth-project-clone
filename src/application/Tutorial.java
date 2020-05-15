@@ -2,6 +2,8 @@ package application;
 
 import java.util.TreeMap;
 
+import application.GameManager.GameEvent;
+import application.GameManager.GameEventType;
 import drawing.ImageSprite;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -66,8 +68,8 @@ public class Tutorial extends GameObject implements Dio {
 						@Override
 						public void onDestroy() {
 							super.onDestroy();
-							GameScene scene = parent.getScene();
-							scene.getGameObject("spawner").addScript(enemySpawner);
+							GameManager.getInstance().signalEvent(new GameEvent(parent.getScene(),
+									GameEventType.SCENE_CHANGE, new LevelSelectScene("select",true)));
 						}
 					});
 					parent.getScene().addGameObject(info);

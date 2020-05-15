@@ -11,6 +11,7 @@ import logic.enemy.AttackScriptFactory;
 import logic.enemy.DashAttack;
 import logic.enemy.Enemy;
 import logic.enemy.GlidingAttack;
+import logic.enemy.RadialBulletAttack;
 import logic.enemy.RandomBulletAttack;
 import logic.player.Player;
 import logic.util.ResourceManager;
@@ -40,7 +41,7 @@ public class Space2Boss extends Space2 {
 			}
 		});
 		controller.getScripts().add(new DashAttack(-150));
-		controller.getScripts().add(new RandomBulletAttack(200, 200, 4000,20));
+		controller.getScripts().add(new RadialBulletAttack(200, 200, 1000,20));
 		controller.getScripts().add(new GlidingAttack(200, 200, 220, 5000,20));
 		/*
 		 * controller.getScripts().add(new RadialBulletAttack(250, 590, 6000));
