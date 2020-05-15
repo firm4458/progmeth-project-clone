@@ -3,6 +3,7 @@ package drawing;
 import application.GameManager;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import logic.base.GameObject;
@@ -11,12 +12,22 @@ public class TextSprite extends Sprite {
 	private String text;
 	private Font font;
 	private double maxWidth;
+	private Color color;
 
 	public TextSprite(GameObject parent, String text, Font font, double maxWidth) {
 		super(parent);
 		this.text = text;
 		this.font = font;
 		this.maxWidth = maxWidth;
+		this.color = Color.WHITE;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public String getText() {
@@ -59,7 +70,7 @@ public class TextSprite extends Sprite {
 			gc.setTextAlign(TextAlignment.LEFT);
 			gc.setTextBaseline(VPos.BASELINE);
 		}
-		gc.setFill(javafx.scene.paint.Color.WHITE);
+		gc.setFill(color);
 		gc.fillText(text, absoluteX * XScale, absoluteY * YScale, maxWidth * XScale);
 	}
 

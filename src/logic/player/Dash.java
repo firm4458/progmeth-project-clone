@@ -24,6 +24,7 @@ public class Dash extends PlayerSkill {
 	@Override
 	public void skillUpdate() {
 		long now = System.currentTimeMillis();
+		timeDuration = duration-(now-start);
 		playerController.setSpeed(normalSpeed * 8.0);
 		if (now - start > duration) {
 			playerController.setSpeed(normalSpeed);
