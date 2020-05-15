@@ -1,6 +1,7 @@
 package application.level;
 
 import java.util.ArrayList;
+
 import application.NormalLevelScene;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -31,8 +32,7 @@ public class Space1 extends NormalLevelScene {
 	public void init() {
 		super.init();
 		GameObject spawner = new GameObject(0, 0);
-		spawner.addScript(
-				new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, new FodderSpawnStrategy(25, 100)));
+		spawner.addScript(new EnemySpawner(FodderEnemies.meteorFactory, enemyGroup, new FodderSpawnStrategy(25, 100)));
 		addGameObject(spawner);
 	}
 

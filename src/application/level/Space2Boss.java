@@ -12,7 +12,6 @@ import logic.enemy.DashAttack;
 import logic.enemy.Enemy;
 import logic.enemy.GlidingAttack;
 import logic.enemy.RadialBulletAttack;
-import logic.enemy.RandomBulletAttack;
 import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.scripts.ColliderBox;
@@ -20,13 +19,13 @@ import logic.util.scripts.ColliderBox;
 public class Space2Boss extends Space2 {
 	public Space2Boss() {
 		super("space2.boss", ResourceManager.getSound("sound/boss2.mp3"));
-		isBoss=true;
+		isBoss = true;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		Enemy boss = new Enemy(120, -400, 50000, 5000, ResourceManager.getImage("boss.space2"));
+		Enemy boss = new Enemy(100, -400, 50000, 100, ResourceManager.getImage("boss.space2"));
 		boss.setPoint(100000);
 		boss.getSprite().setZ(80);
 		boss.setOnDeathFunc(Enemy.BOSS_ON_DEATH);
@@ -37,12 +36,12 @@ public class Space2Boss extends Space2 {
 				if (controller.getPickCount() == 0) {
 					return factories.get(0);
 				}
-				return AttackPickStrategy.RANDOM_PICK.pick(factories, controller);
+				return AttackPickStrategy.RANDOM_NO_REPEAT_PICK.pick(factories, controller);
 			}
 		});
 		controller.getScripts().add(new DashAttack(-150));
-		controller.getScripts().add(new RadialBulletAttack(200, 200, 1000,20));
-		controller.getScripts().add(new GlidingAttack(200, 200, 220, 5000,20));
+		controller.getScripts().add(new RadialBulletAttack(200, 200, 1000, 20));
+		controller.getScripts().add(new GlidingAttack(200, 200, 250, 5000, 20));
 		/*
 		 * controller.getScripts().add(new RadialBulletAttack(250, 590, 6000));
 		 * controller.getScripts().add(new WaveBulletAttack(250, 590, 10000));

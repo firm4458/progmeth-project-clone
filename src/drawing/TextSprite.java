@@ -21,11 +21,11 @@ public class TextSprite extends Sprite {
 		this.maxWidth = maxWidth;
 		this.color = Color.WHITE;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public void setColor(Color color) {
 		this.color = color;
 	}

@@ -2,7 +2,7 @@ package logic.base;
 
 public class IncompatibleScriptException extends Exception {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

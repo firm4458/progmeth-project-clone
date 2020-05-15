@@ -38,7 +38,7 @@ public abstract class PlayerSkill implements Script {
 
 	@Override
 	public void earlyUpdate() {
-		if(!isActive) {
+		if (!isActive) {
 			return;
 		}
 		long timePassed = System.currentTimeMillis() - cooldownStart;
@@ -61,8 +61,8 @@ public abstract class PlayerSkill implements Script {
 	protected abstract void startSkill();
 
 	protected abstract void skillUpdate();
-	
-	//public abstract void get
+
+	// public abstract void get
 
 	@Override
 	public GameObject getParent() {
@@ -77,23 +77,23 @@ public abstract class PlayerSkill implements Script {
 			throw new IncompatibleScriptException("PlayerSkill", "must be attached to player");
 		}
 	}
-	
+
 	public long getCooldown() {
-		if(timeCount > cooldown) {
+		if (timeCount > cooldown) {
 			return 0;
 		}
-		return (cooldown - timeCount)/60;
+		return (cooldown - timeCount) / 60;
 	}
-	
+
 	public boolean getUsingSkill() {
 		return usingSkill;
 	}
-	
+
 	public long getTimeDuration() {
-		if(timeDuration < 0) {
+		if (timeDuration < 0) {
 			return 0;
 		}
-		return timeDuration/60;
+		return timeDuration / 60;
 	}
-	
+
 }

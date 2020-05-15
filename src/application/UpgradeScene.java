@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
+import drawing.ImageSprite;
 import drawing.TextSprite;
 import gui.ImageButton;
 import javafx.scene.Group;
@@ -13,7 +14,9 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 import logic.TextObject;
 import logic.base.BasicScript;
+import logic.base.GameObject;
 import logic.util.DataManager;
+import logic.util.ResourceManager;
 
 public class UpgradeScene extends GameScene {
 
@@ -27,20 +30,20 @@ public class UpgradeScene extends GameScene {
 		int[] arr;
 		upgradePrice.put("health", new int[101]);
 		arr = upgradePrice.get("health");
-		for(int i=1;i<=100;++i) {
-			arr[i-1]=1000+i*i*100;
+		for (int i = 1; i <= 100; ++i) {
+			arr[i - 1] = 1000 + i * i * 50;
 		}
 		arr[100] = MAX_UPGRADE_POINT;
 		upgradePrice.put("damage", new int[101]);
 		arr = upgradePrice.get("damage");
-		for(int i=1;i<=100;++i) {
-			arr[i-1]=1000+i*i*100;
+		for (int i = 1; i <= 100; ++i) {
+			arr[i - 1] = 1000 + i * i * 100;
 		}
 		arr[100] = MAX_UPGRADE_POINT;
 		upgradePrice.put("healthItem", new int[101]);
 		arr = upgradePrice.get("healthItem");
-		for(int i=1;i<=100;++i) {
-			arr[i-1]=1000+i*i*100;
+		for (int i = 1; i <= 100; ++i) {
+			arr[i - 1] = 1000 + i * i * 30;
 		}
 		arr[100] = MAX_UPGRADE_POINT;
 	}
@@ -95,19 +98,11 @@ public class UpgradeScene extends GameScene {
 				int price = upgradePrice.get(currentUpgrade)[upgradeLevel];
 
 				if (price == MAX_UPGRADE_POINT) {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Notice");
-					alert.setContentText("Cannot Upgrade: Maximum level reached");
-					alert.setHeaderText(null);
-					alert.show();
+					alert("Maximum level reached");
 					return;
 				}
 				if (totalScore < price) {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Notice");
-					alert.setContentText("Cannot Upgrade: Not enough score");
-					alert.setHeaderText(null);
-					alert.show();
+					alert("Not enough score");
 					return;
 				}
 
@@ -120,8 +115,8 @@ public class UpgradeScene extends GameScene {
 						new Pair<String, Object>("upgrade." + currentUpgrade, upgradeLevel)));
 			});
 			button.getGameObject().translate(500, i * 100);
-			button.createFollowText(upgrades[i], 300, 50);
-			TextObject info = new TextObject(0, i * 100 + 20, "", new Font("ARCADECLASSIC", 18), 500);
+			button.createFollowText("upgrade", 50, 50);
+			TextObject info = new TextObject(180, i * 100 + 40, "", new Font("m5x7", 30), 500);
 			TextSprite sprite = (TextSprite) info.getSprite();
 			sprite.setCenterAligned(false);
 			info.addScript(new BasicScript<TextObject>() {
@@ -152,14 +147,23 @@ public class UpgradeScene extends GameScene {
 				}
 			});
 			addGameObject(info);
+			GameObject icon = new GameObject(0, 100 * i);
+			icon.setSprite(new ImageSprite(icon, ResourceManager.getImage("upgrade." + currentUpgrade)));
+			GameObject banner = new GameObject(100, 100 * i);
+			banner.setSprite(new ImageSprite(banner, ResourceManager.getImage("button.red")));
+			banner.getSprite().setZ(-1);
+			System.out.println(banner.getSprite().getWidth());
+			addGameObject(icon);
+			addGameObject(banner);
 			root.getChildren().add(button);
 		}
-		ImageButton levelSelect = new ImageButton(600, 100, null, null, null);
+		ImageButton levelSelect = new ImageButton(600, 100, ResourceManager.getImage("button.red"), null, null);
 		levelSelect.setOnAction((evt) -> {
 			GameManager.getInstance()
 					.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("select")));
 		});
-		TextObject totalScoreText = new TextObject(100, 300, "", new Font("ARCADECLASSIC",18), 500);
+		levelSelect.createFollowText("Go Back", 300, 50);
+		TextObject totalScoreText = new TextObject(300, 400, "", new Font("m5x7", 36), 500);
 		totalScoreText.addScript(new BasicScript<TextObject>() {
 			@Override
 			public void update() {
@@ -168,12 +172,20 @@ public class UpgradeScene extends GameScene {
 				if (data != null) {
 					totalScore = (int) data;
 				}
-				parent.setText("Total Score: "+Integer.toString(totalScore));
+				parent.setText("Total Score: " + Integer.toString(totalScore));
 			}
 		});
 		addGameObject(totalScoreText);
 		levelSelect.getGameObject().translate(0, 500);
 		root.getChildren().add(levelSelect);
+	}
+
+	private void alert(String reason) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Notice");
+		alert.setContentText("Cannot Upgrade: " + reason);
+		alert.setHeaderText(null);
+		alert.show();
 	}
 
 }

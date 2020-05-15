@@ -81,8 +81,7 @@ public class Player extends Entity implements Dio {
 		gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
 				new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
 		gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
-				new LevelResultScene("result", LevelResult.NONE,
-						((BaseLevelScene) scene).getScore())));
+				new LevelResultScene("result", LevelResult.NONE, ((BaseLevelScene) scene).getScore())));
 		destroy();
 	}
 
@@ -150,12 +149,12 @@ public class Player extends Entity implements Dio {
 			}
 		});
 		//////
-		
+
 		addScript(new BasicScript<GameObject>() {
 
 			@Override
 			public void update() throws GameInterruptException {
-				if(!((BaseLevelScene)parent.getScene()).isBoss()) {
+				if (!((BaseLevelScene) parent.getScene()).isBoss()) {
 					try {
 						parent.getScript(Dash.class).setActive(true);
 						parent.getScript(TheWorld.class).setActive(true);
@@ -184,12 +183,12 @@ public class Player extends Entity implements Dio {
 
 	public int getUpgradeTimeAmmo() {
 		return upgradeTimeAmmo;
-	} 
+	}
 
 	public void setUpgradeTimeAmmo(int time) {
 		upgradeTimeAmmo = time;
 	}
-	
+
 	public long getDashSkillCooldown() {
 		try {
 			return getScript(Dash.class).getCooldown();
@@ -197,16 +196,15 @@ public class Player extends Entity implements Dio {
 			return -1;
 		}
 	}
-	
+
 	public boolean getDashSkillIsUsing() throws ScriptNotFoundException {
 		return getScript(Dash.class).getUsingSkill();
 	}
-	
+
 	public boolean getDashSkillIsActive() throws ScriptNotFoundException {
 		return getScript(Dash.class).isActive();
 	}
-	
-	
+
 	public long getDashTime() {
 		try {
 			return getScript(Dash.class).getTimeDuration();
@@ -214,23 +212,23 @@ public class Player extends Entity implements Dio {
 			return -1;
 		}
 	}
-	
+
 	public boolean getTheWorldSkillIsUsing() throws ScriptNotFoundException {
 		return getScript(TheWorld.class).getUsingSkill();
 	}
-	
+
 	public boolean getTheWorldIsActive() throws ScriptNotFoundException {
 		return getScript(TheWorld.class).isActive();
 	}
-	
+
 	public long getTheWorldSkillCooldown() {
 		try {
 			return getScript(TheWorld.class).getCooldown();
-		} catch(ScriptNotFoundException e) {
+		} catch (ScriptNotFoundException e) {
 			return -1;
 		}
 	}
-	
+
 	public long getTheWorldTime() {
 		try {
 			return getScript(TheWorld.class).getTimeDuration();

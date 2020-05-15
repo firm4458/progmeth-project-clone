@@ -17,7 +17,7 @@ public class Space1Boss extends Space1 {
 
 	public Space1Boss() {
 		super("space1boss", ResourceManager.getSound("sound/boss.mp3"));
-		isBoss=true;
+		isBoss = true;
 	}
 
 	@Override
@@ -27,9 +27,9 @@ public class Space1Boss extends Space1 {
 		boss.setPoint(50000);
 		boss.getSprite().setZ(80);
 		AttackController controller = new AttackController(AttackPickStrategy.RANDOM_NO_REPEAT_PICK);
-		controller.getScripts().add(new RadialBulletAttack(220, 520, 6000,10));
-		controller.getScripts().add(new WaveBulletAttack(220, 520, 10000,10));
-		controller.getScripts().add(new RandomBulletAttack(220, 520, 4000,10));
+		controller.getScripts().add(new RadialBulletAttack(220, 520, 6000, 10));
+		controller.getScripts().add(new WaveBulletAttack(220, 520, 10000, 10));
+		controller.getScripts().add(new RandomBulletAttack(220, 520, 4000, 10));
 		boss.addScript(new BasicScript<Enemy>() {
 			@Override
 			public void update() throws GameInterruptException {

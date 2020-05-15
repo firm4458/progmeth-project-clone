@@ -10,6 +10,7 @@ import application.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.media.Media;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -27,6 +28,8 @@ public class ResourceManager {
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Game Save File (*.save)", "*.save"));
 		loadImage("img/loadImage.csv");
 		cropPlayerImage();
+		Font.loadFont(ClassLoader.getSystemResourceAsStream("font/ARCADECLASSIC.TTF"), 20);
+		Font.loadFont(ClassLoader.getSystemResourceAsStream("font/m5x7.ttf"), 20);
 	}
 
 	private static void cropPlayerImage() {
@@ -118,7 +121,4 @@ public class ResourceManager {
 		return fileChooser.showSaveDialog(Main.stage);
 	}
 
-	public static InputStream getFont(String url) {
-		return ClassLoader.getSystemResourceAsStream(url);
-	}
 }

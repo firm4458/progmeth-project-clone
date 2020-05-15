@@ -104,15 +104,15 @@ public class ImageButton extends ToggleButton {
 	public GameObject getTextObject() {
 		return textObject;
 	}
-	
+
 	public void setInactive() {
 		setDisabled(true);
 		setDisable(true);
 		ColorAdjust effect = new ColorAdjust();
 		effect.setBrightness(-0.5);
-		imgSprite.addEffect("ImageButtonActive",effect);
+		imgSprite.addEffect("ImageButtonActive", effect);
 	}
-	
+
 	public void setActive() {
 		setDisabled(false);
 		setDisable(false);
@@ -121,7 +121,7 @@ public class ImageButton extends ToggleButton {
 
 	public void createFollowText(String str, double relativeX, double relativeY) {
 		GameObject gameObj = new GameObject(0, 0);
-		TextSprite textSprite = new TextSprite(gameObj, str, new Font("ARCADECLASSIC", 30), getPrefWidth()-10);
+		TextSprite textSprite = new TextSprite(gameObj, str, new Font("m5x7", 30), getPrefWidth() - 10);
 		gameObj.setSprite(textSprite);
 		gameObj.addScript(new Script() {
 

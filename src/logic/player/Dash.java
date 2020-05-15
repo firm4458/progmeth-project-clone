@@ -25,16 +25,17 @@ public class Dash extends PlayerSkill {
 	@Override
 	public void skillUpdate() {
 		long now = System.currentTimeMillis();
-		timeDuration = duration-(now-start);
+		timeDuration = duration - (now - start);
 		playerController.setSpeed(normalSpeed * 8.0);
 		if (now - start > duration) {
 			playerController.setSpeed(normalSpeed);
 			parent.addScript(new BasicScript<Player>() {
 				long start = System.currentTimeMillis();
+
 				@Override
 				public void update() {
-					long now =System.currentTimeMillis();
-					if(now-start>200) {
+					long now = System.currentTimeMillis();
+					if (now - start > 200) {
 						parent.getStatus().setInvincible(false);
 						parent.removeScript(this);
 					}

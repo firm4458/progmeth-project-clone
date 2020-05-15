@@ -29,7 +29,7 @@ public class AttackController implements Script {
 	public ArrayList<AttackScriptFactory> getScripts() {
 		return scripts;
 	}
-	
+
 	@Override
 	public void update() throws GameInterruptException {
 	}

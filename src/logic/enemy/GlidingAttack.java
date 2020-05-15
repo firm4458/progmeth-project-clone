@@ -21,7 +21,7 @@ public class GlidingAttack extends AttackScriptFactory {
 
 	@Override
 	public AttackScript createScript() {
-		return new GlidingAttackScript(offsetX, offsetY, glidingAmplitude, duration,damage);
+		return new GlidingAttackScript(offsetX, offsetY, glidingAmplitude, duration, damage);
 	}
 
 	public class GlidingAttackScript extends AttackScript {
@@ -42,7 +42,8 @@ public class GlidingAttack extends AttackScriptFactory {
 			originalX = parent.getX();
 		}
 
-		private GlidingAttackScript(double offsetX, double offsetY, double glidingAmplitude, long duration, int damage) {
+		private GlidingAttackScript(double offsetX, double offsetY, double glidingAmplitude, long duration,
+				int damage) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			counter = COOLDOWN;
@@ -55,7 +56,7 @@ public class GlidingAttack extends AttackScriptFactory {
 		@Override
 		public void update() throws GameInterruptException {
 			long now = System.currentTimeMillis();
-			if (now - start <= duration) {
+			if (now - start <= duration || Math.abs(parent.getX() - originalX) > 1) {
 				long t = now - start;
 				parent.setX(originalX + glidingAmplitude * Math.sin(4 * Math.PI * t / duration));
 				if (counter == 0) {
@@ -72,7 +73,7 @@ public class GlidingAttack extends AttackScriptFactory {
 
 		private void createBullet(double speedX, double speedY) {
 			GameManager.getInstance().getCurrentScene().addGameObject(
-					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY,damage));
+					new BossCircularBullet(parent.getX() + offsetX, parent.getY() + offsetY, speedX, speedY, damage));
 		}
 
 	}

@@ -50,7 +50,7 @@ public class Tutorial extends GameObject implements Dio {
 				button.translate(270, 270);
 				parent.getScene().addGameObject(button);
 
-				text = new TextObject(300, 350, "Press X to use The World", new Font("ARCADECLASSIC", 18), 600);
+				text = new TextObject(300, 350, "Press X to use The World", new Font("m5x7", 30), 600);
 				text.getSprite().setZ(99);
 				parent.getScene().addGameObject(text);
 			}
@@ -60,8 +60,8 @@ public class Tutorial extends GameObject implements Dio {
 				if (InputUtil.isKeyPressed(KeyCode.X)) {
 					parent.removeScript(this);
 					TextObject info = new TextObject(300, 200,
-							"While the time is stopped:\n\nItems can be picked up\n\nEnemies can be damaged, but won't die until skill has ended",
-							new Font("ARCADECLASSIC", 20), 600);
+							"While the time is stopped:\n\nItems can be picked up\n\nEnemies can be damaged,\nbut it won't die until skill has ended",
+							new Font("m5x7", 30), 600);
 
 					info.getSprite().setZ(99);
 					info.addScript(new AutoDestroy(5000) {
@@ -69,7 +69,7 @@ public class Tutorial extends GameObject implements Dio {
 						public void onDestroy() {
 							super.onDestroy();
 							GameManager.getInstance().signalEvent(new GameEvent(parent.getScene(),
-									GameEventType.SCENE_CHANGE, new LevelSelectScene("select",true)));
+									GameEventType.SCENE_CHANGE, new LevelSelectScene("select", true)));
 						}
 					});
 					parent.getScene().addGameObject(info);
@@ -105,7 +105,7 @@ public class Tutorial extends GameObject implements Dio {
 				button.translate(270, 270);
 				parent.getScene().addGameObject(button);
 
-				text = new TextObject(300, 350, "Press Z to dash", new Font("ARCADECLASSIC", 18), 600);
+				text = new TextObject(300, 350, "Press Z to dash", new Font("m5x7", 30), 600);
 				text.getSprite().setZ(99);
 				parent.getScene().addGameObject(text);
 			}
@@ -156,7 +156,7 @@ public class Tutorial extends GameObject implements Dio {
 				buttons[2].translate(200, 270);
 				buttons[3].translate(340, 270);
 
-				text = new TextObject(300, 350, "Press Arrow Keys to move", new Font("ARCADECLASSIC", 18), 600);
+				text = new TextObject(300, 350, "Press Arrow Keys to move", new Font("m5x7", 30), 600);
 				text.getSprite().setZ(99);
 				parent.getScene().addGameObject(text);
 			}

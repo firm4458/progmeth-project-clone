@@ -12,8 +12,6 @@ import application.level.Space2Boss;
 import application.level.Space3;
 import application.level.Space3Boss;
 import gui.ImageButton;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,7 +21,7 @@ import logic.util.ResourceManager;
 public class LevelSelectScene extends GameScene {
 
 	private boolean fromTutorial;
-	
+
 	private static AudioClip bgmPlayer;
 
 	public LevelSelectScene(String name) {
@@ -104,7 +102,7 @@ public class LevelSelectScene extends GameScene {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Welcome");
 			alert.setHeaderText(null);
-			alert.setContentText("Welcome to Space Master!\nThis is where you can select which level to play\n"
+			alert.setContentText("This is where you can select which level to play\n"
 					+ "You can select any level, but we recommend playing easier levels first to gain some score and upgrade your health, damage, and heal"
 					+ "\nEvery non boss levels are endless, you are free to quit the level any time you want");
 			alert.show();
@@ -116,7 +114,11 @@ public class LevelSelectScene extends GameScene {
 					ResourceManager.getImage("levelBanner." + name + ".pressed"),
 					ResourceManager.getImage("levelBanner." + name + ".pressed"));
 			GameEvent event = new GameEvent(this, GameEventType.SCENE_CHANGE, sceneFromString(name));
-			button.setOnAction(evt -> {manager.signalEvent(event); bgmPlayer.stop(); bgmPlayer=null;});
+			button.setOnAction(evt -> {
+				manager.signalEvent(event);
+				bgmPlayer.stop();
+				bgmPlayer = null;
+			});
 			if (i < BUTTON_PER_PAGE) {
 				button.enable();
 				button.getGameObject().setX(0);
@@ -201,7 +203,7 @@ public class LevelSelectScene extends GameScene {
 		saveButton.getGameObject().translate(305, 525);
 		saveButton.createFollowText("Save", 50, 23);
 		root.getChildren().addAll(upgradeButton, nextPage, prevPage, saveButton);
-		if(bgmPlayer==null) {
+		if (bgmPlayer == null) {
 			bgmPlayer = new AudioClip(ResourceManager.getSound("sound/levelSelect.mp3").getSource());
 			bgmPlayer.play();
 		}

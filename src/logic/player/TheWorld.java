@@ -33,7 +33,7 @@ public class TheWorld extends PlayerSkill {
 	@Override
 	protected void skillUpdate() {
 		long now = System.currentTimeMillis();
-		timeDuration = duration-(now-start);
+		timeDuration = duration - (now - start);
 		if (now - start > duration) {
 			try {
 				timeSphere.getScript(ExpansionScript.class).expanding = false;

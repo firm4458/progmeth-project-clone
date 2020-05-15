@@ -1,7 +1,5 @@
 package application.level;
 
-import java.util.ArrayList;
-
 import application.BaseLevelScene;
 import logic.base.BasicScript;
 import logic.base.GameInterruptException;
@@ -21,7 +19,7 @@ import logic.util.scripts.factory.ConstantSpeedMoveFactory;
 public class Space3Boss extends Space3 {
 	public Space3Boss() {
 		super("space3.boss", ResourceManager.getSound("sound/boss3.mp3"));
-		isBoss=true;
+		isBoss = true;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.function.Consumer;
+
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
 import drawing.ImageSprite;
@@ -22,7 +23,6 @@ import logic.base.ScriptFactory;
 import logic.util.ResourceManager;
 import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
-import logic.util.scripts.ConstantSpeedMove;
 import logic.util.scripts.factory.FlashingScriptFactory;
 
 public class MenuScene extends GameScene {
@@ -36,7 +36,7 @@ public class MenuScene extends GameScene {
 	@Override
 	public void init() {
 		audioClip = new AudioClip(ResourceManager.getSound("sound/menu.mp3").getSource());
-		
+
 		Group root = (Group) getRoot();
 		GameScene scene = this;
 
@@ -137,9 +137,10 @@ public class MenuScene extends GameScene {
 		});
 		playerIcon.addScript(new Animator((ImageSprite) pyiconSprite, PlayerIcon));
 		addGameObject(playerIcon);
-		audioClip.setCycleCount(audioClip.INDEFINITE);
+		audioClip.setCycleCount(AudioClip.INDEFINITE);
 		audioClip.play();
 	}
+
 	@Override
 	public void destroy() {
 		super.destroy();

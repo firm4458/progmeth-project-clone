@@ -31,7 +31,7 @@ public abstract class Projectile extends Entity {
 			}
 			try {
 				Entity entity = (Entity) target;
-				if(!entity.getStatus().isInvincible()) {
+				if (!entity.getStatus().isInvincible()) {
 					actOn(entity);
 					hitCount--;
 				}

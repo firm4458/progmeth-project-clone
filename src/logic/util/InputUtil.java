@@ -6,11 +6,8 @@ import javafx.scene.input.KeyCode;
 
 public class InputUtil {
 	private static final TreeMap<KeyCode, Boolean> keyMap = new TreeMap<KeyCode, Boolean>();
-	public static final TreeMap<String, Boolean> buttonMap = new TreeMap<String, Boolean>();
 	static {
-		for (KeyCode code : KeyCode.values()) {
-			keyMap.put(code, false);
-		}
+		reset();
 	}
 
 	public static boolean isKeyPressed(KeyCode code) {
@@ -19,5 +16,11 @@ public class InputUtil {
 
 	public static void setKeyPressed(KeyCode code, boolean value) {
 		keyMap.put(code, value);
+	}
+
+	public static void reset() {
+		for (KeyCode code : KeyCode.values()) {
+			keyMap.put(code, false);
+		}
 	}
 }

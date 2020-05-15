@@ -10,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
 import logic.TextObject;
@@ -18,7 +17,6 @@ import logic.TextSkillObject;
 import logic.base.BasicScript;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
-import logic.base.ScriptNotFoundException;
 import logic.item.GroupOfItems;
 import logic.player.Player;
 import logic.util.DataManager;
@@ -30,8 +28,6 @@ public class BaseLevelScene extends GameScene {
 	protected Media bgm;
 	protected AudioClip bgmPlayer;
 	protected boolean isBoss;
-	
-	
 
 	public boolean isBoss() {
 		return isBoss;
@@ -79,21 +75,24 @@ public class BaseLevelScene extends GameScene {
 
 		addGameObject(player);
 		addGameObject(groupOfItems);
-		
+
 		GameObject dashSkillIcon = new GameObject(10, 540);
 		dashSkillIcon.setSprite(new ImageSprite(dashSkillIcon, new Image("img/dash skill.png", 50, 50, true, true)));
 		dashSkillIcon.getSprite().setZ(99);
 		addGameObject(dashSkillIcon);
-		
-		GameObject dashSkillTime = new TextSkillObject(65, 540, "DashText", "READY", new Font("ARCADECLASSIC", 20), 100, player);
+
+		GameObject dashSkillTime = new TextSkillObject(65, 540, "DashText", "READY", new Font("ARCADECLASSIC", 20), 100,
+				player);
 		addGameObject(dashSkillTime);
-		
+
 		GameObject theWorldSkillIcon = new GameObject(100, 540);
-		theWorldSkillIcon.setSprite(new ImageSprite(theWorldSkillIcon, new Image("img/The World.png", 50, 50, true, true)));
+		theWorldSkillIcon
+				.setSprite(new ImageSprite(theWorldSkillIcon, new Image("img/The World.png", 50, 50, true, true)));
 		theWorldSkillIcon.getSprite().setZ(99);
 		addGameObject(theWorldSkillIcon);
-		
-		GameObject theWorldSkillTime = new TextSkillObject(155, 540, "TheWorldText", "READY", new Font("ARCADECLASSIC", 20), 100, player);
+
+		GameObject theWorldSkillTime = new TextSkillObject(155, 540, "TheWorldText", "READY",
+				new Font("ARCADECLASSIC", 20), 100, player);
 		addGameObject(theWorldSkillTime);
 
 		GameObject scoreText = new TextObject(0, 85, "Score: 0", new Font("Comic Sans MS", 28), 500);
@@ -139,10 +138,10 @@ public class BaseLevelScene extends GameScene {
 
 		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("button.pause"), null, null);
 		ImageButton cont = new ImageButton(50, 50, ResourceManager.getImage("button.resume"), null, null);
-		ImageButton leave = new ImageButton(50, 50, ResourceManager.getImage("button.blueButton"), null, null);
+		ImageButton leave = new ImageButton(50, 50, ResourceManager.getImage("button.exit"), null, null);
 		pause.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
 		cont.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
-		leave.getGameObject().translate(GameManager.NATIVE_WIDTH - 50, 50);
+		leave.getGameObject().setX(GameManager.NATIVE_WIDTH - 100);
 		cont.disable();
 		leave.disable();
 		GameManager gameManager = GameManager.getInstance();
@@ -173,7 +172,7 @@ public class BaseLevelScene extends GameScene {
 		root.getChildren().addAll(pause, cont, leave);
 
 		bgmPlayer.play();
-		
+
 	}
 
 	@Override

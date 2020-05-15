@@ -49,8 +49,13 @@ enemy.ship,img/Enemy-Ship.png,96,96,TRUE
 boss.space3,img/2B.png,268,400,FALSE
 levelBanner.space3.boss,img/Level-Banners/Space3-Boss.png,600,100,TRUE
 levelBanner.space3.boss.pressed,img/Level-Banners/Space3-Boss-Pressed.png,600,100,TRUE
-background3,img/space2.png,600,0,TRUE
+background3,img/Space2.png,600,0,TRUE
 levelBanner.space3,img/Level-Banners/Space3.png,600,100,TRUE
 levelBanner.space3.pressed,img/Level-Banners/Space3-Pressed.png,600,100,TRUE
-minion,img/minion.png,70,70,TRUE
+minion,img/Minion.png,70,70,TRUE
 button.back,img/Buttons/Back-Button.png,50,50,TRUE
+upgrade.health,img/Upgrades/Health.png,100,100,FALSE
+upgrade.damage,img/Upgrades/Damage.png,100,100,FALSE
+upgrade.healthItem,img/Upgrades/Health-Item.png,100,100,FALSE
+button.red,img/Buttons/Red.png,400,100,FALSE
+button.exit,img/Buttons/Exit-Button.png,50,50,TRUE

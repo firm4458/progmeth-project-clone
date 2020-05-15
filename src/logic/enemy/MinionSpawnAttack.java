@@ -9,25 +9,25 @@ import logic.util.ResourceManager;
 import logic.util.scripts.factory.AutoRemoveFactory;
 
 public class MinionSpawnAttack extends AttackScriptFactory {
-	
+
 	private ScriptFactory minionMovementFactory;
 	private long duration;
 	private double relativeX;
 	private double relativeY;
-	
 
-	public MinionSpawnAttack( double relativeX, double relativeY, long duration,ScriptFactory minionMovementFactory) {
+	public MinionSpawnAttack(double relativeX, double relativeY, long duration, ScriptFactory minionMovementFactory) {
 		super();
 		this.minionMovementFactory = minionMovementFactory;
 		this.duration = duration;
 		this.relativeX = relativeX;
 		this.relativeY = relativeY;
 	}
+
 	@Override
 	public AttackScript createScript() {
 		return new MinionSpawnAttackScript(duration, relativeX, relativeY, minionMovementFactory);
 	}
-	
+
 	public class MinionSpawnAttackScript extends AttackScript {
 		private long start;
 		private long duration;
@@ -36,7 +36,9 @@ public class MinionSpawnAttack extends AttackScriptFactory {
 		private double relativeX;
 		private double relativeY;
 		private ScriptFactory minionMovementFactory;
-		public MinionSpawnAttackScript(long duration, double relativeX, double relativeY, ScriptFactory minionMovementFactory) {
+
+		public MinionSpawnAttackScript(long duration, double relativeX, double relativeY,
+				ScriptFactory minionMovementFactory) {
 			start = System.currentTimeMillis();
 			this.duration = duration;
 			this.relativeX = relativeX;
@@ -44,23 +46,24 @@ public class MinionSpawnAttack extends AttackScriptFactory {
 			this.minionMovementFactory = minionMovementFactory;
 			coolDownStart = -999999;
 		}
+
 		@Override
 		public void update() {
 			long now = System.currentTimeMillis();
-			if(now-start>duration) {
+			if (now - start > duration) {
 				setDone(true);
-			}else if(now-coolDownStart>COOLDOWN) {
+			} else if (now - coolDownStart > COOLDOWN) {
 				Enemy minion = minionFactory.createGameObject();
-				minion.setX(parent.getX()+relativeX);
-				minion.setY(parent.getY()+relativeY);
+				minion.setX(parent.getX() + relativeX);
+				minion.setY(parent.getY() + relativeY);
 				minion.addScript(minionMovementFactory.createScript());
 				coolDownStart = now;
 				parent.getScene().addGameObject(minion);
-				parent.getScene().addGameObject(minion,((BaseLevelScene)parent.getScene()).getEnemyGroup());
+				parent.getScene().addGameObject(minion, ((BaseLevelScene) parent.getScene()).getEnemyGroup());
 			}
 		}
 	}
-	
+
 	public static final EnemyFactory minionFactory = new EnemyFactory();
 	static {
 		minionFactory.setHealth(100);

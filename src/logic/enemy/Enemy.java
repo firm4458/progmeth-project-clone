@@ -3,6 +3,7 @@ package logic.enemy;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
 import application.BaseLevelScene;
 import application.GameManager;
 import application.GameManager.GameEvent;
@@ -90,13 +91,14 @@ public class Enemy extends Entity {
 		scene.addScore(enemy.getPoint());
 		enemy.destroy();
 	};
-	
-	public static final Consumer<Enemy> BOSS_ON_DEATH = (enemy)->{
-		BaseLevelScene scene = (BaseLevelScene)enemy.getScene(); 
-		ImageSprite sprite = (ImageSprite)enemy.getSprite();
+
+	public static final Consumer<Enemy> BOSS_ON_DEATH = (enemy) -> {
+		BaseLevelScene scene = (BaseLevelScene) enemy.getScene();
+		ImageSprite sprite = (ImageSprite) enemy.getSprite();
 		GameManager manager = GameManager.getInstance();
 		scene.addScore(enemy.getPoint());
-		scene.addGameObject(new ExplosionAnimation(enemy.getX() + sprite.getWidth() / 2, enemy.getY() + sprite.getHeight() / 2, 10));
+		scene.addGameObject(new ExplosionAnimation(enemy.getX() + sprite.getWidth() / 2,
+				enemy.getY() + sprite.getHeight() / 2, 10));
 		GameObject gameObj = new GameObject(0, 0);
 		gameObj.addScript(new AutoDestroy(1000) {
 			@Override
@@ -106,9 +108,9 @@ public class Enemy extends Entity {
 					totalScore = (int) DataManager.getInstance().getPesistentData("totalScore");
 				}
 				manager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
-						new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
+						new Pair<String, Object>("totalScore", totalScore + scene.getScore())));
 				manager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
-						new LevelResultScene("result", LevelResult.WIN, ((BaseLevelScene) scene).getScore())));
+						new LevelResultScene("result", LevelResult.WIN, scene.getScore())));
 			}
 		});
 		scene.addGameObject(gameObj);

@@ -3,7 +3,6 @@ package logic.enemy;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import application.GameManager;
 import drawing.ImageSprite;
@@ -23,12 +22,12 @@ import logic.util.scripts.factory.ConstantSpeedMoveFactory;
 import logic.util.scripts.factory.RotateScriptFactory;
 
 public class FodderEnemies {
-	
-	public static class FodderSpawnStrategy implements SpawnStrategy{
+
+	public static class FodderSpawnStrategy implements SpawnStrategy {
 		private int max_count;
 		private long cooldown;
 		private static final String strategyName = "FODDER_SPAWN_STRATEGY";
-		
+
 		public FodderSpawnStrategy(int max_count, long cooldown) {
 			this.max_count = max_count;
 			this.cooldown = cooldown;
@@ -88,7 +87,7 @@ public class FodderEnemies {
 			data.put(strategyName, System.currentTimeMillis());
 		}
 	};
-	
+
 	public static final SpawnStrategy SPACE_SHIP_FODDER_SPAWN_STRATEGY = new SpawnStrategy() {
 		private static final long COOLDOWN = 1200;
 		private static final String strategyName = "SPACE_SHIP_SPAWN_STRATEGY";
@@ -113,37 +112,37 @@ public class FodderEnemies {
 		@Override
 		public void customizeFactory(EnemyFactory factory, GameObjectGroup group, Map<String, Object> data) {
 			Player player = null;
-			for(GameObject gameObj : Player.playerGroup.getChildren()){
-				if(gameObj instanceof Player) {
-					player=(Player)gameObj;
+			for (GameObject gameObj : Player.playerGroup.getChildren()) {
+				if (gameObj instanceof Player) {
+					player = (Player) gameObj;
 					break;
 				}
 			}
-			factory.setY(player.getY()-100* Math.random()+10);
+			factory.setY(player.getY() - 100 * Math.random() + 10);
 			double rand = Math.random();
-			
+
 			ConstantSpeedMoveFactory scriptFactory = null;
-			for(ScriptFactory sf : factory.getScriptFactories()) {
-				if(sf instanceof ConstantSpeedMoveFactory) {
+			for (ScriptFactory sf : factory.getScriptFactories()) {
+				if (sf instanceof ConstantSpeedMoveFactory) {
 					scriptFactory = (ConstantSpeedMoveFactory) sf;
 					break;
 				}
 			}
 
 			RotateScriptFactory rotateScriptFactory = null;
-			for(ScriptFactory sf : factory.getScriptFactories()) {
-				if(sf instanceof RotateScriptFactory) {
+			for (ScriptFactory sf : factory.getScriptFactories()) {
+				if (sf instanceof RotateScriptFactory) {
 					rotateScriptFactory = (RotateScriptFactory) sf;
 					break;
 				}
 			}
 			double speed = Math.abs(scriptFactory.getSpeedX());
-			if(rand>0.5) {
+			if (rand > 0.5) {
 				factory.setX(-100 * Math.random() - 10);
 				scriptFactory.setSpeedX(speed);
 				rotateScriptFactory.setRot(0);
-			}else {
-				factory.setX(GameManager.NATIVE_WIDTH + 20*Math.random());
+			} else {
+				factory.setX(GameManager.NATIVE_WIDTH + 20 * Math.random());
 				scriptFactory.setSpeedX(-speed);
 				rotateScriptFactory.setRot(180);
 			}
@@ -155,14 +154,13 @@ public class FodderEnemies {
 	public static final EnemyFactory meteorFactory;
 	public static final EnemyFactory asteroidFactory;
 	public static final EnemyFactory spaceShipFactory;
-	
+
 	private static final BiConsumer<ArrayList<GameObject>, Enemy> DEFAULT_FODDER_ONHIT = (targets, enemy) -> {
 		Enemy.DEFAULT_ON_HIT_PLAYER.accept(targets, enemy);
-		if(((Entity)targets.get(0)).getStatus().isInvincible()) {
+		if (((Entity) targets.get(0)).getStatus().isInvincible()) {
 			return;
 		}
-		GameManager.getInstance().getCurrentScene()
-				.addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
+		GameManager.getInstance().getCurrentScene().addGameObject(new ExplosionAnimation(enemy.getX(), enemy.getY()));
 		enemy.destroy();
 	};
 
@@ -208,7 +206,7 @@ public class FodderEnemies {
 					ColliderBox collider = ship.getScript(ColliderBox.class);
 					collider.setRelativeY(24);
 					collider.setHeight(48);
-				}catch(ScriptNotFoundException ex) {
+				} catch (ScriptNotFoundException ex) {
 					System.err.println("cant get collider box");
 				}
 				return ship;
