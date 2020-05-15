@@ -10,6 +10,8 @@ import logic.util.InputUtil;
 public abstract class PlayerSkill implements Script {
 
 	protected Player parent;
+	protected long timeCount;
+	protected long timeDuration;
 	protected long cooldown;
 	protected long cooldownStart = -9999;
 	protected boolean usingSkill;
@@ -28,6 +30,7 @@ public abstract class PlayerSkill implements Script {
 	@Override
 	public void earlyUpdate() {
 		long timePassed = System.currentTimeMillis() - cooldownStart;
+		timeCount = timePassed;
 		if (!usingSkill && InputUtil.isKeyPressed(activateKey) && timePassed > cooldown) {
 			usingSkill = true;
 			startSkill();
@@ -62,5 +65,23 @@ public abstract class PlayerSkill implements Script {
 			throw new IncompatibleScriptException("PlayerSkill", "must be attached to player");
 		}
 	}
-
+	
+	public long getCooldown() {
+		if(timeCount > cooldown) {
+			return 0;
+		}
+		return (cooldown - timeCount)/60;
+	}
+	
+	public boolean getUsingSkill() {
+		return usingSkill;
+	}
+	
+	public long getTimeDuration() {
+		if(timeDuration < 0) {
+			return 0;
+		}
+		return timeDuration/60;
+	}
+	
 }

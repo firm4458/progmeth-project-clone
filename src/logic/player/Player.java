@@ -21,6 +21,7 @@ import logic.base.Entity;
 import logic.base.EntityStatus;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
+import logic.base.ScriptNotFoundException;
 import logic.enemy.ExplosionAnimation;
 import logic.item.Item;
 import logic.util.DataManager;
@@ -167,10 +168,50 @@ public class Player extends Entity implements Dio {
 
 	public int getUpgradeTimeAmmo() {
 		return upgradeTimeAmmo;
-	}
+	} 
 
 	public void setUpgradeTimeAmmo(int time) {
 		upgradeTimeAmmo = time;
+	}
+	
+	public long getDashSkillCooldown() {
+		try {
+			return getScript(Dash.class).getCooldown();
+		} catch (ScriptNotFoundException e) {
+			return -1;
+		}
+	}
+	
+	public boolean getDashSkillIsUsing() throws ScriptNotFoundException {
+		return getScript(Dash.class).getUsingSkill();
+	}
+	
+	public long getDashTime() {
+		try {
+			return getScript(Dash.class).getTimeDuration();
+		} catch (ScriptNotFoundException e) {
+			return -1;
+		}
+	}
+	
+	public boolean getTheWorldSkillIsUsing() throws ScriptNotFoundException {
+		return getScript(TheWorld.class).getUsingSkill();
+	}
+	
+	public long getTheWorldSkillCooldown() {
+		try {
+			return getScript(TheWorld.class).getCooldown();
+		} catch(ScriptNotFoundException e) {
+			return -1;
+		}
+	}
+	
+	public long getTheWorldTime() {
+		try {
+			return getScript(TheWorld.class).getTimeDuration();
+		} catch (ScriptNotFoundException e) {
+			return -1;
+		}
 	}
 
 	public Animator animator;
