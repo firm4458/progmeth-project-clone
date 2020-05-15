@@ -9,6 +9,7 @@ import logic.base.GameObject;
 import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
 import logic.util.ResourceManager;
+import logic.enemy.FodderEnemies.FodderSpawnStrategy;
 
 public class Space3 extends NormalLevelScene {
 	
@@ -17,6 +18,10 @@ public class Space3 extends NormalLevelScene {
 	static {
 		planetImgs.add(ResourceManager.getImage("planet.dark"));
 		planetImgs.add(ResourceManager.getImage("planet.ring"));
+		planetImgs.add(ResourceManager.getImage("lavaPlanet"));
+		planetImgs.add(ResourceManager.getImage("oceanPlanet"));
+		planetImgs.add(ResourceManager.getImage("forestPlanet"));
+		planetImgs.add(ResourceManager.getImage("icePlanet"));
 	}
 
 	public Space3(String name, Media bgm) {
@@ -24,7 +29,7 @@ public class Space3 extends NormalLevelScene {
 	}
 	
 	public Space3() {
-		this("space",ResourceManager.getSound("sound/normla.mp3"));
+		this("space3",ResourceManager.getSound("sound/normal.mp3"));
 	}
 	
 	@Override
@@ -32,9 +37,9 @@ public class Space3 extends NormalLevelScene {
 		super.init();
 		GameObject spawner = new GameObject(0, 0);
 		spawner.addScript(
-				new EnemySpawner(FodderEnemies.asteroidFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
+				new EnemySpawner(FodderEnemies.asteroidFactory, enemyGroup, new FodderSpawnStrategy(15, 100)));
 		spawner.addScript(
-				new EnemySpawner(FodderEnemies.spaceShipFactory, enemyGroup, FodderEnemies.FODDER_SPAWN_STRATEGY));
+				new EnemySpawner(FodderEnemies.spaceShipFactory, enemyGroup, FodderEnemies.SPACE_SHIP_FODDER_SPAWN_STRATEGY));
 		addGameObject(spawner);
 	}
 

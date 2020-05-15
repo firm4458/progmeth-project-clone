@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import logic.base.GameObject;
 import logic.enemy.FodderEnemies;
+import logic.enemy.FodderEnemies.FodderSpawnStrategy;
 import logic.enemy.spawner.EnemySpawner;
 import logic.util.ResourceManager;
 
@@ -34,7 +35,7 @@ public class Space2 extends NormalLevelScene {
 		super.init();
 		GameObject spawner = new GameObject(0, 0);
 		spawner.addScript(
-				new EnemySpawner(FodderEnemies.spaceShipFactory, enemyGroup, FodderEnemies.SPACE_SHIP_FODDER_SPAWN_STRATEGY));
+				new EnemySpawner(FodderEnemies.asteroidFactory, enemyGroup, new FodderSpawnStrategy(30,100)));
 		addGameObject(spawner);
 	}
 

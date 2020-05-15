@@ -3,8 +3,10 @@ package logic.enemy;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
+import logic.base.ScriptFactory;
 
-public abstract class AttackScriptFactory {
+public abstract class AttackScriptFactory extends ScriptFactory {
+	@Override
 	public abstract AttackScript createScript();
 
 	public abstract class AttackScript implements Script {

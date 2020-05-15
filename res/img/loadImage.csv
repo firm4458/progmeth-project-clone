@@ -46,3 +46,10 @@ health,img/Health.png,168,12,TRUE
 button.keys.X,img/Keys/X-Key.png,300,300,TRUE
 button.keys.X.pressed,img/Keys/X-Key-Pressed.png,300,300,TRUE
 enemy.ship,img/Enemy-Ship.png,96,96,TRUE
+boss.space3,img/2B.png,268,400,FALSE
+levelBanner.space3.boss,img/Level-Banners/Space3-Boss.png,600,100,TRUE
+levelBanner.space3.boss.pressed,img/Level-Banners/Space3-Boss-Pressed.png,600,100,TRUE
+background3,img/space2.png,600,0,TRUE
+levelBanner.space3,img/Level-Banners/Space3.png,600,100,TRUE
+levelBanner.space3.pressed,img/Level-Banners/Space3-Pressed.png,600,100,TRUE
+minion,img/minion.png,70,70,TRUE

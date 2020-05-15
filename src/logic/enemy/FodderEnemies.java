@@ -11,6 +11,7 @@ import logic.base.Script;
 import logic.base.ScriptFactory;
 import logic.base.ScriptNotFoundException;
 import logic.enemy.spawner.SpawnStrategy;
+import logic.player.Player;
 import logic.util.ResourceManager;
 import logic.util.group.GameObjectGroup;
 import logic.util.scripts.ColliderBox;
@@ -86,8 +87,7 @@ public class FodderEnemies {
 	};
 	
 	public static final SpawnStrategy SPACE_SHIP_FODDER_SPAWN_STRATEGY = new SpawnStrategy() {
-		private static final int MAX_SHIP = 5;
-		private static final long COOLDOWN = 500;
+		private static final long COOLDOWN = 1200;
 		private static final String strategyName = "SPACE_SHIP_SPAWN_STRATEGY";
 
 		@Override
@@ -101,7 +101,7 @@ public class FodderEnemies {
 
 			long now = System.currentTimeMillis();
 			long prev = (long) data.get(strategyName);
-			if (now - prev <= COOLDOWN || group.size() > MAX_SHIP) {
+			if (now - prev <= COOLDOWN) {
 				return false;
 			}
 			return true;
@@ -109,8 +109,14 @@ public class FodderEnemies {
 
 		@Override
 		public void customizeFactory(EnemyFactory factory, GameObjectGroup group, Map<String, Object> data) {
-			
-			factory.setY((GameManager.NATIVE_HEIGHT - 20) * Math.random() + 20);
+			Player player = null;
+			for(GameObject gameObj : Player.playerGroup.getChildren()){
+				if(gameObj instanceof Player) {
+					player=(Player)gameObj;
+					break;
+				}
+			}
+			factory.setY(player.getY()-100* Math.random()+10);
 			double rand = Math.random();
 			
 			ConstantSpeedMoveFactory scriptFactory = null;
@@ -139,6 +145,7 @@ public class FodderEnemies {
 				rotateScriptFactory.setRot(180);
 			}
 			data.put(strategyName, System.currentTimeMillis());
+			System.out.println("GG");
 		}
 	};
 
@@ -209,7 +216,7 @@ public class FodderEnemies {
 		spaceShipFactory.setImage(ResourceManager.getImage("enemy.ship"));
 		spaceShipFactory.setPoint(100);
 		scriptFactories = spaceShipFactory.getScriptFactories();
-		scriptFactories.add(new ConstantSpeedMoveFactory(4, 0));
+		scriptFactories.add(new ConstantSpeedMoveFactory(5, 0));
 		scriptFactories.add(new AutoRemoveFactory(20));
 		scriptFactories.add(new RotateScriptFactory());
 		spaceShipFactory.setOnHitPlayerFunc((targets, enemy) -> {

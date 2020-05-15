@@ -15,6 +15,7 @@ public class AttackController implements Script {
 	private AttackPickStrategy pickStrategy;
 	private final ArrayList<AttackScriptFactory> scripts = new ArrayList<AttackScriptFactory>();
 	private int pickCount;
+	private AttackScriptFactory prevPick;
 
 	public AttackController(AttackPickStrategy pickStrategy) {
 		super();
@@ -28,9 +29,17 @@ public class AttackController implements Script {
 	public ArrayList<AttackScriptFactory> getScripts() {
 		return scripts;
 	}
-
+	
 	@Override
 	public void update() throws GameInterruptException {
+	}
+
+	public AttackScriptFactory getPrevPick() {
+		return prevPick;
+	}
+
+	public void setPrevPick(AttackScriptFactory prevPick) {
+		this.prevPick = prevPick;
 	}
 
 	@Override
@@ -41,6 +50,7 @@ public class AttackController implements Script {
 			}
 			AttackScriptFactory fact = pickStrategy.pick(scripts, this);
 			pickCount++;
+			prevPick = fact;
 			System.out.println(fact);
 			currentScript = fact.createScript();
 			parent.addScript(currentScript);

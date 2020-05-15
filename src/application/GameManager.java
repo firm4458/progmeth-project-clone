@@ -86,6 +86,7 @@ public class GameManager {
 
 			}
 		} catch (ClassCastException e) {
+			e.printStackTrace();
 			throw new InvalidEventDataException(evt);
 		}
 	}

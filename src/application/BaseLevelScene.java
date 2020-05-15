@@ -2,6 +2,7 @@ package application;
 
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
+import application.LevelResultScene.LevelResult;
 import drawing.ImageSprite;
 import drawing.TextSprite;
 import gui.ImageButton;
@@ -9,12 +10,14 @@ import javafx.scene.Group;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
+import javafx.util.Pair;
 import logic.TextObject;
 import logic.base.BasicScript;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.item.GroupOfItems;
 import logic.player.Player;
+import logic.util.DataManager;
 import logic.util.ResourceManager;
 import logic.util.group.GameObjectGroup;
 
@@ -105,7 +108,7 @@ public class BaseLevelScene extends GameScene {
 
 		ImageButton pause = new ImageButton(50, 50, ResourceManager.getImage("button.pause"), null, null);
 		ImageButton cont = new ImageButton(50, 50, ResourceManager.getImage("button.resume"), null, null);
-		ImageButton leave = new ImageButton(50,50,ResourceManager.getImage("button.blueButton"), null, null);
+		ImageButton leave = new ImageButton(50, 50, ResourceManager.getImage("button.blueButton"), null, null);
 		pause.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
 		cont.getGameObject().setX(GameManager.NATIVE_WIDTH - 50);
 		leave.getGameObject().translate(GameManager.NATIVE_WIDTH - 50, 50);
@@ -125,11 +128,18 @@ public class BaseLevelScene extends GameScene {
 			cont.disable();
 			gameManager.signalEvent(new GameEvent(scene, GameEventType.GAME_RESUME, null));
 		});
-		leave.setOnAction((evt)->{
-			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new LevelSelectScene("select")));
+		leave.setOnAction((evt) -> {
+			int totalScore = 0;
+			if (DataManager.getInstance().contains("totalScore")) {
+				totalScore = (int) DataManager.getInstance().getPesistentData("totalScore");
+			}
+			gameManager.signalEvent(new GameEvent(scene, GameEventType.WRITE_PERSISTENT_DATA,
+					new Pair<String, Object>("totalScore", totalScore + ((BaseLevelScene) scene).getScore())));
+			gameManager.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE,
+					new LevelResultScene("select", LevelResult.NONE, ((BaseLevelScene) scene).getScore())));
 		});
 		Group root = (Group) getRoot();
-		root.getChildren().addAll(pause,cont,leave);
+		root.getChildren().addAll(pause, cont, leave);
 
 		bgmPlayer.play();
 	}
