@@ -10,8 +10,30 @@ import logic.base.GameObject;
 import logic.base.ScriptNotFoundException;
 import logic.player.Player;
 
+/**
+ * This class extends TextObject and implements Dio in order to update during use the world skill.
+ * @author user
+ *
+ */
+
 public class TextSkillObject extends TextObject implements Dio {
 
+	/**
+	 * It construct like TextObject and set z to 99 in order to draw it in the front
+	 * If skill parameter is DashText add Scrpit that update text to cooldown dash skill.
+	 * If skill is using, color will be green.
+	 * If skill is cooldown, color will be red.
+	 * If skill parameter is TheWorldText add Scrpit that update text to cooldown theWorld skill.
+	 * If skill is using, color will be green.
+	 * If skill is cooldown, color will be red.
+	 * @param X This is a position in x-axis
+	 * @param Y This is a position in y-axis
+	 * @param skill This is a name of the skill 
+	 * @param text This use for initial the text
+	 * @param font This use to set font
+	 * @param maxWidth This use to set the maxWidth
+	 * @param player This is player from a Scene
+	 */
 	public TextSkillObject(double X, double Y, String skill, String text, Font font, double maxWidth, Player player) {
 		super(X, Y, text, font, maxWidth);
 		this.getSprite().setZ(99);
