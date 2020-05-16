@@ -12,6 +12,8 @@ import logic.base.Script;
 import logic.base.ScriptFactory;
 import logic.util.scripts.ConstantSpeedMove;
 
+
+
 public class LoopBackground extends GameObject {
 
 	public static void createLoopBackground(GameScene scene, Image img, double speed, int total,

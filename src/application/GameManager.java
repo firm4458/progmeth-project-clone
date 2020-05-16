@@ -11,26 +11,42 @@ import logic.base.GameInterruptException;
 import logic.base.InvalidEventDataException;
 import logic.util.DataManager;
 
+/*
+ * GameManager manages the flow of the game
+ * this class utilizes singleton pattern
+ * to access the instance use <code> getInstance() </code>
+ */
 public class GameManager {
-	public static final double NATIVE_WIDTH = 600;
-	public static final double NATIVE_HEIGHT = 600;
+	public static final double NATIVE_WIDTH = 600; // orginal width the game is designed in
+	public static final double NATIVE_HEIGHT = 600; // original height the game is designed in
 
-	private GameScene currentScene;
+	// current active game scene
+	private GameScene currentScene; 
+	
+	// GameManager instance (singleton pattern)
 	private static GameManager gameManager;
-	private AnimationTimer timer;
-	private static long genCounter1 = 0;
+	
+	// AnimationTimer used for  main gameloop
+	private AnimationTimer timer; 
+	
+	// counters used for generating name for unname game objects
+	private static long genCounter1 = 0; 
 	private static long genCounter2 = 0;
 
+	// boolean value determining whether the manager had been initialized via init() or not 
 	private boolean initialized = false;
-
+	
+	// boolean value determining whether the manager is updating
 	private boolean isUpdating;
 
-	public boolean isFreezing;
-
+	// class representing various game event
 	public static class GameEvent {
-		public GameScene source;
-		public GameEventType type;
-		public Object data;
+		
+		// This class is more like a struct, so all field are public, no need for encapsulation
+		
+		public GameScene source; // GameScene that fired the event 
+		public GameEventType type; // type of event
+		public Object data; // data which will be used to handle the event
 
 		public GameEvent(GameScene source, GameEventType type, Object data) {
 			super();
@@ -45,10 +61,33 @@ public class GameManager {
 		}
 	}
 
+	/*
+	 	enumeration of all game event types
+	 	SCENE_CHANGE 
+	 		for changing scene
+	 		data : the new GameScene 
+	 	GAME_PAUSE
+	 		for pausing scene, no data needed
+	 	GAME_RESUME
+	 		for resuming scene, no data needed
+	 	WRITE_PERSISTENT_DATA, 
+	 		writing a persistent data, which is a map from String to Object
+	 		data : Pair<String,Object>
+	 	SAVE_PERSISTENT_DATA, LOAD_PERSISTENT_DATA
+	 		save and load persistent data, 
+	 		data : a callback function that accepts a boolean value which will be true when successfully saving/loading
+	*/
 	public enum GameEventType {
 		SCENE_CHANGE, GAME_PAUSE, GAME_RESUME, WRITE_PERSISTENT_DATA, SAVE_PERSISTENT_DATA, LOAD_PERSISTENT_DATA;
 	};
+	
+	// prevents GameManager from being initialized by other classes
+	private GameManager() {};
 
+	/*
+		handle an event
+		InvalidEventDataException will be thrown when the data is not valid for the event type
+	*/
 	void handleEvent(GameEvent evt) throws InvalidEventDataException {
 		try {
 			switch (evt.type) {
@@ -61,7 +100,6 @@ public class GameManager {
 			case SCENE_CHANGE:
 				GameScene newScene = (GameScene) evt.data;
 				setScene(newScene);
-
 				break;
 			case WRITE_PERSISTENT_DATA:
 				@SuppressWarnings("unchecked")
@@ -86,23 +124,19 @@ public class GameManager {
 
 			}
 		} catch (ClassCastException e) {
+			// data is of invalid type
 			e.printStackTrace();
 			throw new InvalidEventDataException(evt);
 		}
 	}
 
-	public boolean isUpdating() {
-		return isUpdating;
-	}
-
-	public void setUpdating(boolean isUpdating) {
-		this.isUpdating = isUpdating;
-	}
-
 	static {
-		gameManager = new GameManager();
+		gameManager = new GameManager(); // initialize the instance
 	}
 
+	/*
+	 * a function for generating name for GameObjects without assigned name
+	 */
 	public static final String getGeneratedName() {
 		String name = "UNNAMED_OBJECT_" + Long.toString(genCounter2) + "_" + Long.toString(genCounter1);
 		if (genCounter1 == Long.MAX_VALUE) {
@@ -113,9 +147,13 @@ public class GameManager {
 		}
 		return name;
 	}
-
+	
+	// event queue
 	private Queue<GameEvent> events = new LinkedList<GameEvent>();
 
+	/*
+	 * signaling an event, this event is enqueued and will be handled at the end of the frame 
+	 */
 	public void signalEvent(GameEvent evt) {
 		events.add(evt);
 	}
@@ -124,8 +162,10 @@ public class GameManager {
 
 		currentScene = initialScene;
 		currentScene.init();
-		initialized = true;
+		
+		initialized = true; 
 
+		// Animation timer for main game loop
 		timer = new AnimationTimer() {
 
 			@Override
@@ -133,61 +173,84 @@ public class GameManager {
 				try {
 					GameScene currentScene = getCurrentScene();
 					Renderer renderer = Renderer.getInstance();
-					setUpdating(true);
+					
+					// updating the scene
+					isUpdating = true;
 					currentScene.update();
-					setUpdating(false);
+					isUpdating = false;
+					
+					// handle events in queue
 					while (!events.isEmpty()) {
-						GameEvent evt = events.poll();
+						GameEvent evt = events.poll(); // get first event in queue
 						try {
 							System.out.println(evt);
 							if (evt.source == getCurrentScene()) {
 								handleEvent(evt); // only handle event from current scene
 							}
 						} catch (InvalidEventDataException e) {
+							// invalid event data type
 							System.err.println(new StringBuilder("Invalid Event Data: ").append(evt));
 						}
 					}
-					events.clear();
+					events.clear(); // clear the queue
+					
+					// render the scene
 					renderer.render(currentScene);
+					
 				} catch (GameInterruptException e) {
+					// handle game interrupts
 					e.printStackTrace();
 				}
 
 			}
 		};
 		timer.start();
+		
 		Main.stage.setScene(currentScene);
 		Main.stage.show();
 	}
 
-	public void start() {
-		timer.start();
-	}
-
-	public void stop() {
-		timer.stop();
-	}
 
 	public void setScene(GameScene scene) {
+		
 		if (!initialized) {
+			// the instance is not initialized by init(GameScene)
 			System.err.println("GameManger not initialized!!!");
 			return;
 		}
-		timer.stop();
-		currentScene.destroy();
-		currentScene = scene;
-		currentScene.init();
-		Main.stage.setScene(scene);
+		
+		timer.stop(); // Temporarily stop game loop
+		
+		
+		currentScene.destroy(); //destroy current scene
+		currentScene = scene; // set new scene 
+		currentScene.init(); // initialize new scene
+		
+		Main.stage.setScene(scene); // add scene to stage
 		Main.stage.show();
-		timer.start();
+		
+		timer.start(); // start game loop again
 	}
 
+	/*
+	 * get the GameManager instance (singleton pattern)
+	 */
 	public static GameManager getInstance() {
 		return gameManager;
 	}
-
+	
+	/*
+	 * getter for currentScene
+	 */
 	public GameScene getCurrentScene() {
 		return currentScene;
+	}
+	
+	/*
+	 * getter for isUpdating
+	 */
+	public boolean isUpdating() {
+		return isUpdating;
 	}
 
 }

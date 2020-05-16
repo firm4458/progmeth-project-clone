@@ -23,6 +23,9 @@ import logic.util.DataManager;
 import logic.util.ResourceManager;
 import logic.util.group.GameObjectGroup;
 
+/**
+ * 
+ */
 public class BaseLevelScene extends GameScene {
 
 	protected Media bgm;
@@ -37,6 +40,9 @@ public class BaseLevelScene extends GameScene {
 		this.isBoss = isBoss;
 	}
 
+	/*
+	 * create a base level scene with bgm as background music
+	 */
 	public BaseLevelScene(String name, Media bgm) {
 		super(name);
 		this.bgm = bgm;

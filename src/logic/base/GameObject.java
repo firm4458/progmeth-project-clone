@@ -2,11 +2,18 @@ package logic.base;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
 import application.GameManager;
 import application.GameScene;
 import drawing.Sprite;
 
+
+/**
+ * GameObject represents everything that is in the game 
+ * GameObject does not have any behavior by itself,
+ * but can be added by using Script
+ * 
+ * @see Script
+ */
 public class GameObject implements Destroyable {
 	protected static final int DEFAULT_SCRIPT_BUFFER_SIZE = 20;
 	public static final Comparator<GameObject> nameComparator = new Comparator<GameObject>() {
