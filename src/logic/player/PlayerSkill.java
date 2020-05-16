@@ -10,8 +10,8 @@ import logic.util.InputUtil;
 public abstract class PlayerSkill implements Script {
 
 	protected Player parent;
-	protected long timeCount;
-	protected long timeDuration;
+	protected long timeCount; //use to count the time after skill is done
+	protected long timeDuration;//use to count the time when start using the skill
 	protected long cooldown;
 	protected long cooldownStart = -9999;
 	protected boolean usingSkill;
