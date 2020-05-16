@@ -122,6 +122,7 @@ public class Tutorial extends GameObject implements Dio {
 			public void onDestroy() {
 				button.destroy();
 				text.destroy();
+				System.out.println("GG");
 			}
 		};
 		movementTutorial = new BasicScript<GameObject>() {

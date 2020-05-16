@@ -1,14 +1,14 @@
 package logic.util.scripts;
 
 import javafx.scene.effect.ColorAdjust;
+import logic.base.BasicScript;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 
-public class DamageEffect implements Script {
+public class DamageEffect extends BasicScript<GameObject> {
 
-	private GameObject parent;
 	private final ColorAdjust colorAdjust = new ColorAdjust();
 	private long start;
 	private long duration;
@@ -36,16 +36,6 @@ public class DamageEffect implements Script {
 		if (now - start > duration) {
 			parent.removeScript(this);
 		}
-	}
-
-	@Override
-	public GameObject getParent() {
-		return parent;
-	}
-
-	@Override
-	public void setParent(GameObject parent) throws IncompatibleScriptException {
-		this.parent = parent;
 	}
 
 	@Override

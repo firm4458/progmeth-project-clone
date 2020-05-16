@@ -1,13 +1,13 @@
 package logic.util.scripts;
 
+import logic.base.BasicScript;
 import logic.base.GameInterruptException;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 
-public class ShakerScript implements Script {
+public class ShakerScript extends BasicScript<GameObject> {
 
-	private GameObject parent;
 	private double magnitude;
 	private double speed;
 	private double totalOffset;
@@ -26,16 +26,6 @@ public class ShakerScript implements Script {
 			parent.translate(-totalOffset, -totalOffset);
 			parent.removeScript(this);
 		}
-	}
-
-	@Override
-	public GameObject getParent() {
-		return parent;
-	}
-
-	@Override
-	public void setParent(GameObject parent) throws IncompatibleScriptException {
-		this.parent = parent;
 	}
 
 }

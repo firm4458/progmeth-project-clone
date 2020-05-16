@@ -26,8 +26,6 @@ public abstract class GameScene extends Scene implements Destroyable {
 		// initialize scene's canvas and simple camera
 		canvas = new Canvas(GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		simpleCamera = new SimpleCamera(canvas);
-		addGUIElement(canvas);
-		addGameObject(simpleCamera);
 
 		// remove any lingering input
 		InputUtil.reset();
@@ -41,6 +39,8 @@ public abstract class GameScene extends Scene implements Destroyable {
 		});
 
 		initializeGroups();
+		addGUIElement(canvas);
+		addGameObject(simpleCamera);
 	}
 
 	private static final int DEFAULT_GAMEOBJ_BUFFER_SIZE = 100; // default size for buffer gameObjBuffer

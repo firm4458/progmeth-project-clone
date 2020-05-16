@@ -82,6 +82,7 @@ public class GameObject implements Destroyable {
 	}
 
 	public GameObject removeScript(Script script) {
+		script.onDestroy();
 		scripts.remove(script);
 		return this;
 	}

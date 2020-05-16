@@ -1,12 +1,12 @@
 package logic.util.scripts;
 
+import logic.base.BasicScript;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
 
-public class ConstantSpeedMove implements Script {
+public class ConstantSpeedMove extends BasicScript<GameObject> {
 
-	private GameObject parent;
 	private double speedX;
 	private double speedY;
 
@@ -18,21 +18,6 @@ public class ConstantSpeedMove implements Script {
 	@Override
 	public void update() {
 		parent.translate(speedX, speedY);
-	}
-
-	@Override
-	public GameObject getParent() {
-		return parent;
-	}
-
-	@Override
-	public void setParent(GameObject parent) throws IncompatibleScriptException {
-		this.parent = parent;
-	}
-
-	@Override
-	public void onDestroy() {
-
 	}
 
 }

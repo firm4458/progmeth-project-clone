@@ -1,5 +1,6 @@
 package logic.enemy;
 
+import logic.base.BasicScript;
 import logic.base.GameObject;
 import logic.base.IncompatibleScriptException;
 import logic.base.Script;
@@ -9,24 +10,8 @@ public abstract class AttackScriptFactory extends ScriptFactory {
 	@Override
 	public abstract AttackScript createScript();
 
-	public abstract class AttackScript implements Script {
-
-		protected Enemy parent;
+	public abstract class AttackScript extends BasicScript<Enemy> {
 		protected boolean isDone;
-
-		@Override
-		public GameObject getParent() {
-			return parent;
-		}
-
-		@Override
-		public void setParent(GameObject parent) throws IncompatibleScriptException {
-			try {
-				this.parent = (Enemy) parent;
-			} catch (ClassCastException e) {
-				throw new IncompatibleScriptException("AttackScript", "must be attached to Enemy");
-			}
-		}
 
 		public boolean isDone() {
 			return isDone;
