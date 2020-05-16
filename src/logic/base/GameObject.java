@@ -82,28 +82,8 @@ public class GameObject implements Destroyable {
 	}
 
 	public GameObject removeScript(Script script) {
-		if (isUpdating) {
-			bufferRemove.add(script);
-		} else {
-			removeScriptNoConcurrency(script);
-		}
-		return this;
-	}
-
-	public void resolveBuffer() {
-		for (Script script : bufferAdd) {
-			addScript(script);
-		}
-		bufferAdd.clear();
-		for (Script script : bufferRemove) {
-			removeScriptNoConcurrency(script);
-		}
-		bufferRemove.clear();
-	}
-
-	private void removeScriptNoConcurrency(Script script) {
-		script.onDestroy();
 		scripts.remove(script);
+		return this;
 	}
 
 	public <T extends Script> T getScript(Class<T> type) throws ScriptNotFoundException {
@@ -137,7 +117,7 @@ public class GameObject implements Destroyable {
 		}
 	}
 
-	public void update() throws GameInterruptException {
+	public final void update() throws GameInterruptException {
 		ArrayList<Script> scripts = new ArrayList<Script>(this.scripts);
 		for (Script script : scripts) {
 			if (!isDestroyed()) {
