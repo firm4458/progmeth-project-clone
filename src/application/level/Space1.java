@@ -13,17 +13,25 @@ import logic.util.ResourceManager;
 
 public class Space1 extends NormalLevelScene {
 
+	// default background image
 	private static Image background = ResourceManager.getImage("background1");
+	// planet images
 	private static ArrayList<Image> planetImgs = new ArrayList<Image>();
 	static {
 		planetImgs.add(ResourceManager.getImage("planet.dark"));
 		planetImgs.add(ResourceManager.getImage("planet.ring"));
 	}
 
+	/*
+	 * create space1 level with deafult bgm
+	 */
 	public Space1() {
 		this("space1", ResourceManager.getSound("sound/normal.mp3"));
 	}
 
+	/*
+	 * create space 1
+	 */
 	public Space1(String name, Media bgm) {
 		super(name, background, planetImgs, bgm);
 	}

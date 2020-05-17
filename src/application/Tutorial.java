@@ -1,7 +1,6 @@
 package application;
 
 import java.util.TreeMap;
-
 import application.GameManager.GameEvent;
 import application.GameManager.GameEventType;
 import drawing.ImageSprite;
@@ -19,14 +18,38 @@ import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 import logic.util.scripts.AutoDestroy;
 
+/*
+ * GameObject for providing tutorial
+ */
 public class Tutorial extends GameObject implements Dio {
 
+	// script for tutorial of the world
 	private Script TheWorldTutorial;
+	// script for tutorial of dash
 	private Script dashTutorial;
+	// script for movement Tutorial
 	private Script movementTutorial;
 
-	public Tutorial(Script enemySpawner) {
+	/*
+	 * create tutorial script for the world, dash and, movement
+	 */
+	public Tutorial() {
 		super(0, 0);
+
+		createTheWorldTutorialScript();
+		createDashTutorialScript();
+		createMovementTutorialScript();
+
+	}
+	
+	/*
+	 * create tutorial script for the world
+	 * show picture of button X and instruction text
+	 * when key X is pressed, remove button and instruction text
+	 * then, create a new instruct text which destroy it self in 5 seconds
+	 * on destroy, signal scene change event to LevelSelectScene with fromTutorial equals true
+	 */
+	private void createTheWorldTutorialScript() {
 		TheWorldTutorial = new BasicScript<GameObject>() {
 			private TextObject text;
 			private GameObject button;
@@ -82,6 +105,15 @@ public class Tutorial extends GameObject implements Dio {
 				text.destroy();
 			}
 		};
+	}
+	
+	/*
+	 * create tutorial script for the world
+	 * show picture of button Z and instruction text
+	 * when key X is pressed, remove button, instruction text, and remove dashTutorialScript from this game object
+	 * then, attach theWorldTutorial to this game object
+	 */
+	private void createDashTutorialScript() {
 		dashTutorial = new BasicScript<GameObject>() {
 			private TextObject text;
 			private GameObject button;
@@ -122,9 +154,17 @@ public class Tutorial extends GameObject implements Dio {
 			public void onDestroy() {
 				button.destroy();
 				text.destroy();
-				System.out.println("GG");
 			}
 		};
+	}
+	
+	/*
+	 * create tutorial script for the movement
+	 * show picture of arrow buttons and instruction text
+	 * when any arrow keys is pressed, remove button, instruction text, and remove movementTutorialScript from this game object
+	 * then, attach dashTutorial to this game object
+	 */
+	private void createMovementTutorialScript() {
 		movementTutorial = new BasicScript<GameObject>() {
 			private GameObject[] buttons;
 			private TextObject text;
@@ -179,9 +219,11 @@ public class Tutorial extends GameObject implements Dio {
 				text.destroy();
 			}
 		};
-
 	}
 
+	/*
+	 * start the tutorial by adding movementTutorial to this game object
+	 */
 	public void startTutorial() {
 		addScript(movementTutorial);
 	}

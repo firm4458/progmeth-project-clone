@@ -11,7 +11,7 @@ import logic.util.scripts.AutoRemove;
 import logic.util.scripts.ColliderBox;
 import logic.util.scripts.CollisionDetection;
 
-public abstract class Projectile extends Entity {
+public abstract class Projectile extends GameObject{
 
 	private int hitCount = 0;
 	private static final int MAX_HIT_COUNT = 1;
@@ -52,7 +52,7 @@ public abstract class Projectile extends Entity {
 
 	public Projectile(double X, double Y, int health, Script motionScript, ColliderBox colliderBox,
 			GameObjectGroup targetGroup, int delayRemove) {
-		super(X, Y, health);
+		super(X, Y);
 		hitCount = MAX_HIT_COUNT;
 		addScript(motionScript);
 		addScript(colliderBox);

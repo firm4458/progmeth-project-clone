@@ -25,14 +25,31 @@ import logic.util.animation.AnimationState;
 import logic.util.animation.Animator;
 import logic.util.scripts.factory.FlashingScriptFactory;
 
+/**
+ * This is the menu scene
+ */
 public class MenuScene extends GameScene {
+	
+	// this is player game object without any control scripts
 	private static AnimationState PlayerIcon;
+	// player to play bgm
 	private static AudioClip audioClip;
 
+	/*
+	 * create a menu scene with specified name
+	 */
 	public MenuScene(String name) {
 		super(name);
 	}
 
+	/*
+	 * initialize the scene
+	 * add new game and load button
+	 * add game logo with sine wave movement
+	 * add player without any control scripts
+	 * when the new game button is pressed, signal scene change event to game manager with TutorialScene as data
+	 * when the load button is pressed, signal load persistent data event to game manager
+	 */
 	@Override
 	public void init() {
 		audioClip = new AudioClip(ResourceManager.getSound("sound/menu.mp3").getSource());

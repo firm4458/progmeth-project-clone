@@ -23,6 +23,8 @@ public abstract class GameScene extends Scene implements Destroyable {
 	public GameScene(String name) {
 		super(new Group(), GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 
+		this.name = name;
+		
 		// initialize scene's canvas and simple camera
 		canvas = new Canvas(GameManager.NATIVE_WIDTH, GameManager.NATIVE_HEIGHT);
 		simpleCamera = new SimpleCamera(canvas);
@@ -67,12 +69,15 @@ public abstract class GameScene extends Scene implements Destroyable {
 	protected Canvas canvas;
 	// simple camera of this scene
 	protected SimpleCamera simpleCamera;
+	
+	// name of this scene
+	protected String name;
 
 	/*
 	 * initialize the scene : adding game objects, adding scripts, etc.
 	 * 
-	 * there is no need for initializing protected fields(allObj, groups, etc.) as
-	 * that is done in the constructor
+	 * note that there is no need for initializing protected fields(allObj, groups, etc.) 
+	 * as that is done in the constructor
 	 */
 	public abstract void init();
 
@@ -112,9 +117,9 @@ public abstract class GameScene extends Scene implements Destroyable {
 	}
 
 	/*
-	 * determine whether or not scene should be updated
+	 * determine whether or not this gameObject should be updated
 	 */
-	private boolean shouldUpdate(Destroyable obj) {
+	private boolean shouldUpdate(GameObject obj) {
 		return !obj.isDestroyed() && (!isFreezing || obj instanceof Dio);
 	}
 
@@ -135,7 +140,7 @@ public abstract class GameScene extends Scene implements Destroyable {
 		gameObjBuffer = allObj.getChildren().toArray(gameObjBuffer);
 	}
 
-	public void update() throws GameInterruptException {
+	public final void update() throws GameInterruptException {
 
 		// does not update if the game is paused
 		if (!isPause) {
@@ -266,4 +271,18 @@ public abstract class GameScene extends Scene implements Destroyable {
 	public void setFreezing(boolean isFreezing) {
 		this.isFreezing = isFreezing;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isPause() {
+		return isPause;
+	}
+
+	public void setPause(boolean isPause) {
+		this.isPause = isPause;
+	}
+	
+	
 }

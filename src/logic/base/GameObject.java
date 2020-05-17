@@ -22,8 +22,6 @@ public class GameObject implements Destroyable {
 			return o1.getName().compareTo(o2.getName());
 		}
 	};
-	private ArrayList<Script> bufferAdd = new ArrayList<Script>();
-	private ArrayList<Script> bufferRemove = new ArrayList<Script>();
 	protected final ArrayList<Script> scripts = new ArrayList<Script>();
 	protected double X;
 	protected double Y;

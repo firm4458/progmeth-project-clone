@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import drawing.Renderer;
 import javafx.animation.AnimationTimer;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import logic.base.GameInterruptException;
 import logic.base.InvalidEventDataException;
@@ -20,16 +21,18 @@ public class GameManager {
 	public static final double NATIVE_WIDTH = 600; // orginal width the game is designed in
 	public static final double NATIVE_HEIGHT = 600; // original height the game is designed in
 
+	private Stage stage;
+	
 	// current active game scene
 	private GameScene currentScene; 
 	
 	// GameManager instance (singleton pattern)
-	private static GameManager gameManager;
+	private static GameManager INSTANCE;
 	
 	// AnimationTimer used for  main gameloop
 	private AnimationTimer timer; 
 	
-	// counters used for generating name for unname game objects
+	// counters used for generating name for unnamed game objects
 	private static long genCounter1 = 0; 
 	private static long genCounter2 = 0;
 
@@ -88,7 +91,7 @@ public class GameManager {
 		handle an event
 		InvalidEventDataException will be thrown when the data is not valid for the event type
 	*/
-	void handleEvent(GameEvent evt) throws InvalidEventDataException {
+	private void handleEvent(GameEvent evt) throws InvalidEventDataException {
 		try {
 			switch (evt.type) {
 			case GAME_PAUSE:
@@ -131,7 +134,7 @@ public class GameManager {
 	}
 
 	static {
-		gameManager = new GameManager(); // initialize the instance
+		INSTANCE = new GameManager(); // initialize the instance
 	}
 
 	/*
@@ -158,8 +161,14 @@ public class GameManager {
 		events.add(evt);
 	}
 
+	/*
+	 * initialize game manager with initialScene as first scene
+	 * setup animation time
+	 */
 	public void init(GameScene initialScene) {
 
+		stage = Main.getStage();
+		
 		currentScene = initialScene;
 		currentScene.init();
 		
@@ -206,12 +215,15 @@ public class GameManager {
 		};
 		timer.start();
 		
-		Main.stage.setScene(currentScene);
-		Main.stage.show();
+		stage.setScene(currentScene);
+		stage.show();
 	}
 
 
-	public void setScene(GameScene scene) {
+	/*
+	 * set current scene
+	 */
+	private void setScene(GameScene scene) {
 		
 		if (!initialized) {
 			// the instance is not initialized by init(GameScene)
@@ -226,8 +238,8 @@ public class GameManager {
 		currentScene = scene; // set new scene 
 		currentScene.init(); // initialize new scene
 		
-		Main.stage.setScene(scene); // add scene to stage
-		Main.stage.show();
+		stage.setScene(scene); // add scene to stage
+		stage.show();
 		
 		timer.start(); // start game loop again
 	}
@@ -236,7 +248,7 @@ public class GameManager {
 	 * get the GameManager instance (singleton pattern)
 	 */
 	public static GameManager getInstance() {
-		return gameManager;
+		return INSTANCE;
 	}
 	
 	/*
