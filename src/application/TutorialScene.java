@@ -12,17 +12,29 @@ import logic.enemy.FodderEnemies;
 import logic.enemy.spawner.EnemySpawner;
 import logic.util.scripts.factory.FlashingScriptFactory;
 
+/*
+ * game scene for tutorial
+ */
 public class TutorialScene extends BaseLevelScene {
 
+	// backgrond image
 	protected Image backgroundImage;
+	// planet images
 	protected ArrayList<Image> planetImgs;
 
+	/*
+	 * create a tutorial scene with specified background image and planet images
+	 */
 	public TutorialScene(String name, Image backgroundImage, ArrayList<Image> planetImgs) {
 		super(name);
 		this.backgroundImage = backgroundImage;
 		this.planetImgs = planetImgs;
 	}
 
+	/*
+	 * initialize the scene by invoking BaseLevelScene's init() and adding loopable background, floating planet, Tutorial game object
+	 * then start the tutorial by using Tutorial's startTutorial method
+	 */
 	@Override
 	public void init() {
 		super.init();
@@ -33,7 +45,7 @@ public class TutorialScene extends BaseLevelScene {
 		spawner.addScript(new PlanetSpawner(planetImgs, 1, 10));
 		addGameObject(spawner);
 
-		Tutorial tutorial = new Tutorial(enemySpawner);
+		Tutorial tutorial = new Tutorial();
 		addGameObject(tutorial);
 		tutorial.startTutorial();
 

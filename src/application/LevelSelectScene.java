@@ -18,23 +18,49 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.AudioClip;
 import logic.util.ResourceManager;
 
+/*
+ * This is a scene for selecting level
+ */
 public class LevelSelectScene extends GameScene {
 
+	// determine whether or not previous scene is tutorial
 	private boolean fromTutorial;
+	
+	/*
+	 * text for alert when the previous scene is TutorialScene
+	 */
+	private static final String alertText = "Welcome to Space Master! \n\n This is where you can select which level to play\n"
+			+ "You can select any level, but we recommend playing easier levels first to gain some score and upgrade your health, damage, and heal"
+			+ "\nEvery non boss levels are endless, you are free to quit the level any time you want";
 
+	/*
+	 * bgm player which will be shared across multiple instances of levelSelectScene
+	 * it won't be stop until one of level button is pressed and scene is going to change
+	 * changing to upgrade scene doesn't stop the music
+	 */
 	private static AudioClip bgmPlayer;
 
+	/*
+	 * create a LevelSelectScene
+	 */
 	public LevelSelectScene(String name) {
 		super(name);
 	}
 
+	/*
+	 * create LevelSelectScene with specified fromTutorial
+	 */
 	public LevelSelectScene(String name, boolean fromTutorial) {
 		super(name);
 		this.fromTutorial = fromTutorial;
 	}
 
+	// get instance of GameManager for easy access
 	private static GameManager manager = GameManager.getInstance();
 
+	/*
+	 * construct new Scene based on sceneName
+	 */
 	private GameScene sceneFromString(String sceneName) {
 		GameScene newScene;
 		switch (sceneName) {
@@ -64,23 +90,42 @@ public class LevelSelectScene extends GameScene {
 		return newScene;
 	}
 
+	// arraylist of level select buttons
 	private ArrayList<ImageButton> buttons = new ArrayList<ImageButton>();
-	private static String[] sceneNames = { "space1", "space1.boss", "space2", "space2.boss", "space3", "space3.boss" };
+	// name of levels
+	private static final String[] SCENE_NAMES = { "space1", "space1.boss", "space2", "space2.boss", "space3", "space3.boss" };
+	// number of level buttons per page
 	private static final int BUTTON_PER_PAGE = 5;
+	// current button page
 	private int currentPage = 0;
 
+	/*
+	 * getter for currentPage
+	 */
 	private int getCurrentPage() {
 		return currentPage;
 	}
 
+	/*
+	 * setter for currentPage
+	 * can't be accessed by other classes
+	 */
 	private void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
 
+	/*
+	 * update which buttons are visible based on currentPage
+	 */
 	private void updatePage() {
-		int from = currentPage * BUTTON_PER_PAGE;
-		int to = from + BUTTON_PER_PAGE - 1;
+		int from = currentPage * BUTTON_PER_PAGE; // first visible button index
+		int to = from + BUTTON_PER_PAGE - 1; // last visible button index
 		for (int i = 0; i < buttons.size(); ++i) {
+			/*
+			 *  for each button, 
+			 *  if the index is between from and to, set enable it
+			 *  else diable it
+			 */
 			ImageButton button = buttons.get(i);
 			if (from <= i && i <= to) {
 				button.enable();
@@ -94,46 +139,91 @@ public class LevelSelectScene extends GameScene {
 		}
 	}
 
+	/*
+	 * initialize the scene
+	 */
 	@Override
 	public void init() {
-		Group root = (Group) getRoot();
 
 		if (fromTutorial) {
+			// previous scene is TutorialScene, show information alert
 			Alert alert = new Alert(AlertType.INFORMATION);
+			
 			alert.setTitle("Welcome");
 			alert.setHeaderText(null);
-			alert.setContentText("This is where you can select which level to play\n"
-					+ "You can select any level, but we recommend playing easier levels first to gain some score and upgrade your health, damage, and heal"
-					+ "\nEvery non boss levels are endless, you are free to quit the level any time you want");
+			alert.setContentText(alertText);
+			
+			// set minimum size for dialog pane
+			alert.getDialogPane().setMinWidth(400);
+			alert.getDialogPane().setMinHeight(400);
+			
 			alert.show();
 		}
 
-		for (int i = 0; i < sceneNames.length; ++i) {
-			String name = sceneNames[i];
-			ImageButton button = new ImageButton(600, 100, ResourceManager.getImage("levelBanner." + name),
-					ResourceManager.getImage("levelBanner." + name + ".pressed"),
-					ResourceManager.getImage("levelBanner." + name + ".pressed"));
-			GameEvent event = new GameEvent(this, GameEventType.SCENE_CHANGE, sceneFromString(name));
-			button.setOnAction(evt -> {
-				manager.signalEvent(event);
-				bgmPlayer.stop();
-				bgmPlayer = null;
-			});
-			if (i < BUTTON_PER_PAGE) {
-				button.enable();
-				button.getGameObject().setX(0);
-				button.getGameObject().setY(i * 100);
-			} else {
-				button.disable();
-				button.getGameObject().setX(99999);
-				button.getGameObject().setY(99999);
-			}
-			buttons.add(button);
-			root.getChildren().add(button);
+		// create necessary buttons
+		createLevelButton();
+		createPageChangeButton();
+		createSaveButton();
+		createUpgradeButton();
+
+		// if there is no currently playing bgmPlayer
+		if (bgmPlayer == null) {
+			bgmPlayer = new AudioClip(ResourceManager.getSound("sound/levelSelect.mp3").getSource());
+			bgmPlayer.play();
 		}
-
+	}
+	
+	/*
+	 * setup button for going to UpgradeScene
+	 */
+	private void createUpgradeButton() {
 		GameScene scene = this;
+		ImageButton upgradeButton = new ImageButton(100, 50, null, null, null);
+		upgradeButton.getGameObject().translate(195, 525);
+		upgradeButton.setOnAction((evt) -> {
+			GameManager.getInstance()
+					.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new UpgradeScene("upgrade")));
+		});
+		upgradeButton.createFollowText("Upgrade", 50, 23);
 
+		Group root = (Group)getRoot();
+		root.getChildren().add(upgradeButton);
+	}
+	
+	/*
+	 * setup button for saving
+	 */
+	private void createSaveButton() {
+		GameScene scene = this;
+		ImageButton saveButton = new ImageButton(100, 50, ResourceManager.getImage("button.blueButton"), null,
+				ResourceManager.getImage("button.blueButton.pressed"));
+		saveButton.setOnAction((evt) -> {
+			GameEvent event = new GameEvent(scene, GameEventType.SAVE_PERSISTENT_DATA, new Consumer<Boolean>() {
+				@Override
+				public void accept(Boolean success) {
+					System.out.println(success);
+					if (!success) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Save failed");
+						alert.setHeaderText(null);
+						alert.setContentText("Cannot save");
+						alert.show();
+					}
+				}
+			});
+			GameManager.getInstance().signalEvent(event);
+		});
+		saveButton.getGameObject().translate(305, 525);
+		saveButton.createFollowText("Save", 50, 23);
+		
+		Group root = (Group)getRoot();
+		root.getChildren().add(saveButton);
+	}
+	
+	/*
+	 * create button for changing page
+	 */
+	private void createPageChangeButton() {
 		ImageButton nextPage = new ImageButton(50, 50, ResourceManager.getImage("button.resume"), null, null);
 		ImageButton prevPage = new ImageButton(50, 50, ResourceManager.getImage("button.back"), null, null);
 		prevPage.setInactive();
@@ -169,43 +259,53 @@ public class LevelSelectScene extends GameScene {
 			nextPage.setActive();
 			updatePage();
 		});
-
 		prevPage.getGameObject().translate(125, 525);
 		nextPage.getGameObject().translate(430, 525);
-
-		ImageButton upgradeButton = new ImageButton(100, 50, null, null, null);
-		upgradeButton.getGameObject().translate(195, 525);
-		upgradeButton.setOnAction((evt) -> {
-			GameManager.getInstance()
-					.signalEvent(new GameEvent(scene, GameEventType.SCENE_CHANGE, new UpgradeScene("upgrade")));
-		});
-		upgradeButton.createFollowText("Upgrade", 50, 23);
-
-		ImageButton saveButton = new ImageButton(100, 50, ResourceManager.getImage("button.blueButton"), null,
-				ResourceManager.getImage("button.blueButton.pressed"));
-		saveButton.setOnAction((evt) -> {
-			GameEvent event = new GameEvent(scene, GameEventType.SAVE_PERSISTENT_DATA, new Consumer<Boolean>() {
-				@Override
-				public void accept(Boolean success) {
-					System.out.println(success);
-					if (!success) {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Save failed");
-						alert.setHeaderText(null);
-						alert.setContentText("Cannot save");
-						alert.show();
-						System.out.println("GGG");
-					}
-				}
+		
+		Group root = (Group)getRoot();
+		root.getChildren().addAll(prevPage, nextPage);
+	}
+	
+	/*
+	 * create buttons for each level
+	 */
+	private void createLevelButton() {
+		for (int i = 0; i < SCENE_NAMES.length; ++i) {
+			
+			String name = SCENE_NAMES[i];
+			ImageButton button = new ImageButton(600, 100, ResourceManager.getImage("levelBanner." + name),
+					ResourceManager.getImage("levelBanner." + name + ".pressed"),
+					ResourceManager.getImage("levelBanner." + name + ".pressed"));
+			
+			// create scene change GameEvent based on name
+			GameEvent event = new GameEvent(this, GameEventType.SCENE_CHANGE, sceneFromString(name));
+			
+			button.setOnAction(evt -> {
+				/*
+				 *  when the button is pressed, signal the scene change event
+				 *  and stop the bgm player
+				 */
+				manager.signalEvent(event);
+				bgmPlayer.stop();
+				bgmPlayer = null;
 			});
-			GameManager.getInstance().signalEvent(event);
-		});
-		saveButton.getGameObject().translate(305, 525);
-		saveButton.createFollowText("Save", 50, 23);
-		root.getChildren().addAll(upgradeButton, nextPage, prevPage, saveButton);
-		if (bgmPlayer == null) {
-			bgmPlayer = new AudioClip(ResourceManager.getSound("sound/levelSelect.mp3").getSource());
-			bgmPlayer.play();
+			if (i < BUTTON_PER_PAGE) {
+				// if the button is on the first page, enable it
+				button.enable();
+				// move it to (0,i*100)
+				button.getGameObject().setX(0);
+				button.getGameObject().setY(i * 100);
+			} else {
+				// disable it
+				button.disable();
+				// move it far away
+				button.getGameObject().setX(99999); 
+				button.getGameObject().setY(99999);
+			}
+			// add button to scene
+			buttons.add(button);
+			Group root = (Group)getRoot();
+			root.getChildren().add(button);
 		}
 	}
 

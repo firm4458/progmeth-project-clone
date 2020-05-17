@@ -111,7 +111,7 @@ public class Player extends Entity implements Dio {
 		BaseLevelScene scene = (BaseLevelScene) GameManager.getInstance().getCurrentScene();
 
 		// Collide with Items
-		addScript(new CollisionDetection(scene.groupOfItems.getItems()) {
+		addScript(new CollisionDetection(scene.getGroupOfItems().getItems()) {
 
 			@Override
 			public void onCollision(ArrayList<GameObject> targets) throws GameInterruptException {

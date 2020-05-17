@@ -24,12 +24,12 @@ public class GameManager {
 	private GameScene currentScene; 
 	
 	// GameManager instance (singleton pattern)
-	private static GameManager gameManager;
+	private static GameManager INSTANCE;
 	
 	// AnimationTimer used for  main gameloop
 	private AnimationTimer timer; 
 	
-	// counters used for generating name for unname game objects
+	// counters used for generating name for unnamed game objects
 	private static long genCounter1 = 0; 
 	private static long genCounter2 = 0;
 
@@ -131,7 +131,7 @@ public class GameManager {
 	}
 
 	static {
-		gameManager = new GameManager(); // initialize the instance
+		INSTANCE = new GameManager(); // initialize the instance
 	}
 
 	/*
@@ -211,7 +211,7 @@ public class GameManager {
 	}
 
 
-	public void setScene(GameScene scene) {
+	private void setScene(GameScene scene) {
 		
 		if (!initialized) {
 			// the instance is not initialized by init(GameScene)
@@ -236,7 +236,7 @@ public class GameManager {
 	 * get the GameManager instance (singleton pattern)
 	 */
 	public static GameManager getInstance() {
-		return gameManager;
+		return INSTANCE;
 	}
 	
 	/*
