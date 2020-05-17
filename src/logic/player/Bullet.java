@@ -16,6 +16,12 @@ public class Bullet extends Projectile implements Dio {
 	private int damage = 10;
 	private static final Image img = ResourceManager.getImage("bullet");
 
+	/**
+	 * Speed is -5 in y-axis
+	 * @param X This is a x position
+	 * @param Y This is a y position
+	 * @param damage This is a damage of this bullet
+	 */
 	public Bullet(double X, double Y, int damage) {
 
 		super(X, Y, 1, new ConstantSpeedMove(0, -5), new ColliderBox(img.getWidth(), img.getHeight()),

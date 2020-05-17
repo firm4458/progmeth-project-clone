@@ -53,6 +53,9 @@ public class GlidingAttack extends AttackScriptFactory {
 			this.damage = damage;
 		}
 
+		/**
+		 * update by using gliding function to set x and also create bullet
+		 */
 		@Override
 		public void update() throws GameInterruptException {
 			long now = System.currentTimeMillis();

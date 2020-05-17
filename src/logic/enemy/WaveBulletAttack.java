@@ -46,6 +46,9 @@ public class WaveBulletAttack extends AttackScriptFactory {
 			this.damage = damage;
 		}
 
+		/**
+		 * Construct bullet with simple hamonic function
+		 */
 		@Override
 		public void update() throws GameInterruptException {
 			long now = System.currentTimeMillis();

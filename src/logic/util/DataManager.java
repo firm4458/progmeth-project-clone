@@ -34,6 +34,10 @@ public class DataManager {
 		return persistentData.containsKey(key);
 	}
 
+	/**
+	 * save persistent data in to .save file
+	 * @return if success return true, otherwise return false
+	 */
 	public boolean saveData() {
 		FileOutputStream f = null;
 		ObjectOutputStream o = null;
@@ -56,6 +60,10 @@ public class DataManager {
 		return true;
 	}
 
+	/**
+	 * load persistent data form .save file
+	 * @return if success return true, otherwise return false
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean loadData() {
 		FileInputStream fi = null;

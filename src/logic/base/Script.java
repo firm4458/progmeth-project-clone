@@ -8,12 +8,16 @@ public interface Script {
 	default public void onAttach() {
 	}
 
+	//method that use for update the data
 	default public void update() throws GameInterruptException {
 	};
 
+	
+	//method that use for early update the data
 	default public void earlyUpdate() throws GameInterruptException {
 	};
 
+	//method that use for last update the data
 	default public void lateUpdate() throws GameInterruptException {
 	};
 

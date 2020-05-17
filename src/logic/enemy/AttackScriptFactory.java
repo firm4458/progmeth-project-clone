@@ -7,6 +7,10 @@ import logic.base.Script;
 import logic.base.ScriptFactory;
 
 public abstract class AttackScriptFactory extends ScriptFactory {
+	
+	/**
+	 * use to construct script
+	 */
 	@Override
 	public abstract AttackScript createScript();
 

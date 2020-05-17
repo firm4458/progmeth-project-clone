@@ -13,7 +13,7 @@ public abstract class BasicScript<T extends GameObject> implements Script {
 	public void setParent(GameObject parent) throws IncompatibleScriptException {
 		try {
 			this.parent = (T) parent;
-		} catch (ClassCastException ex) {
+		} catch (ClassCastException ex) { //If can't cast the parent throws IncompatibleScriptException
 			throw new IncompatibleScriptException(this.getClass().toString(), "incompatible");
 		}
 	}

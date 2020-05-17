@@ -22,6 +22,10 @@ public class Dash extends PlayerSkill {
 		super(KeyCode.Z, cooldown);
 	}
 
+	/**
+	 * after this skill is done add script that set invicible back and remove this script 
+	 * after 200
+	 */
 	@Override
 	public void skillUpdate() {
 		long now = System.currentTimeMillis();
@@ -45,6 +49,9 @@ public class Dash extends PlayerSkill {
 		}
 	}
 
+	/**
+	 * update the skill
+	 */
 	@Override
 	protected void startSkill() {
 		try {

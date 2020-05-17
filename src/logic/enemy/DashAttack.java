@@ -16,7 +16,7 @@ public class DashAttack extends AttackScriptFactory {
 
 	public class DashAttackScript extends AttackScript {
 		private double originalX;
-		private double finalY;
+		private double finalY; // final destination in y-axis
 		private long start;
 		private int count = 0;
 		private boolean looped = false;
@@ -31,6 +31,9 @@ public class DashAttack extends AttackScriptFactory {
 			System.out.println(finalY);
 		}
 
+		/**
+		 * update parent by translate it to final destination	
+		 */
 		@Override
 		public void update() {
 			if (looped) {

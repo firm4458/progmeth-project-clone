@@ -71,6 +71,9 @@ public class Enemy extends Entity {
 		});
 	}
 
+	/**
+	 * function that use for make the player get the damage
+	 */
 	public static final BiConsumer<ArrayList<GameObject>, Enemy> DEFAULT_ON_HIT_PLAYER = (targets, enemy) -> {
 		if (enemy.isDestroyed()) {
 			return;
@@ -84,6 +87,9 @@ public class Enemy extends Entity {
 		}
 	};
 
+	/**
+	 * function that destory enemy and create explosion animation and add score
+	 */
 	public static final Consumer<Enemy> DEFAULT_ON_DEATH = (enemy) -> {
 		BaseLevelScene scene = (BaseLevelScene) enemy.getScene();
 		scene.addGameObject(new ExplosionAnimation(enemy.getX() + enemy.getSprite().getWidth() / 2,
@@ -92,6 +98,9 @@ public class Enemy extends Entity {
 		enemy.destroy();
 	};
 
+	/**
+	 * function that destory boss enemy and create explosion animation and add score and end the game
+	 */
 	public static final Consumer<Enemy> BOSS_ON_DEATH = (enemy) -> {
 		BaseLevelScene scene = (BaseLevelScene) enemy.getScene();
 		ImageSprite sprite = (ImageSprite) enemy.getSprite();
@@ -117,6 +126,10 @@ public class Enemy extends Entity {
 		enemy.destroy();
 	};
 
+	/**
+	 * use onHitPlayerFunc 
+	 * @param targets This is an input for onHitPlayerFunc.
+	 */
 	protected void onHitPlayer(ArrayList<GameObject> targets) {
 		onHitPlayerFunc.accept(targets, this);
 	}

@@ -42,6 +42,9 @@ public class AttackController implements Script {
 		this.prevPick = prevPick;
 	}
 
+	/**
+	 * use pick strategy to pick next script
+	 */
 	@Override
 	public void earlyUpdate() throws GameInterruptException {
 		if (currentScript == null || currentScript.isDone()) {

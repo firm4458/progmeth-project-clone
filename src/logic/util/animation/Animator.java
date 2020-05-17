@@ -10,7 +10,7 @@ import logic.base.Script;
 public class Animator implements Script {
 
 	protected AnimationState currentState;
-	private ArrayList<String> receivedTrigger;
+	private ArrayList<String> receivedTrigger; // Contain name of the stage
 	private GameObject parent;
 	private final ImageSprite sprite;
 
@@ -27,10 +27,17 @@ public class Animator implements Script {
 
 	}
 
+	/**
+	 * put trigger into received trigger
+	 * @param trigger use for change the state
+	 */
 	public void sendTrigger(String trigger) {
 		receivedTrigger.add(trigger);
 	}
 
+	/**
+	 * update image of sprite
+	 */
 	@Override
 	public void update() {
 		currentState = currentState.updateState(receivedTrigger.toArray(new String[0]));

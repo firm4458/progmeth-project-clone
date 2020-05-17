@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 public class AnimationState {
 	protected int index;
 	private Image[] images;
-	private TreeMap<String, AnimationState> stateMap;
+	private TreeMap<String, AnimationState> stateMap; // contain name of the state and animation state, in order to change it when receive the trigger
 	public String name;
 	protected boolean loop = true;
 	protected Animator animator;

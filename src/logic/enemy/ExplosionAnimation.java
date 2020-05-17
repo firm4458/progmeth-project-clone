@@ -37,6 +37,12 @@ public class ExplosionAnimation extends GameObject {
 		this(x, y, 1);
 	}
 
+	/**
+	 * Construct the explosion animation by create animation script
+	 * @param x This is x position
+	 * @param y This is y position
+	 * @param scale This is a scale for the picture
+	 */
 	public ExplosionAnimation(double x, double y, double scale) {
 		super(x, y);
 		sprite = new ImageSprite(this, new Image("img/explosion9.png", 100, 100, true, true));

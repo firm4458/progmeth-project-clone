@@ -44,6 +44,9 @@ public class RadialBulletAttack extends AttackScriptFactory {
 			this.damage = damage;
 		}
 
+		/**
+		 * create bullet that have different angle by using angleDifferent fields to seperate them
+		 */
 		@Override
 		public void update() throws GameInterruptException {
 			long now = System.currentTimeMillis();

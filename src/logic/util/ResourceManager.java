@@ -23,6 +23,9 @@ public class ResourceManager {
 	private static TreeMap<String, Media> soundMap = new TreeMap<String, Media>();
 	private static FileChooser fileChooser = new FileChooser();
 
+	/**
+	 * load initial data
+	 */
 	static {
 
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Game Save File (*.save)", "*.save"));
@@ -32,6 +35,9 @@ public class ResourceManager {
 		Font.loadFont(ClassLoader.getSystemResourceAsStream("font/m5x7.ttf"), 20);
 	}
 
+	/**
+	 * crop ship picture into frame-by-frame and add it
+	 */
 	private static void cropPlayerImage() {
 		Image fullimg = getImage("ship");
 		Image[] images = new Image[20];
@@ -65,6 +71,10 @@ public class ResourceManager {
 		}
 	}
 
+	/**
+	 * load every image from csv file into image map
+	 * @param pathToCSV this is a file that contain name, path, width, height, and preserve ratio of the image
+	 */
 	private static void loadImage(String pathToCSV) {
 		try {
 			Scanner in = new Scanner(ClassLoader.getSystemResourceAsStream("img/loadImage.csv"));

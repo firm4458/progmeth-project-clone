@@ -22,6 +22,11 @@ public class TheWorld extends PlayerSkill {
 		super(KeyCode.X, 5000);
 	}
 
+	/**
+	 *set scene that player live to freeze
+	 *play zawarudo sound
+	 *set start to current time
+	 */
 	@Override
 	protected void startSkill() {
 		parent.getScene().setFreezing(true);
@@ -30,6 +35,9 @@ public class TheWorld extends PlayerSkill {
 		start = System.currentTimeMillis();
 	}
 
+	/**
+	 * update skill
+	 */
 	@Override
 	protected void skillUpdate() {
 		long now = System.currentTimeMillis();
@@ -49,6 +57,12 @@ public class TheWorld extends PlayerSkill {
 		}
 	}
 
+	/**
+	 * GameObject that has shield image
+	 * add expansion script
+	 * @author user
+	 *
+	 */
 	private class TimeSphere extends GameObject implements Dio {
 		public TimeSphere(double X, double Y) {
 			super(X, Y);
@@ -59,6 +73,10 @@ public class TheWorld extends PlayerSkill {
 		}
 	}
 
+	/**
+	 * extends the picture of this sprite until scale is more than maxScale
+	 * Then destory itself
+	 */
 	private class ExpansionScript implements Script {
 		double scale = 0;
 		double maxScale = 2.0;
@@ -73,6 +91,7 @@ public class TheWorld extends PlayerSkill {
 			this.originX = originX;
 			this.originY = originY;
 		}
+
 
 		@Override
 		public void update() throws GameInterruptException {

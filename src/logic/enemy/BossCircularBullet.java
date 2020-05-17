@@ -14,6 +14,14 @@ public class BossCircularBullet extends Projectile {
 	private int damage;
 	private static final Image img = ResourceManager.getImage("bossBullet");
 
+	/**
+	 * use to contruct 
+	 * @param X this is x position
+	 * @param Y this is y position
+	 * @param speedX this is speed in x-axis
+	 * @param speedY this is speed in y-axis
+	 * @param damage this is damage
+	 */
 	public BossCircularBullet(double X, double Y, double speedX, double speedY, int damage) {
 
 		super(X, Y, 1, new ConstantSpeedMove(speedX, speedY), new ColliderBox(img.getWidth(), img.getHeight()),
@@ -31,6 +39,9 @@ public class BossCircularBullet extends Projectile {
 		this.damage = damage;
 	}
 
+	/**
+	 * target take damage from this bullet
+	 */
 	@Override
 	protected void actOn(Entity target) {
 		target.getStatus().takeDamage(getDamage());

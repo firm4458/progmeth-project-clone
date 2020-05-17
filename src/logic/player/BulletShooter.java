@@ -14,6 +14,9 @@ public class BulletShooter implements Script {
 	private int cooldown = COOLDOWN;
 	GameObject parent;
 
+	/**
+	 * Use to generate the bullet
+	 */
 	@Override
 	public void update() {
 
@@ -51,6 +54,11 @@ public class BulletShooter implements Script {
 		}
 	}
 
+	/**
+	 * create bullet and add to game manager
+	 * @param X This is a x position
+	 * @param Y This is a y position
+	 */
 	public void addBullet(double X, double Y) {
 		Bullet bullet = new Bullet(X, Y, UpgradeScene.calculateDamage());
 		GameManager.getInstance().getCurrentScene().addGameObject(bullet);

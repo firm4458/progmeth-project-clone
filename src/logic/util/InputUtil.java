@@ -5,6 +5,9 @@ import java.util.TreeMap;
 import javafx.scene.input.KeyCode;
 
 public class InputUtil {
+	/**
+	 * use to check what key is pressed
+	 */
 	private static final TreeMap<KeyCode, Boolean> keyMap = new TreeMap<KeyCode, Boolean>();
 	static {
 		reset();

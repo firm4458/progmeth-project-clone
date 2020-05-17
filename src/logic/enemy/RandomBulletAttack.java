@@ -42,6 +42,9 @@ public class RandomBulletAttack extends AttackScriptFactory {
 			this.damage = damage;
 		}
 
+		/**
+		 * Construct bullet that speed in x direction will random
+		 */
 		@Override
 		public void update() throws GameInterruptException {
 			long now = System.currentTimeMillis();

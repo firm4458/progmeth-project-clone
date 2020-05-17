@@ -21,6 +21,9 @@ public class EnemyFactory extends GameObjectFactory<Enemy> {
 	protected Consumer<Enemy> onDeathFunc = null;
 	protected Image image;
 
+	/**
+	 * use to create enemy
+	 */
 	@Override
 	public Enemy createGameObject() {
 		Enemy enemy = new Enemy(X, Y, health, damage, image);

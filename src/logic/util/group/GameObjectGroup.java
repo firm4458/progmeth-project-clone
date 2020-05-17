@@ -20,7 +20,10 @@ public class GameObjectGroup implements Iterable<GameObject> {
 		this.framesBeforeUpdate = 0;
 		counter = 0;
 	}
-
+	
+	/**
+	 * if counter is equal to 0 set it back and update it
+	 */
 	public final void update() {
 		if ((counter--) == 0) {
 			counter = framesBeforeUpdate;
@@ -51,7 +54,7 @@ public class GameObjectGroup implements Iterable<GameObject> {
 		}
 		return result;
 	}
-
+	
 	public <T extends Script> ArrayList<T> getScripts(Class<T> class1) {
 		ArrayList<T> arr = new ArrayList<T>();
 		for (GameObject gameObj : children) {

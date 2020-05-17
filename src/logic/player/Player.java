@@ -45,6 +45,9 @@ public class Player extends Entity implements Dio {
 
 	public static GameObjectGroup playerGroup;
 
+	/**
+	 * initial idleState, goLeftState, and goRightState
+	 */
 	static {
 		Image frame1 = ResourceManager.getImage("idle1");
 		Image frame2 = ResourceManager.getImage("idle2");
@@ -149,7 +152,11 @@ public class Player extends Entity implements Dio {
 			}
 		});
 		//////
-
+		
+		/**
+		 * Check if it is boss stage inactive dash and the world skill
+		 * Otherwise active them
+		 */
 		addScript(new BasicScript<GameObject>() {
 
 			@Override

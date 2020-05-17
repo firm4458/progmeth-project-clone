@@ -47,6 +47,9 @@ public class MinionSpawnAttack extends AttackScriptFactory {
 			coolDownStart = -999999;
 		}
 
+		/**
+		 * construct minion
+		 */
 		@Override
 		public void update() {
 			long now = System.currentTimeMillis();
@@ -64,6 +67,9 @@ public class MinionSpawnAttack extends AttackScriptFactory {
 		}
 	}
 
+	/**
+	 * this factory is used for create enemy
+	 */
 	public static final EnemyFactory minionFactory = new EnemyFactory();
 	static {
 		minionFactory.setHealth(100);

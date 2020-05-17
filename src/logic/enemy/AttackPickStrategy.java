@@ -3,6 +3,12 @@ package logic.enemy;
 import java.util.ArrayList;
 
 public interface AttackPickStrategy {
+	/**
+	 * use to pick attack script
+	 * @param factories This contain AttackScriptFactory
+	 * @param controller This is a controller
+	 * @return AttackScripFactory class
+	 */
 	public AttackScriptFactory pick(ArrayList<AttackScriptFactory> factories, AttackController controller);
 
 	public static final AttackPickStrategy RANDOM_PICK = new AttackPickStrategy() {

@@ -137,6 +137,11 @@ public class FodderEnemies {
 				}
 			}
 			double speed = Math.abs(scriptFactory.getSpeedX());
+			
+			/**
+			 * random 50% to set factory x position to -100 * Math.random() - 10 and set speed x to abs(speed x) and set rotate to 0
+			 * otherwise set factory x postion to GameManager.NATIVE_WIDTH + 20 * Math.random() and set speed to -abs(speed x) and set rotate to 180
+			 */
 			if (rand > 0.5) {
 				factory.setX(-100 * Math.random() - 10);
 				scriptFactory.setSpeedX(speed);
