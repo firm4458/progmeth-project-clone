@@ -113,12 +113,12 @@ public class ResourceManager {
 
 	public static File pickFile(String title) {
 		fileChooser.setTitle(title);
-		return fileChooser.showOpenDialog(Main.stage);
+		return fileChooser.showOpenDialog(Main.getStage());
 	}
 
 	public static File saveFile(String title) {
 		fileChooser.setTitle(title);
-		return fileChooser.showSaveDialog(Main.stage);
+		return fileChooser.showSaveDialog(Main.getStage());
 	}
 
 }

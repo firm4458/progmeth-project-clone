@@ -29,9 +29,9 @@ public class LevelSelectScene extends GameScene {
 	/*
 	 * text for alert when the previous scene is TutorialScene
 	 */
-	private static final String alertText = "Welcome to Space Master! \n\n This is where you can select which level to play\n"
+	private static final String alertText = "Welcome to Space Master! \n\nThis is where you can select which level to play\n\n"
 			+ "You can select any level, but we recommend playing easier levels first to gain some score and upgrade your health, damage, and heal"
-			+ "\nEvery non boss levels are endless, you are free to quit the level any time you want";
+			+ "\n\nEvery non boss levels are endless, you are free to quit the level any time you want";
 
 	/*
 	 * bgm player which will be shared across multiple instances of levelSelectScene

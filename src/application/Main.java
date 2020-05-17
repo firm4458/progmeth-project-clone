@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import logic.util.ResourceManager;
 
 public class Main extends Application {
-	public static Stage stage;
+	private static Stage stage;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -14,6 +14,10 @@ public class Main extends Application {
 		primaryStage.getIcons().add(ResourceManager.getImage("lavaPlanet"));
 		primaryStage.setResizable(false);
 		GameManager.getInstance().init(new MenuScene("menu"));
+	}
+	
+	public static Stage getStage() {
+		return stage;
 	}
 
 	public static void main(String[] args) {
