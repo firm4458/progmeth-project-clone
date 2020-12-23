@@ -1,0 +1,1 @@
+java --module-path "./javafx/lib" --add-modules javafx.controls,javafx.graphics,javafx.media,javafx.fxml -jar SpaceMaster.jar
